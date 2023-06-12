@@ -2,16 +2,16 @@ import 'package:flutter/foundation.dart';
 
 class Sensor with ChangeNotifier {
   String id;
-  Map<String, String> characteristics;
+  String value;
 
-  Sensor({required this.id, required this.characteristics}) {
+  Sensor({required this.id, required this.value}) {
     // Si prefieres inicializar el mapa vac¨ªo por defecto, puedes usar:
     // this.characteristics = {};
   }
 
   // Getter methods
   String get getId => this.id;
-  String getCharacteristic(String key) => this.characteristics[key] ?? '';
+  String get getValue => this.value;
 
   // Setter methods
   void setId(String id) {
@@ -19,8 +19,8 @@ class Sensor with ChangeNotifier {
     notifyListeners();
   }
 
-  void setCharacteristic(String key, String value) {
-    this.characteristics[key] = value;
+  void setValue(String value) {
+    this.value = value;
     notifyListeners();
   }
 }

@@ -3,6 +3,7 @@ import 'package:smarty_app/bluetooth.dart';
 import 'package:provider/provider.dart';
 import 'package:smarty_app/Providers/sensor.dart';
 
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -69,22 +70,11 @@ class _LabelsTemState extends State<LabelsTem> {
     }
   }
 
-  final Sensor sensor1 = Sensor(
-    id: 'S1',
-    characteristics: {
-      'beb5483e-36e1-4688-b7f5-ea07361b26a8': 'Caracter¨ªstica 1',
-    },
-  );
-
-  final Sensor sensor2 = Sensor(
-    id: 'S2',
-    characteristics: {
-      '8bdf0a1a-a48e-4dc3-8bab-ad0c1f7ed218': 'Caracter¨ªstica 2',
-    },
-  );
-
   @override
   Widget build(BuildContext context) {
+    String s1 = "S1";
+    String s2 = "S2";
+    String s3 = "S3";
     return Scaffold(
         body: Container(
       decoration: const BoxDecoration(
@@ -113,10 +103,34 @@ class _LabelsTemState extends State<LabelsTem> {
                       Expanded(
                         child: Consumer<Sensor>(
                           builder: (context, sensor, _) {
-                            String characteristic = sensor.getCharacteristic(
-                                'beb5483e-36e1-4688-b7f5-ea07361b26a8');
-                            String idValue = sensor.getId;
+                            String idValue = sensor.value;
+                            print(idValue);
+                            print(sensor.value);
 
+                            switch (sensor.id) {
+                              case 'S1':
+                                {
+                                  s1 = idValue;
+                                }
+                                break;
+
+                              case 'S2':
+                                {
+                                  s2 = idValue;
+                                }
+                                break;
+                                case 'S3':
+                                {
+                                  s3 = idValue;
+                                }
+                                break;
+
+                              default:
+                                {
+                                  //statements;
+                                }
+                                break;
+                            }
                             double value = double.tryParse(idValue) ?? 0.0;
                             Color circleColor = _getColor(value);
 
@@ -126,7 +140,7 @@ class _LabelsTemState extends State<LabelsTem> {
                                 shape: BoxShape.circle,
                                 color: circleColor,
                               ),
-                              child: Center(child: Text(idValue)),
+                              child: Center(child: Text(s1)),
                             );
                           },
                         ),
@@ -134,20 +148,18 @@ class _LabelsTemState extends State<LabelsTem> {
                       Expanded(
                         child: Consumer<Sensor>(
                           builder: (context, sensor, _) {
-                            String characteristic = sensor.getCharacteristic(
-                                '8bdf0a1a-a48e-4dc3-8bab-ad0c1f7ed218');
                             String idValue = sensor.getId;
 
                             double value = double.tryParse(idValue) ?? 0.0;
                             Color circleColor = _getColor(value);
 
                             return Container(
-                              margin: const EdgeInsets.only(right: 25),
+                              margin: const EdgeInsets.only(right: 20),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: circleColor,
                               ),
-                              child: Center(child: Text(idValue)),
+                              child: Center(child: Text(s2)),
                             );
                           },
                         ),
@@ -178,7 +190,7 @@ class _LabelsTemState extends State<LabelsTem> {
                                 shape: BoxShape.circle,
                                 color: circleColor,
                               ),
-                              child: Center(child: Text(id.id)),
+                              child: Center(child: Text(s3)),
                             );
                           },
                         ),

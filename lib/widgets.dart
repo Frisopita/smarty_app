@@ -225,12 +225,11 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
             widget.characteristic.read();
             List<int> readValues = await widget.characteristic.value.first;
             allCharacteristicValues.add(readValues);
-            for (String key in SensorVal.characteristics.keys) {
-              String value = SensorVal.characteristics[key] ?? '';
-              SensorVal.setCharacteristic(key, value);
-            }
-            String id = String.fromCharCodes(readValues);
-            SensorVal.setId(id);
+
+            String value = String.fromCharCodes(readValues);
+            SensorVal.setValue(value);
+            SensorVal.setId('${characteristicNames[widget.characteristic.uuid.toString().toLowerCase()] ?? widget.characteristic.uuid.toString().toUpperCase()}');
+           
 
             Navigator.of(currentContext).push(
               MaterialPageRoute(

@@ -29,7 +29,7 @@ class _MySmartAppState extends State<MySmartApp> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (BuildContext context) => Sensor(id: '', characteristics: {}),
+      create: (BuildContext context) => Sensor(id: '', value: ''),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: StreamBuilder<FlutterBlue.BluetoothState>(
