@@ -5,20 +5,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:smarty_app/sensor.dart';
+import 'package:smarty_app/Providers/sensor.dart';
 import 'main.dart';
-import 'Providers/s1_provider.dart';
-import 'Providers/s2_provider.dart';
-import 'Providers/s3_provider.dart';
-import 'Providers/s4_provider.dart';
-import 'Providers/s5_provider.dart';
-import 'Providers/s6_provider.dart';
-import 'Providers/s7_provider.dart';
-import 'Providers/s8_provider.dart';
-import 'Providers/s9_provider.dart';
-import 'Providers/s10_provider.dart';
-import 'Providers/s11_provider.dart';
-import 'Providers/s12_provider.dart';
 
 final Map<String, String> characteristicNames = {
   'beb5483e-36e1-4688-b7f5-ea07361b26a8': 'S1',
@@ -173,7 +161,7 @@ class ServiceTile extends StatelessWidget {
           children: <Widget>[
             const Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,            
+              crossAxisAlignment: CrossAxisAlignment.center,
             ),
             ...characteristicTiles,
           ],
@@ -209,14 +197,15 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
   Widget build(BuildContext context) {
     final SensorVal = Provider.of<Sensor>(context);
 
-    return  SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(children: <Widget>[
         StreamBuilder<List<int>>(
           stream: widget.characteristic.value,
           initialData: widget.characteristic.lastValue,
           builder: (c, snapshot) {
             final value = snapshot.data;
-            String asciiString = value != null ? String.fromCharCodes(value) : '';
+            String asciiString =
+                value != null ? String.fromCharCodes(value) : '';
             return const ListTile(
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -232,11 +221,16 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
           ),
           onPressed: () async {
             final currentContext = context;
-    
+
             widget.characteristic.read();
             List<int> readValues = await widget.characteristic.value.first;
             allCharacteristicValues.add(readValues);
-            SensorVal.setId(String.fromCharCodes(readValues));
+            for (String key in SensorVal.characteristics.keys) {
+              String value = SensorVal.characteristics[key] ?? '';
+              SensorVal.setCharacteristic(key, value);
+            }
+            String id = String.fromCharCodes(readValues);
+            SensorVal.setId(id);
 
             Navigator.of(currentContext).push(
               MaterialPageRoute(
@@ -251,4 +245,3 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
     );
   }
 }
-

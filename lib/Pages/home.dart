@@ -1,19 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smarty_app/bluetooth.dart';
 import 'package:provider/provider.dart';
-import 'package:smarty_app/Providers/s1_provider.dart';
-import 'package:smarty_app/Providers/s2_provider.dart';
-import 'package:smarty_app/Providers/s3_provider.dart';
-import 'package:smarty_app/Providers/s4_provider.dart';
-import 'package:smarty_app/Providers/s5_provider.dart';
-import 'package:smarty_app/Providers/s6_provider.dart';
-import 'package:smarty_app/Providers/s7_provider.dart';
-import 'package:smarty_app/Providers/s8_provider.dart';
-import 'package:smarty_app/Providers/s9_provider.dart';
-import 'package:smarty_app/Providers/s10_provider.dart';
-import 'package:smarty_app/Providers/s11_provider.dart';
-import 'package:smarty_app/Providers/s12_provider.dart';
-import 'package:smarty_app/sensor.dart';
+import 'package:smarty_app/Providers/sensor.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -81,6 +69,20 @@ class _LabelsTemState extends State<LabelsTem> {
     }
   }
 
+  final Sensor sensor1 = Sensor(
+    id: 'S1',
+    characteristics: {
+      'beb5483e-36e1-4688-b7f5-ea07361b26a8': 'Caracter¨ªstica 1',
+    },
+  );
+
+  final Sensor sensor2 = Sensor(
+    id: 'S2',
+    characteristics: {
+      '8bdf0a1a-a48e-4dc3-8bab-ad0c1f7ed218': 'Caracter¨ªstica 2',
+    },
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,11 +112,13 @@ class _LabelsTemState extends State<LabelsTem> {
                     children: [
                       Expanded(
                         child: Consumer<Sensor>(
-                          builder: (context, id, _) {
-                            double value = double.tryParse(id.id) ??
-                                0.0; // Obtener el valor del Consumer
-                            Color circleColor = _getColor(
-                                value); // Obtener el color seg¨²n el valor
+                          builder: (context, sensor, _) {
+                            String characteristic = sensor.getCharacteristic(
+                                'beb5483e-36e1-4688-b7f5-ea07361b26a8');
+                            String idValue = sensor.getId;
+
+                            double value = double.tryParse(idValue) ?? 0.0;
+                            Color circleColor = _getColor(value);
 
                             return Container(
                               margin: const EdgeInsets.only(right: 30),
@@ -122,26 +126,28 @@ class _LabelsTemState extends State<LabelsTem> {
                                 shape: BoxShape.circle,
                                 color: circleColor,
                               ),
-                              child: Center(child: Text(id.id)),
+                              child: Center(child: Text(idValue)),
                             );
                           },
                         ),
                       ),
                       Expanded(
-                        child: Consumer<S2Provider>(
-                          builder: (context, s2, _) {
-                            double value = double.tryParse(s2.s2) ??
-                                0.0; // Obtener el valor del Consumer
-                            Color circleColor = _getColor(
-                                value); // Obtener el color seg¨²n el valor
+                        child: Consumer<Sensor>(
+                          builder: (context, sensor, _) {
+                            String characteristic = sensor.getCharacteristic(
+                                '8bdf0a1a-a48e-4dc3-8bab-ad0c1f7ed218');
+                            String idValue = sensor.getId;
+
+                            double value = double.tryParse(idValue) ?? 0.0;
+                            Color circleColor = _getColor(value);
 
                             return Container(
-                              margin: const EdgeInsets.only(left: 25),
+                              margin: const EdgeInsets.only(right: 25),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: circleColor,
                               ),
-                              child: Center(child: Text(s2.s2)),
+                              child: Center(child: Text(idValue)),
                             );
                           },
                         ),
@@ -159,26 +165,28 @@ class _LabelsTemState extends State<LabelsTem> {
                     children: [
                       Expanded(
                         //S7
-                        child: Consumer<S7Provider>(builder: (context, s7, _) {
-                          double value = double.tryParse(s7.s7) ??
-                              0.0; // Obtener el valor del Consumer
-                          Color circleColor = _getColor(
-                              value); // Obtener el color seg¨²n el valor
+                        child: Consumer<Sensor>(
+                          builder: (context, id, _) {
+                            double value = double.tryParse(id.id) ??
+                                0.0; // Obtener el valor del Consumer
+                            Color circleColor = _getColor(
+                                value); // Obtener el color seg¨²n el valor
 
-                          return Container(
-                            margin: const EdgeInsets.only(right: 10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: circleColor,
-                            ),
-                            child: Center(child: Text(s7.s7)),
-                          );
-                        }),
+                            return Container(
+                              margin: const EdgeInsets.only(right: 10),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: circleColor,
+                              ),
+                              child: Center(child: Text(id.id)),
+                            );
+                          },
+                        ),
                       ),
                       Expanded(
                         //S5
-                        child: Consumer<S5Provider>(builder: (context, s5, _) {
-                          double value = double.tryParse(s5.s5) ??
+                        child: Consumer<Sensor>(builder: (context, id, _) {
+                          double value = double.tryParse(id.id) ??
                               0.0; // Obtener el valor del Consumer
                           Color circleColor = _getColor(
                               value); // Obtener el color seg¨²n el valor
@@ -189,14 +197,14 @@ class _LabelsTemState extends State<LabelsTem> {
                               shape: BoxShape.circle,
                               color: circleColor,
                             ),
-                            child: Center(child: Text(s5.s5)),
+                            child: Center(child: Text(id.id)),
                           );
                         }),
                       ),
                       Expanded(
                         //S3
-                        child: Consumer<S3Provider>(builder: (context, s3, _) {
-                          double value = double.tryParse(s3.s3) ??
+                        child: Consumer<Sensor>(builder: (context, id, _) {
+                          double value = double.tryParse(id.id) ??
                               0.0; // Obtener el valor del Consumer
                           Color circleColor = _getColor(
                               value); // Obtener el color seg¨²n el valor
@@ -207,7 +215,7 @@ class _LabelsTemState extends State<LabelsTem> {
                               shape: BoxShape.circle,
                               color: circleColor,
                             ),
-                            child: Center(child: Text(s3.s3)),
+                            child: Center(child: Text(id.id)),
                           );
                         }),
                       ),
@@ -221,8 +229,8 @@ class _LabelsTemState extends State<LabelsTem> {
                       ),
                       Expanded(
                         //S4
-                        child: Consumer<S4Provider>(builder: (context, s4, _) {
-                          double value = double.tryParse(s4.s4) ??
+                        child: Consumer<Sensor>(builder: (context, id, _) {
+                          double value = double.tryParse(id.id) ??
                               0.0; // Obtener el valor del Consumer
                           Color circleColor = _getColor(
                               value); // Obtener el color seg¨²n el valor
@@ -233,14 +241,14 @@ class _LabelsTemState extends State<LabelsTem> {
                               shape: BoxShape.circle,
                               color: circleColor,
                             ),
-                            child: Center(child: Text(s4.s4)),
+                            child: Center(child: Text(id.id)),
                           );
                         }),
                       ),
                       Expanded(
                         //S6
-                        child: Consumer<S6Provider>(builder: (context, s6, _) {
-                          double value = double.tryParse(s6.s6) ??
+                        child: Consumer<Sensor>(builder: (context, id, _) {
+                          double value = double.tryParse(id.id) ??
                               0.0; // Obtener el valor del Consumer
                           Color circleColor = _getColor(
                               value); // Obtener el color seg¨²n el valor
@@ -251,14 +259,14 @@ class _LabelsTemState extends State<LabelsTem> {
                               shape: BoxShape.circle,
                               color: circleColor,
                             ),
-                            child: Center(child: Text(s6.s6)),
+                            child: Center(child: Text(id.id)),
                           );
                         }),
                       ),
                       Expanded(
                         //S8
-                        child: Consumer<S8Provider>(builder: (context, s8, _) {
-                          double value = double.tryParse(s8.s8) ??
+                        child: Consumer<Sensor>(builder: (context, id, _) {
+                          double value = double.tryParse(id.id) ??
                               0.0; // Obtener el valor del Consumer
                           Color circleColor = _getColor(
                               value); // Obtener el color seg¨²n el valor
@@ -269,7 +277,7 @@ class _LabelsTemState extends State<LabelsTem> {
                               shape: BoxShape.circle,
                               color: circleColor,
                             ),
-                            child: Center(child: Text(s8.s8)),
+                            child: Center(child: Text(id.id)),
                           );
                         }),
                       ),
@@ -285,8 +293,8 @@ class _LabelsTemState extends State<LabelsTem> {
                     children: [
                       Expanded(
                         //S9
-                        child: Consumer<S9Provider>(builder: (context, s9, _) {
-                          double value = double.tryParse(s9.s9) ??
+                        child: Consumer<Sensor>(builder: (context, id, _) {
+                          double value = double.tryParse(id.id) ??
                               0.0; // Obtener el valor del Consumer
                           Color circleColor = _getColor(
                               value); // Obtener el color seg¨²n el valor
@@ -297,15 +305,14 @@ class _LabelsTemState extends State<LabelsTem> {
                               shape: BoxShape.circle,
                               color: circleColor,
                             ),
-                            child: Center(child: Text(s9.s9)),
+                            child: Center(child: Text(id.id)),
                           );
                         }),
                       ),
                       Expanded(
                         //S10
-                        child:
-                            Consumer<S10Provider>(builder: (context, s10, _) {
-                          double value = double.tryParse(s10.s10) ??
+                        child: Consumer<Sensor>(builder: (context, id, _) {
+                          double value = double.tryParse(id.id) ??
                               0.0; // Obtener el valor del Consumer
                           Color circleColor = _getColor(
                               value); // Obtener el color seg¨²n el valor
@@ -316,7 +323,7 @@ class _LabelsTemState extends State<LabelsTem> {
                               shape: BoxShape.circle,
                               color: circleColor,
                             ),
-                            child: Center(child: Text(s10.s10)),
+                            child: Center(child: Text(id.id)),
                           );
                         }),
                       ),
@@ -337,9 +344,8 @@ class _LabelsTemState extends State<LabelsTem> {
                     children: [
                       Expanded(
                         //S11
-                        child:
-                            Consumer<S11Provider>(builder: (context, s11, _) {
-                          double value = double.tryParse(s11.s11) ??
+                        child: Consumer<Sensor>(builder: (context, id, _) {
+                          double value = double.tryParse(id.id) ??
                               0.0; // Obtener el valor del Consumer
                           Color circleColor = _getColor(
                               value); // Obtener el color seg¨²n el valor
@@ -350,15 +356,14 @@ class _LabelsTemState extends State<LabelsTem> {
                               shape: BoxShape.circle,
                               color: circleColor,
                             ),
-                            child: Center(child: Text(s11.s11)),
+                            child: Center(child: Text(id.id)),
                           );
                         }),
                       ),
                       Expanded(
                         //S12
-                        child:
-                            Consumer<S12Provider>(builder: (context, s12, _) {
-                          double value = double.tryParse(s12.s12) ??
+                        child: Consumer<Sensor>(builder: (context, id, _) {
+                          double value = double.tryParse(id.id) ??
                               0.0; // Obtener el valor del Consumer
                           Color circleColor = _getColor(
                               value); // Obtener el color seg¨²n el valor
@@ -369,7 +374,7 @@ class _LabelsTemState extends State<LabelsTem> {
                               shape: BoxShape.circle,
                               color: circleColor,
                             ),
-                            child: Center(child: Text(s12.s12)),
+                            child: Center(child: Text(id.id)),
                           );
                         }),
                       ),
