@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:smarty_app/sensor.dart';
 import 'main.dart';
 import 'Providers/s1_provider.dart';
 import 'Providers/s2_provider.dart';
@@ -18,7 +19,6 @@ import 'Providers/s9_provider.dart';
 import 'Providers/s10_provider.dart';
 import 'Providers/s11_provider.dart';
 import 'Providers/s12_provider.dart';
-
 
 final Map<String, String> characteristicNames = {
   'beb5483e-36e1-4688-b7f5-ea07361b26a8': 'S1',
@@ -207,18 +207,8 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
   List<List<int>> allCharacteristicValues = [];
   @override
   Widget build(BuildContext context) {
-    final providerS1 = Provider.of<S1Provider>(context);
-    final providerS2 = Provider.of<S2Provider>(context);
-    final providerS3 = Provider.of<S3Provider>(context);
-    final providerS4 = Provider.of<S4Provider>(context);
-    final providerS5 = Provider.of<S5Provider>(context);
-    final providerS6 = Provider.of<S6Provider>(context);
-    final providerS7 = Provider.of<S7Provider>(context);
-    final providerS8 = Provider.of<S8Provider>(context);
-    final providerS9 = Provider.of<S9Provider>(context);
-    final providerS10 = Provider.of<S10Provider>(context);
-    final providerS11 = Provider.of<S11Provider>(context);
-    final providerS12 = Provider.of<S12Provider>(context);
+    final SensorVal = Provider.of<Sensor>(context);
+
     return  SingleChildScrollView(
       child: Column(children: <Widget>[
         StreamBuilder<List<int>>(
@@ -246,19 +236,8 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
             widget.characteristic.read();
             List<int> readValues = await widget.characteristic.value.first;
             allCharacteristicValues.add(readValues);
-            providerS1.s1 = String.fromCharCodes(readValues);
-            providerS2.s2 = String.fromCharCodes(readValues);
-            providerS3.s3 = String.fromCharCodes(readValues);
-            providerS4.s4 = String.fromCharCodes(readValues);
-            providerS5.s5 = String.fromCharCodes(readValues);
-            providerS6.s6 = String.fromCharCodes(readValues);
-            providerS7.s7 = String.fromCharCodes(readValues);
-            providerS8.s8 = String.fromCharCodes(readValues);
-            providerS9.s9 = String.fromCharCodes(readValues);
-            providerS10.s10 = String.fromCharCodes(readValues);
-            providerS11.s11 = String.fromCharCodes(readValues);
-            providerS12.s12 = String.fromCharCodes(readValues);
-            
+            SensorVal.setId(String.fromCharCodes(readValues));
+
             Navigator.of(currentContext).push(
               MaterialPageRoute(
                 builder: (BuildContext context) =>
@@ -269,29 +248,6 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
           child: const Text('Enviar datos'),
         ),
       ]),
-    );
-  }
-}
-
-class AdapterStateTile extends StatelessWidget {
-  const AdapterStateTile({Key? key, required this.state}) : super(key: key);
-
-  final BluetoothState state;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.redAccent,
-      child: ListTile(
-        title: Text(
-          'Bluetooth adapter is ${state.toString().substring(15)}',
-          style: Theme.of(context).primaryTextTheme.titleSmall,
-        ),
-        trailing: Icon(
-          Icons.error,
-          color: Theme.of(context).primaryTextTheme.titleSmall?.color,
-        ),
-      ),
     );
   }
 }

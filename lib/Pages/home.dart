@@ -13,6 +13,7 @@ import 'package:smarty_app/Providers/s9_provider.dart';
 import 'package:smarty_app/Providers/s10_provider.dart';
 import 'package:smarty_app/Providers/s11_provider.dart';
 import 'package:smarty_app/Providers/s12_provider.dart';
+import 'package:smarty_app/sensor.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -108,9 +109,9 @@ class _LabelsTemState extends State<LabelsTem> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Consumer<S1Provider>(
-                          builder: (context, s1, _) {
-                            double value = double.tryParse(s1.s1) ??
+                        child: Consumer<Sensor>(
+                          builder: (context, id, _) {
+                            double value = double.tryParse(id.id) ??
                                 0.0; // Obtener el valor del Consumer
                             Color circleColor = _getColor(
                                 value); // Obtener el color seg¨²n el valor
@@ -121,7 +122,7 @@ class _LabelsTemState extends State<LabelsTem> {
                                 shape: BoxShape.circle,
                                 color: circleColor,
                               ),
-                              child: Center(child: Text(s1.s1)),
+                              child: Center(child: Text(id.id)),
                             );
                           },
                         ),

@@ -20,6 +20,7 @@ import 'Pages/home.dart';
 import 'Pages/perfil.dart';
 import 'Pages/settings.dart';
 import 'package:provider/provider.dart';
+import 'package:smarty_app/sensor.dart';
 
 void main() {
   runApp(const MySmartApp());
@@ -61,7 +62,7 @@ class _MySmartAppState extends State<MySmartApp> {
                         child: ChangeNotifierProvider(
                           create: (BuildContext context) => S2Provider(),
                           child: ChangeNotifierProvider(
-                            create: (BuildContext context) => S1Provider(),
+                            create: (BuildContext context) => Sensor(id: '', characteristics: {}),
                             child: MaterialApp(
                               debugShowCheckedModeBanner: false,
                               home: StreamBuilder<FlutterBlue.BluetoothState>(
