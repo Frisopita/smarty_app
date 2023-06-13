@@ -24,3 +24,4 @@ class Sensor with ChangeNotifier {
     notifyListeners();
   }
 }
+

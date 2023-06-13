@@ -50,17 +50,16 @@ class LabelsTem extends StatefulWidget {
 }
 
 class _LabelsTemState extends State<LabelsTem> {
-  double _value = 50.0; // Valor inicial
 
   Color _getColor(double value) {
     if (value <= 33) {
       // Rango del 1 al 33: Verde a Amarillo
       final red = (255 * value / 33).round();
-      final green = 255;
+      const green = 255;
       return Color.fromARGB(255, red, green, 0);
     } else if (value <= 67) {
       // Rango del 34 al 66: Amarillo a Rojo
-      final red = 255;
+      const  red = 255;
       final green = (255 * (100 - value) / 33).round();
       return Color.fromARGB(255, red, green, 0);
     } else {

@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart'; // Quitar
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'widgets.dart';
-import 'package:provider/provider.dart';
-import 'package:smarty_app/Providers/s1_provider.dart';
 
 class BluetoothOffScreen extends StatelessWidget {
   const BluetoothOffScreen({Key? key, this.state}) : super(key: key);
@@ -140,31 +138,32 @@ class DeviceScreen extends StatefulWidget {
 }
 
 class _DeviceScreenState extends State<DeviceScreen> {
-  List<Widget> _buildServiceTiles(List<BluetoothService> services) {
-    return services
-        .map(
-          (s) => ServiceTile(
-            service: s,
-            characteristicTiles: s.characteristics.map((c) {
-              double sliderValue = 0;
-              return CharacteristicTile(
-                characteristic: c,
-                onReadPressed: () => c.read(),
-                onWritePressed: (value) async {
-                  // <-- Change here
-                  sliderValue = value[0].toDouble();
-                  await c.write([sliderValue.toInt()], withoutResponse: true);
-                },
-                onNotificationPressed: () async {
-                  await c.setNotifyValue(!c.isNotifying);
-                  await c.read();
-                },
-              );
-            }).toList(),
-          ),
-        )
-        .toList();
-  }
+List<Widget> _buildServiceTiles(List<BluetoothService> services) {
+  List<List<BluetoothCharacteristic>> characteristicLists = [];
+
+  return services.map(
+    (s) {
+      List<BluetoothCharacteristic> characteristics = s.characteristics.toList();
+      characteristicLists.add(characteristics);
+
+      return ServiceTile(
+        service: s,
+        characteristicTiles: characteristics.map((c) {
+          return CharacteristicTile(
+            characteristic: c,
+            characteristicLists: characteristicLists,
+            onReadPressed: () => c.read(),
+            onNotificationPressed: () async {
+              await c.setNotifyValue(!c.isNotifying);
+              await c.read();
+            },
+          );
+        }).toList(),
+      );
+    },
+  ).toList();
+}
+
 
   @override
   Widget build(BuildContext context) {

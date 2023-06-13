@@ -175,15 +175,16 @@ class ServiceTile extends StatelessWidget {
 
 class CharacteristicTile extends StatefulWidget {
   final BluetoothCharacteristic characteristic;
+  final List<List<BluetoothCharacteristic>> characteristicLists;
+
   final VoidCallback? onReadPressed;
-  final ValueChanged<List<int>>? onWritePressed;
   final VoidCallback? onNotificationPressed;
 
   const CharacteristicTile(
       {Key? key,
       required this.characteristic,
+      required this.characteristicLists,
       this.onReadPressed,
-      this.onWritePressed,
       this.onNotificationPressed})
       : super(key: key);
 
@@ -195,7 +196,7 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
   List<List<int>> allCharacteristicValues = [];
   @override
   Widget build(BuildContext context) {
-    final SensorVal = Provider.of<Sensor>(context);
+    final sensorVal = Provider.of<Sensor>(context);
 
     return SingleChildScrollView(
       child: Column(children: <Widget>[
@@ -203,9 +204,6 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
           stream: widget.characteristic.value,
           initialData: widget.characteristic.lastValue,
           builder: (c, snapshot) {
-            final value = snapshot.data;
-            String asciiString =
-                value != null ? String.fromCharCodes(value) : '';
             return const ListTile(
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -222,23 +220,29 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
           onPressed: () async {
             final currentContext = context;
 
-            widget.characteristic.read();
-            List<int> readValues = await widget.characteristic.value.first;
-            allCharacteristicValues.add(readValues);
+            await widget.characteristic
+                .setNotifyValue(!widget.characteristic.isNotifying);
+            await widget.characteristic.read();
+            widget.characteristic.value.listen((value) async {
+              List<int> readValues = await widget.characteristic.value.first;
+              allCharacteristicValues.add(readValues);
+              String value = String.fromCharCodes(readValues);
+              sensorVal.setValue(value);
+              sensorVal.setId(
+                  '${characteristicNames[widget.characteristic.uuid.toString().toLowerCase()] ?? widget.characteristic.uuid.toString().toUpperCase()}');
+            });
 
-            String value = String.fromCharCodes(readValues);
-            SensorVal.setValue(value);
-            SensorVal.setId('${characteristicNames[widget.characteristic.uuid.toString().toLowerCase()] ?? widget.characteristic.uuid.toString().toUpperCase()}');
-           
-
-            Navigator.of(currentContext).push(
+            Navigator.push(
+              currentContext,
               MaterialPageRoute(
                 builder: (BuildContext context) =>
                     DataPage(data: allCharacteristicValues),
               ),
-            );
+            ).then((values) {
+              Navigator.pop(currentContext);
+            });
           },
-          child: const Text('Enviar datos'),
+          child: const Text('Regresar al Inicio'),
         ),
       ]),
     );
