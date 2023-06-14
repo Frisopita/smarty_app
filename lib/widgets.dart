@@ -194,9 +194,38 @@ class CharacteristicTile extends StatefulWidget {
 
 class _CharacteristicTileState extends State<CharacteristicTile> {
   List<List<int>> allCharacteristicValues = [];
+
   @override
   Widget build(BuildContext context) {
     final sensorVal = Provider.of<Sensor>(context);
+    void performActions() async {
+      final currentContext = context;
+
+      await widget.characteristic
+          .setNotifyValue(!widget.characteristic.isNotifying);
+      await widget.characteristic.read();
+      widget.characteristic.value.listen((value) async {
+        List<int> readValues = await widget.characteristic.value.first;
+        allCharacteristicValues.add(readValues);
+        String value = String.fromCharCodes(readValues);
+        sensorVal.setValue(value);
+        sensorVal.setId(
+          '${characteristicNames[widget.characteristic.uuid.toString().toLowerCase()] ?? widget.characteristic.uuid.toString().toUpperCase()}',
+        );
+      });
+
+      Navigator.push(
+        currentContext,
+        MaterialPageRoute(
+          builder: (BuildContext context) =>
+              DataPage(data: allCharacteristicValues),
+        ),
+      ).then((values) {
+        Navigator.pop(currentContext);
+      });
+    }
+
+// Llamar a la funci¨®n en el c¨®digo principal
 
     return SingleChildScrollView(
       child: Column(children: <Widget>[
@@ -213,37 +242,13 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
           },
         ),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(220, 222, 18, 164),
-            foregroundColor: Colors.white,
-          ),
-          onPressed: () async {
-            final currentContext = context;
-
-            await widget.characteristic
-                .setNotifyValue(!widget.characteristic.isNotifying);
-            await widget.characteristic.read();
-            widget.characteristic.value.listen((value) async {
-              List<int> readValues = await widget.characteristic.value.first;
-              allCharacteristicValues.add(readValues);
-              String value = String.fromCharCodes(readValues);
-              sensorVal.setValue(value);
-              sensorVal.setId(
-                  '${characteristicNames[widget.characteristic.uuid.toString().toLowerCase()] ?? widget.characteristic.uuid.toString().toUpperCase()}');
-            });
-
-            Navigator.push(
-              currentContext,
-              MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    DataPage(data: allCharacteristicValues),
-              ),
-            ).then((values) {
-              Navigator.pop(currentContext);
-            });
+          onPressed: ()
+          {
+            performActions();
           },
-          child: const Text('Regresar al Inicio'),
-        ),
+
+          child: Text('Inicio'),
+          )
       ]),
     );
   }
