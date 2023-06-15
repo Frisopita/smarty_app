@@ -30,13 +30,20 @@ final List<String> excludedServiceUUIDs = [
 ];
 
 class ScanResultTile extends StatelessWidget {
-  const ScanResultTile({Key? key, required this.result, this.onTap})
-      : super(key: key);
+  const ScanResultTile({
+  Key? key, 
+  required this.result, 
+  this.onTap}):
+  super(key: key);
 
-  final ScanResult result;
-  final VoidCallback? onTap;
+  final ScanResult result; //Resultado de Scanear bluetooth
+  final VoidCallback? onTap; //Es una callback cuando se toca un elemento
 
   Widget _buildTitle(BuildContext context) {
+    // _buildTitle devuelve un wisget que representa el t赤tulo del elemento ScanResultTile 
+    //en funci車n del resultado del escaneo. Si el nombre del dispositivo no est芍 vac赤o, 
+    //se muestra el nombre y el ID del dispositivo en dos Text widgets en una columna. 
+    //De lo contrario, solo se muestra el ID del dispositivo.
     if (result.device.name.isNotEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -62,6 +69,7 @@ class ScanResultTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        // Alinea los elementos de la fila en la parte superior
         children: <Widget>[
           Text(title, style: Theme.of(context).textTheme.bodySmall),
           const SizedBox(
@@ -75,6 +83,7 @@ class ScanResultTile extends StatelessWidget {
                   .bodySmall
                   ?.apply(color: Colors.black),
               softWrap: true,
+              // Permite que el texto se envuelva en m迆ltiples l赤neas si es necesario
             ),
           ),
         ],
@@ -82,11 +91,22 @@ class ScanResultTile extends StatelessWidget {
     );
   }
 
+  /*
+  El m谷todo getNiceHexArray toma una lista de enteros (bytes) y devuelve una representaci車n en forma de cadena de los bytes en formato hexadecimal.
+  Los bytes se convierten a cadenas hexadecimales usando i.toRadixString(16), se ajusta la longitud a 2 d赤gitos utilizando padLeft(2, '0') y se unen con comas usando join(', ').
+  Luego, se envuelve entre corchetes ([]) y se convierte a may迆sculas usando toUpperCase() antes de devolver la cadena resultante.
+  */
   String getNiceHexArray(List<int> bytes) {
     return '[${bytes.map((i) => i.toRadixString(16).padLeft(2, '0')).join(', ')}]'
         .toUpperCase();
   }
 
+  /*
+  El m谷todo getNiceManufacturerData toma un mapa de enteros a listas de enteros (data) y devuelve una representaci車n en forma de cadena de los datos del fabricante.
+  Si el mapa est芍 vac赤o, devuelve 'N/A'. En caso contrario, itera sobre el mapa utilizando forEach y para cada par clave-valor, agrega una cadena al resultado (res).
+  La cadena consiste en la clave convertida a una cadena hexadecimal en may迆sculas (id.toRadixString(16).toUpperCase()) seguida de ': ' 
+  y la representaci車n en forma de cadena de los bytes utilizando el m谷todo getNiceHexArray. Luego, se une el resultado con comas usando join(', ') y se devuelve la cadena resultante.
+  */
   String getNiceManufacturerData(Map<int, List<int>> data) {
     if (data.isEmpty) {
       return 'N/A';
@@ -99,6 +119,13 @@ class ScanResultTile extends StatelessWidget {
     return res.join(', ');
   }
 
+  /*
+  El m谷todo getNiceServiceData es similar al m谷todo getNiceManufacturerData, pero se aplica a los datos del servicio en lugar de los datos del fabricante.
+  Tambi谷n toma un mapa de cadenas a listas de enteros (data) y devuelve una representaci車n en forma de cadena de los datos del servicio. Si el mapa est芍 vac赤o,
+  devuelve 'N/A'. En caso contrario, itera sobre el mapa utilizando forEach y para cada par clave-valor, agrega una cadena al resultado (res). 
+  La cadena consiste en la clave en may迆sculas (id.toUpperCase()) seguida de ': ' y la representaci車n en forma de cadena de los bytes utilizando el m谷todo getNiceHexArray. 
+  Luego, se une el resultado con comas usando join(', ') y se devuelve la cadena resultante.
+  */
   String getNiceServiceData(Map<String, List<int>> data) {
     if (data.isEmpty) {
       return 'N/A';
@@ -112,9 +139,10 @@ class ScanResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
+    if (result.advertisementData.connectable){
+      return     ExpansionTile(
       title: _buildTitle(context),
-      leading: Text(result.rssi.toString()),
+      leading: Text(result.rssi.toString()), //El leading es un widget Text que muestra la intensidad de la se?al (result.rssi) en forma de cadena.
       trailing: ElevatedButton(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
@@ -122,8 +150,17 @@ class ScanResultTile extends StatelessWidget {
         ),
         onPressed: (result.advertisementData.connectable) ? onTap : null,
         child: const Text('CONNECT'),
+        //El trailing es un ElevatedButton que muestra un bot車n "CONNECT". 
+        //Su estado habilitado (onPressed) depende de si el dispositivo es conectable (result.advertisementData.connectable). 
+        //Si es conectable, se asigna la funci車n onTap al bot車n; de lo contrario, se asigna null
       ),
       children: <Widget>[
+        //Los children son una lista de widgets que se mostrar芍n cuando el ExpansionTile se expanda. 
+        //Cada uno de estos widgets se construye llamando al m谷todo _buildAdvRow, 
+        //que crea una fila de informaci車n con un t赤tulo y un valor.
+        //Las filas contienen informaci車n como "Complete Local Name", "Tx Power Level", 
+        //"Manufacturer Data", "Service UUIDs" y "Service Data". Se utilizan m谷todos adicionales como getNiceManufacturerData
+        //y getNiceServiceData para formatear los datos del fabricante y del servicio de manera legible.
         _buildAdvRow(
             context, 'Complete Local Name', result.advertisementData.localName),
         _buildAdvRow(context, 'Tx Power Level',
@@ -140,10 +177,16 @@ class ScanResultTile extends StatelessWidget {
             getNiceServiceData(result.advertisementData.serviceData)),
       ],
     );
+    } else {
+  return Container(); // Puedes devolver un widget vac赤o o cualquier otro widget que desees mostrar en lugar del ExpansionTile
+}
+
   }
 }
 
 class ServiceTile extends StatelessWidget {
+  //La clase ServiceTile Tiene dos propiedades: service (el objeto de servicio Bluetooth) 
+  //y characteristicTiles (una lista de caracter赤sticas asociadas al servicio).
   final BluetoothService service;
   final List<CharacteristicTile> characteristicTiles;
 
@@ -154,7 +197,9 @@ class ServiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (characteristicTiles.isNotEmpty) {
+    // Verifica si hay alguna caracter赤stica
       if (excludedServiceUUIDs.contains(service.uuid.toString())) {
+        //Oculta las uuid que no quiero
         return Container(); // Oculta el servicio
       } else {
         return Column(
@@ -169,16 +214,22 @@ class ServiceTile extends StatelessWidget {
       }
     } else {
       return Text('0x${service.uuid.toString().toUpperCase().substring(4, 8)}');
+      // Muestra el UUID del servicio si no hay caracter赤sticas presentes
+
     }
   }
 }
 
 class CharacteristicTile extends StatefulWidget {
-  final BluetoothCharacteristic characteristic;
+  //CharacteristicTile es un widget de StatefulWidget que representa un mosaico de caracter赤stica Bluetooth.
+  final BluetoothCharacteristic characteristic; 
+  //Characteristica asociada a un title 
   final List<List<BluetoothCharacteristic>> characteristicLists;
-
+  //Lista de caracteristicas de bluetooth
   final VoidCallback? onReadPressed;
+  //funci車n que se encarga de leeer valores
   final VoidCallback? onNotificationPressed;
+  //Funci車n que se envarga de notificar o dar retroalimentaci車n 
 
   const CharacteristicTile(
       {Key? key,
@@ -194,13 +245,17 @@ class CharacteristicTile extends StatefulWidget {
 
 class _CharacteristicTileState extends State<CharacteristicTile> {
   List<List<int>> allCharacteristicValues = [];
+  //es una lista que almacenar芍 los valores de la caracter赤stica.
 
   @override
   Widget build(BuildContext context) {
-    final sensorVal = Provider.of<Sensor>(context);
-    void performActions() async {
-      final currentContext = context;
+    final sensorVal = Provider.of<Sensor>(context); //Provedor
 
+    //funci車n que realiza una serie de acciones relacionadas con la caracter赤stica Bluetooth.
+    void performActions() async {
+      //se obtiene el contexto actual y se realizan acciones como establecer la notificaci車n, 
+      //leer el valor y escuchar los cambios en el valor de la caracter赤stica.
+      final currentContext = context;
       await widget.characteristic
           .setNotifyValue(!widget.characteristic.isNotifying);
       await widget.characteristic.read();
@@ -213,7 +268,7 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
           '${characteristicNames[widget.characteristic.uuid.toString().toLowerCase()] ?? widget.characteristic.uuid.toString().toUpperCase()}',
         );
       });
-
+      //Regresa a la DataPage con los valores de allCharacteristicValues
       Navigator.push(
         currentContext,
         MaterialPageRoute(
@@ -228,12 +283,14 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
 // Llamar a la funci車n en el c車digo principal
 
     return SingleChildScrollView(
+      //Permitir el desplazamiento si es necesario
       child: Column(children: <Widget>[
         StreamBuilder<List<int>>(
-          stream: widget.characteristic.value,
-          initialData: widget.characteristic.lastValue,
+          stream: widget.characteristic.value, //Stream que escucha el flujo de datos
+          initialData: widget.characteristic.lastValue, //representa los datos iniciales del flujo
           builder: (c, snapshot) {
             return const ListTile(
+              //Lista con una columna vacia centrada
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,6 +299,7 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
           },
         ),
         ElevatedButton(
+          //Boton que ejecuta la fuci車n performActios
           onPressed: ()
           {
             performActions();

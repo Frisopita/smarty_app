@@ -36,7 +36,7 @@ class BluetoothOffScreen extends StatelessWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white,
-              backgroundColor: Color.fromARGB(255, 241, 135, 241),
+              backgroundColor: const Color.fromARGB(255, 241, 135, 241),
             ),
               onPressed: Platform.isAndroid
                   ? () => FlutterBluePlus.instance.turnOn()

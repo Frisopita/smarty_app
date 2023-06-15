@@ -211,7 +211,7 @@ class _LabelsTemState extends State<LabelsTem> {
                     color: null,
                   ),
                   //Container 2
-                  Container(
+                  SizedBox(
                     width: 170,
                     height: 45,
                     child: Row(
@@ -240,7 +240,7 @@ class _LabelsTemState extends State<LabelsTem> {
                     ),
                   ),
                   //Container 3
-                  Container(
+                  SizedBox(
                     height: 140,
                     width: 350,
                     //color: Colors.red.shade400,
@@ -356,12 +356,12 @@ class _LabelsTemState extends State<LabelsTem> {
                     ),
                   ),
                   //Container 5
-                  Container(
+                  const SizedBox(
                     height: 60,
                     width: 250,
                   ),
                   //Container 6
-                  Container(
+                  SizedBox(
                     height: 50,
                     width: 250,
                     //color: Colors.red,
@@ -393,7 +393,7 @@ class _LabelsTemState extends State<LabelsTem> {
                     ),
                   ),
                   //Container 6
-                  Container(
+                  const SizedBox(
                     height: 35,
                     width: 250,
                   ),
