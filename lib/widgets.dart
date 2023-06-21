@@ -53,10 +53,6 @@ class ScanResultTile extends StatelessWidget {
             result.device.name,
             overflow: TextOverflow.ellipsis,
           ),
-          Text(
-            result.device.id.toString(),
-            style: Theme.of(context).textTheme.bodySmall,
-          )
         ],
       );
     } else {
@@ -91,58 +87,12 @@ class ScanResultTile extends StatelessWidget {
     );
   }
 
-  /*
-  El m¨¦todo getNiceHexArray toma una lista de enteros (bytes) y devuelve una representaci¨®n en forma de cadena de los bytes en formato hexadecimal.
-  Los bytes se convierten a cadenas hexadecimales usando i.toRadixString(16), se ajusta la longitud a 2 d¨ªgitos utilizando padLeft(2, '0') y se unen con comas usando join(', ').
-  Luego, se envuelve entre corchetes ([]) y se convierte a may¨²sculas usando toUpperCase() antes de devolver la cadena resultante.
-  */
-  String getNiceHexArray(List<int> bytes) {
-    return '[${bytes.map((i) => i.toRadixString(16).padLeft(2, '0')).join(', ')}]'
-        .toUpperCase();
-  }
-
-  /*
-  El m¨¦todo getNiceManufacturerData toma un mapa de enteros a listas de enteros (data) y devuelve una representaci¨®n en forma de cadena de los datos del fabricante.
-  Si el mapa est¨¢ vac¨ªo, devuelve 'N/A'. En caso contrario, itera sobre el mapa utilizando forEach y para cada par clave-valor, agrega una cadena al resultado (res).
-  La cadena consiste en la clave convertida a una cadena hexadecimal en may¨²sculas (id.toRadixString(16).toUpperCase()) seguida de ': ' 
-  y la representaci¨®n en forma de cadena de los bytes utilizando el m¨¦todo getNiceHexArray. Luego, se une el resultado con comas usando join(', ') y se devuelve la cadena resultante.
-  */
-  String getNiceManufacturerData(Map<int, List<int>> data) {
-    if (data.isEmpty) {
-      return 'N/A';
-    }
-    List<String> res = [];
-    data.forEach((id, bytes) {
-      res.add(
-          '${id.toRadixString(16).toUpperCase()}: ${getNiceHexArray(bytes)}');
-    });
-    return res.join(', ');
-  }
-
-  /*
-  El m¨¦todo getNiceServiceData es similar al m¨¦todo getNiceManufacturerData, pero se aplica a los datos del servicio en lugar de los datos del fabricante.
-  Tambi¨¦n toma un mapa de cadenas a listas de enteros (data) y devuelve una representaci¨®n en forma de cadena de los datos del servicio. Si el mapa est¨¢ vac¨ªo,
-  devuelve 'N/A'. En caso contrario, itera sobre el mapa utilizando forEach y para cada par clave-valor, agrega una cadena al resultado (res). 
-  La cadena consiste en la clave en may¨²sculas (id.toUpperCase()) seguida de ': ' y la representaci¨®n en forma de cadena de los bytes utilizando el m¨¦todo getNiceHexArray. 
-  Luego, se une el resultado con comas usando join(', ') y se devuelve la cadena resultante.
-  */
-  String getNiceServiceData(Map<String, List<int>> data) {
-    if (data.isEmpty) {
-      return 'N/A';
-    }
-    List<String> res = [];
-    data.forEach((id, bytes) {
-      res.add('${id.toUpperCase()}: ${getNiceHexArray(bytes)}');
-    });
-    return res.join(', ');
-  }
 
   @override
   Widget build(BuildContext context) {
     if (result.advertisementData.connectable){
       return     ExpansionTile(
       title: _buildTitle(context),
-      leading: Text(result.rssi.toString()), //El leading es un widget Text que muestra la intensidad de la se?al (result.rssi) en forma de cadena.
       trailing: ElevatedButton(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
@@ -155,26 +105,9 @@ class ScanResultTile extends StatelessWidget {
         //Si es conectable, se asigna la funci¨®n onTap al bot¨®n; de lo contrario, se asigna null
       ),
       children: <Widget>[
-        //Los children son una lista de widgets que se mostrar¨¢n cuando el ExpansionTile se expanda. 
-        //Cada uno de estos widgets se construye llamando al m¨¦todo _buildAdvRow, 
-        //que crea una fila de informaci¨®n con un t¨ªtulo y un valor.
-        //Las filas contienen informaci¨®n como "Complete Local Name", "Tx Power Level", 
-        //"Manufacturer Data", "Service UUIDs" y "Service Data". Se utilizan m¨¦todos adicionales como getNiceManufacturerData
-        //y getNiceServiceData para formatear los datos del fabricante y del servicio de manera legible.
+
         _buildAdvRow(
-            context, 'Complete Local Name', result.advertisementData.localName),
-        _buildAdvRow(context, 'Tx Power Level',
-            '${result.advertisementData.txPowerLevel ?? 'N/A'}'),
-        _buildAdvRow(context, 'Manufacturer Data',
-            getNiceManufacturerData(result.advertisementData.manufacturerData)),
-        _buildAdvRow(
-            context,
-            'Service UUIDs',
-            (result.advertisementData.serviceUuids.isNotEmpty)
-                ? result.advertisementData.serviceUuids.join(', ').toUpperCase()
-                : 'N/A'),
-        _buildAdvRow(context, 'Service Data',
-            getNiceServiceData(result.advertisementData.serviceData)),
+            context, 'Nombre completo del dispositivo', result.advertisementData.localName),
       ],
     );
     } else {

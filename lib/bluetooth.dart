@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/material.dart'; // Quitar
+import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'widgets.dart';
 
-class BluetoothOffScreen extends StatelessWidget {
+class BluetoothOffScreen extends StatelessWidget { //pantalla que se muestra cuando el Bluetooth est¨¢ desactivado.
   const BluetoothOffScreen({Key? key, this.state}) : super(key: key);
 
   final BluetoothState? state;
+  //El constructor BluetoothOffScreen acepta un par¨¢metro opcional state de tipo BluetoothState, 
+  //que representa el estado actual del Bluetooth.
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +34,13 @@ class BluetoothOffScreen extends StatelessWidget {
                   ?.copyWith(color: Colors.white),
             ),
             ),
-
-            ElevatedButton(
+             
+            ElevatedButton( //Permite encender el Bluetooth si la plataforma es Android.
               style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white,
               backgroundColor: const Color.fromARGB(255, 241, 135, 241),
             ),
-              onPressed: Platform.isAndroid
+              onPressed: Platform.isAndroid //Si la plataforma no es Android, el bot¨®n est¨¢ desactivado.
                   ? () => FlutterBluePlus.instance.turnOn()
                   : null,
               child: const Text('TURN ON'),
@@ -59,11 +61,12 @@ class FindDevicesScreen extends StatefulWidget {
 
 class _FindDevicesScreenState extends State<FindDevicesScreen> {
   @override
+  //Este initstate permite la b¨²squeda de dispositivos Bluetooth una vez construido el widget 
   void initState() {
     super.initState();
     startScan();
   }
-
+  //actualiza cada 4 s la busqueda
   Future<void> startScan() async {
     await FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 4));
   }
@@ -85,12 +88,12 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
           child: Column(
             children: <Widget>[
               StreamBuilder<List<BluetoothDevice>>(
+                //lista de dispositivos Bluetooth conectados y muestra informaci¨®n sobre cada dispositivo en forma de ListTile.
                 stream: Stream.periodic(const Duration(seconds: 2)).asyncMap((_) => FlutterBluePlus.instance.connectedDevices),
                 initialData: const [],
                 builder: (c, snapshot) => Column(
                   children: snapshot.data!.map((d) => ListTile(
                     title: Text(d.name),
-                    subtitle: Text(d.id.toString()),
                     trailing: StreamBuilder<BluetoothDeviceState>(
                       stream: d.state,
                       initialData: BluetoothDeviceState.disconnected,
@@ -129,6 +132,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
 }
 
 class DeviceScreen extends StatefulWidget {
+  // representa la pantalla de un dispositivo Bluetooth espec¨ªfico
   const DeviceScreen({Key? key, required this.device}) : super(key: key);
 
   final BluetoothDevice device;
@@ -138,18 +142,26 @@ class DeviceScreen extends StatefulWidget {
 }
 
 class _DeviceScreenState extends State<DeviceScreen> {
-List<Widget> _buildServiceTiles(List<BluetoothService> services) {
+List<Widget> _buildServiceTiles(List<BluetoothService> services) {   
+  //recibe una lista de servicios Bluetooth y devuelve una lista de widgets de tipo ServiceTile
+  //que representan cada servicio y sus caracter¨ªsticas asociadas.
   List<List<BluetoothCharacteristic>> characteristicLists = [];
+  //Dentro del m¨¦todo, se crea una lista characteristicLists para almacenar las listas de caracter¨ªsticas de cada servicio
 
-  return services.map(
+  return services.map( //Se utiliza el m¨¦todo map para recorrer cada servicio en la lista de servicios y generar un ServiceTile correspondiente.
     (s) {
       List<BluetoothCharacteristic> characteristics = s.characteristics.toList();
+
       characteristicLists.add(characteristics);
 
       return ServiceTile(
+      //Cada ServiceTile se construye con el servicio actual y una lista de characteristicTiles, 
+      //que se construye mapeando las caracter¨ªsticas del servicio y creando instancias de CharacteristicTile.
         service: s,
         characteristicTiles: characteristics.map((c) {
           return CharacteristicTile(
+            //Cada CharacteristicTile se configura con la caracter¨ªstica correspondiente, la lista characteristicLists 
+            //y los m¨¦todos onReadPressed y onNotificationPressed que se ejecutan al presionar los botones de lectura y notificaci¨®n respectivamente.
             characteristic: c,
             characteristicLists: characteristicLists,
             onReadPressed: () => c.read(),
@@ -179,7 +191,7 @@ List<Widget> _buildServiceTiles(List<BluetoothService> services) {
       body: Column(
         children: <Widget>[
           StreamBuilder<BluetoothDeviceState>(
-            stream: widget.device.state,
+            stream: widget.device.state, //recibe el estado state del dispositovo Bluetooth
             initialData: BluetoothDeviceState.connecting,
             builder: (c, snapshot) {
               if (snapshot.data == BluetoothDeviceState.connected) {
@@ -196,7 +208,6 @@ List<Widget> _buildServiceTiles(List<BluetoothService> services) {
                   ),
                   title: Text(
                       'Device is ${snapshot.data.toString().split('.')[1]}.'),
-                  //subtitle: Text('${widget.device.id}'),
                   trailing: SizedBox(
                     width: 30,
                     child: StreamBuilder<bool>(
@@ -210,13 +221,15 @@ List<Widget> _buildServiceTiles(List<BluetoothService> services) {
             },
           ),
           StreamBuilder<List<BluetoothService>>(
+            //recibe la lista de servicios (services) del dispositivo
             stream: widget.device.services,
             initialData: const [],
             builder: (c, snapshot) {
               return Column(
-                children: _buildServiceTiles(snapshot.data!),
+                children: _buildServiceTiles(snapshot.data!), //muestra los ServiceTile generados por el m¨¦todo _buildServiceTiles.
               );
             },
+            //Los ServiceTile y CharacteristicTile se generan din¨¢micamente en funci¨®n de los datos recibidos.
           ),
         ],
       ),
