@@ -23,6 +23,7 @@ class _HomeState extends State<Home> {
             fit: BoxFit.cover, height: 100, width: 130),
         backgroundColor: Colors.white,
         leading: null,
+        automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
             icon: const Icon(
