@@ -57,7 +57,7 @@ class _LabelsTemState extends State<LabelsTem> {
       FlutterLocalNotificationsPlugin();
 
   Color _getColor(double colorval) {
-    //Funci¨®n que setea un color dependiendo el valor de value
+    //Funciï¿½ï¿½n que setea un color dependiendo el valor de value
     if (colorval <= 33) {
       // Rango del 1 al 33: Verde a Amarillo
       final red = (255 * colorval / 33).round();

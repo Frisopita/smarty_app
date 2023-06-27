@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'widgets.dart';
 
-class BluetoothOffScreen extends StatelessWidget { //pantalla que se muestra cuando el Bluetooth est¨¢ desactivado.
+class BluetoothOffScreen extends StatelessWidget { //pantalla que se muestra cuando el Bluetooth estï¿½ï¿½ desactivado.
   const BluetoothOffScreen({Key? key, this.state}) : super(key: key);
 
   final BluetoothState? state;
-  //El constructor BluetoothOffScreen acepta un par¨¢metro opcional state de tipo BluetoothState, 
+  //El constructor BluetoothOffScreen acepta un parï¿½ï¿½metro opcional state de tipo BluetoothState, 
   //que representa el estado actual del Bluetooth.
 
   @override
@@ -40,7 +40,7 @@ class BluetoothOffScreen extends StatelessWidget { //pantalla que se muestra cua
               foregroundColor: Colors.white,
               backgroundColor: const Color.fromARGB(255, 241, 135, 241),
             ),
-              onPressed: Platform.isAndroid //Si la plataforma no es Android, el bot¨®n est¨¢ desactivado.
+              onPressed: Platform.isAndroid //Si la plataforma no es Android, el botï¿½ï¿½n estï¿½ï¿½ desactivado.
                   ? () => FlutterBluePlus.instance.turnOn()
                   : null,
               child: const Text('TURN ON'),
@@ -56,12 +56,12 @@ class FindDevicesScreen extends StatefulWidget {
   const FindDevicesScreen({Key? key}) : super(key: key);
 
   @override
-  _FindDevicesScreenState createState() => _FindDevicesScreenState();
+  State<FindDevicesScreen> createState() => _FindDevicesScreenState();
 }
 
 class _FindDevicesScreenState extends State<FindDevicesScreen> {
   @override
-  //Este initstate permite la b¨²squeda de dispositivos Bluetooth una vez construido el widget 
+  //Este initstate permite la bï¿½ï¿½squeda de dispositivos Bluetooth una vez construido el widget 
   void initState() {
     super.initState();
     startScan();
@@ -88,7 +88,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
           child: Column(
             children: <Widget>[
               StreamBuilder<List<BluetoothDevice>>(
-                //lista de dispositivos Bluetooth conectados y muestra informaci¨®n sobre cada dispositivo en forma de ListTile.
+                //lista de dispositivos Bluetooth conectados y muestra informaciï¿½ï¿½n sobre cada dispositivo en forma de ListTile.
                 stream: Stream.periodic(const Duration(seconds: 2)).asyncMap((_) => FlutterBluePlus.instance.connectedDevices),
                 initialData: const [],
                 builder: (c, snapshot) => Column(
@@ -132,7 +132,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
 }
 
 class DeviceScreen extends StatefulWidget {
-  // representa la pantalla de un dispositivo Bluetooth espec¨ªfico
+  // representa la pantalla de un dispositivo Bluetooth especï¿½ï¿½fico
   const DeviceScreen({Key? key, required this.device}) : super(key: key);
 
   final BluetoothDevice device;
@@ -144,11 +144,11 @@ class DeviceScreen extends StatefulWidget {
 class _DeviceScreenState extends State<DeviceScreen> {
 List<Widget> _buildServiceTiles(List<BluetoothService> services) {   
   //recibe una lista de servicios Bluetooth y devuelve una lista de widgets de tipo ServiceTile
-  //que representan cada servicio y sus caracter¨ªsticas asociadas.
+  //que representan cada servicio y sus caracterï¿½ï¿½sticas asociadas.
   List<List<BluetoothCharacteristic>> characteristicLists = [];
-  //Dentro del m¨¦todo, se crea una lista characteristicLists para almacenar las listas de caracter¨ªsticas de cada servicio
+  //Dentro del mï¿½ï¿½todo, se crea una lista characteristicLists para almacenar las listas de caracterï¿½ï¿½sticas de cada servicio
 
-  return services.map( //Se utiliza el m¨¦todo map para recorrer cada servicio en la lista de servicios y generar un ServiceTile correspondiente.
+  return services.map( //Se utiliza el mï¿½ï¿½todo map para recorrer cada servicio en la lista de servicios y generar un ServiceTile correspondiente.
     (s) {
       List<BluetoothCharacteristic> characteristics = s.characteristics.toList();
 
@@ -156,12 +156,12 @@ List<Widget> _buildServiceTiles(List<BluetoothService> services) {
 
       return ServiceTile(
       //Cada ServiceTile se construye con el servicio actual y una lista de characteristicTiles, 
-      //que se construye mapeando las caracter¨ªsticas del servicio y creando instancias de CharacteristicTile.
+      //que se construye mapeando las caracterï¿½ï¿½sticas del servicio y creando instancias de CharacteristicTile.
         service: s,
         characteristicTiles: characteristics.map((c) {
           return CharacteristicTile(
-            //Cada CharacteristicTile se configura con la caracter¨ªstica correspondiente, la lista characteristicLists 
-            //y los m¨¦todos onReadPressed y onNotificationPressed que se ejecutan al presionar los botones de lectura y notificaci¨®n respectivamente.
+            //Cada CharacteristicTile se configura con la caracterï¿½ï¿½stica correspondiente, la lista characteristicLists 
+            //y los mï¿½ï¿½todos onReadPressed y onNotificationPressed que se ejecutan al presionar los botones de lectura y notificaciï¿½ï¿½n respectivamente.
             characteristic: c,
             characteristicLists: characteristicLists,
             onReadPressed: () => c.read(),
@@ -226,10 +226,10 @@ List<Widget> _buildServiceTiles(List<BluetoothService> services) {
             initialData: const [],
             builder: (c, snapshot) {
               return Column(
-                children: _buildServiceTiles(snapshot.data!), //muestra los ServiceTile generados por el m¨¦todo _buildServiceTiles.
+                children: _buildServiceTiles(snapshot.data!), //muestra los ServiceTile generados por el mï¿½ï¿½todo _buildServiceTiles.
               );
             },
-            //Los ServiceTile y CharacteristicTile se generan din¨¢micamente en funci¨®n de los datos recibidos.
+            //Los ServiceTile y CharacteristicTile se generan dinï¿½ï¿½micamente en funciï¿½ï¿½n de los datos recibidos.
           ),
         ],
       ),

@@ -1,27 +1,33 @@
 import 'package:flutter/foundation.dart';
 
 class Sensor with ChangeNotifier {
-  String id;//id es la caracteristica definida por un uuid
-  String value;// value es el valor de esa caracteristica
+  /// **CUIDADO** Si la variable es publica esta puede cambiarse desde afuera 
+  /// sin darnos cuenta (Y posiblemente no es lo que queremos)
+  String _id; //id es la caracteristica definida por un uuid
+  String _value; // value es el valor de esa caracteristica
 
-  Sensor({required this.id, required this.value}) {
-    // Si prefieres inicializar el mapa vac®™o por defecto, puedes usar:
-    // this.characteristics = {};
-  }
+  Sensor({String id = '', String value = ''})
+      : _id = id,
+        _value = value;
 
+  /// Los getters y setters se usan m√°s cuando los valores o estados internos
+  /// del objeto no son publicos (la variable inicia con _) en caso contrario es
+  /// innecesario y redundante
   // Getter methods
-  String get getId => this.id;
-  String get getValue => this.value;
+  String get id => _id;
+  String get value => _value;
+
+  /// Los setters empiezan con set y se usan cuando las variables son privadas o
+  /// requieren hacer m√°s de un solo cambio sin que la llamada lo sepa
 
   // Setter methods
-  void setId(String id) {
-    this.id = id;
+  set id(String id) {
+    _id = id;
     notifyListeners();
   }
 
-  void setValue(String value) {
-    this.value = value;
+  set value(String value) {
+    _value = value;
     notifyListeners();
   }
 }
-

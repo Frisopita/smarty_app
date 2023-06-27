@@ -30,19 +30,16 @@ final List<String> excludedServiceUUIDs = [
 ];
 
 class ScanResultTile extends StatelessWidget {
-  const ScanResultTile({
-  Key? key, 
-  required this.result, 
-  this.onTap}):
-  super(key: key);
+  const ScanResultTile({Key? key, required this.result, this.onTap})
+      : super(key: key);
 
   final ScanResult result; //Resultado de Scanear bluetooth
   final VoidCallback? onTap; //Es una callback cuando se toca un elemento
 
   Widget _buildTitle(BuildContext context) {
-    // _buildTitle devuelve un wisget que representa el t¨ªtulo del elemento ScanResultTile 
-    //en funci¨®n del resultado del escaneo. Si el nombre del dispositivo no est¨¢ vac¨ªo, 
-    //se muestra el nombre y el ID del dispositivo en dos Text widgets en una columna. 
+    // _buildTitle devuelve un wisget que representa el tï¿½ï¿½tulo del elemento ScanResultTile
+    //en funciï¿½ï¿½n del resultado del escaneo. Si el nombre del dispositivo no estï¿½ï¿½ vacï¿½ï¿½o,
+    //se muestra el nombre y el ID del dispositivo en dos Text widgets en una columna.
     //De lo contrario, solo se muestra el ID del dispositivo.
     if (result.device.name.isNotEmpty) {
       return Column(
@@ -79,7 +76,7 @@ class ScanResultTile extends StatelessWidget {
                   .bodySmall
                   ?.apply(color: Colors.black),
               softWrap: true,
-              // Permite que el texto se envuelva en m¨²ltiples l¨ªneas si es necesario
+              // Permite que el texto se envuelva en mï¿½ï¿½ltiples lï¿½ï¿½neas si es necesario
             ),
           ),
         ],
@@ -87,39 +84,36 @@ class ScanResultTile extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    if (result.advertisementData.connectable){
-      return     ExpansionTile(
-      title: _buildTitle(context),
-      trailing: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.black,
+    if (result.advertisementData.connectable) {
+      return ExpansionTile(
+        title: _buildTitle(context),
+        trailing: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.black,
+          ),
+          onPressed: (result.advertisementData.connectable) ? onTap : null,
+          child: const Text('CONNECT'),
+          //El trailing es un ElevatedButton que muestra un botï¿½ï¿½n "CONNECT".
+          //Su estado habilitado (onPressed) depende de si el dispositivo es conectable (result.advertisementData.connectable).
+          //Si es conectable, se asigna la funciï¿½ï¿½n onTap al botï¿½ï¿½n; de lo contrario, se asigna null
         ),
-        onPressed: (result.advertisementData.connectable) ? onTap : null,
-        child: const Text('CONNECT'),
-        //El trailing es un ElevatedButton que muestra un bot¨®n "CONNECT". 
-        //Su estado habilitado (onPressed) depende de si el dispositivo es conectable (result.advertisementData.connectable). 
-        //Si es conectable, se asigna la funci¨®n onTap al bot¨®n; de lo contrario, se asigna null
-      ),
-      children: <Widget>[
-
-        _buildAdvRow(
-            context, 'Nombre completo del dispositivo', result.advertisementData.localName),
-      ],
-    );
+        children: <Widget>[
+          _buildAdvRow(context, 'Nombre completo del dispositivo',
+              result.advertisementData.localName),
+        ],
+      );
     } else {
-  return Container(); // Puedes devolver un widget vac¨ªo o cualquier otro widget que desees mostrar en lugar del ExpansionTile
-}
-
+      return Container(); // Puedes devolver un widget vacï¿½ï¿½o o cualquier otro widget que desees mostrar en lugar del ExpansionTile
+    }
   }
 }
 
 class ServiceTile extends StatelessWidget {
-  //La clase ServiceTile Tiene dos propiedades: service (el objeto de servicio Bluetooth) 
-  //y characteristicTiles (una lista de caracter¨ªsticas asociadas al servicio).
+  //La clase ServiceTile Tiene dos propiedades: service (el objeto de servicio Bluetooth)
+  //y characteristicTiles (una lista de caracterï¿½ï¿½sticas asociadas al servicio).
   final BluetoothService service;
   final List<CharacteristicTile> characteristicTiles;
 
@@ -130,7 +124,7 @@ class ServiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (characteristicTiles.isNotEmpty) {
-    // Verifica si hay alguna caracter¨ªstica
+      // Verifica si hay alguna caracterï¿½ï¿½stica
       if (excludedServiceUUIDs.contains(service.uuid.toString())) {
         //Oculta las uuid que no quiero
         return Container(); // Oculta el servicio
@@ -147,22 +141,21 @@ class ServiceTile extends StatelessWidget {
       }
     } else {
       return Text('0x${service.uuid.toString().toUpperCase().substring(4, 8)}');
-      // Muestra el UUID del servicio si no hay caracter¨ªsticas presentes
-
+      // Muestra el UUID del servicio si no hay caracterï¿½ï¿½sticas presentes
     }
   }
 }
 
 class CharacteristicTile extends StatefulWidget {
-  //CharacteristicTile es un widget de StatefulWidget que representa un mosaico de caracter¨ªstica Bluetooth.
-  final BluetoothCharacteristic characteristic; 
-  //Characteristica asociada a un title 
+  //CharacteristicTile es un widget de StatefulWidget que representa un mosaico de caracterï¿½ï¿½stica Bluetooth.
+  final BluetoothCharacteristic characteristic;
+  //Characteristica asociada a un title
   final List<List<BluetoothCharacteristic>> characteristicLists;
   //Lista de caracteristicas de bluetooth
   final VoidCallback? onReadPressed;
-  //funci¨®n que se encarga de leeer valores
+  //funciï¿½ï¿½n que se encarga de leeer valores
   final VoidCallback? onNotificationPressed;
-  //Funci¨®n que se envarga de notificar o dar retroalimentaci¨®n 
+  //Funciï¿½ï¿½n que se envarga de notificar o dar retroalimentaciï¿½ï¿½n
 
   const CharacteristicTile(
       {Key? key,
@@ -178,16 +171,16 @@ class CharacteristicTile extends StatefulWidget {
 
 class _CharacteristicTileState extends State<CharacteristicTile> {
   List<List<int>> allCharacteristicValues = [];
-  //es una lista que almacenar¨¢ los valores de la caracter¨ªstica.
+  //es una lista que almacenarï¿½ï¿½ los valores de la caracterï¿½ï¿½stica.
 
   @override
   Widget build(BuildContext context) {
     final sensorVal = Provider.of<Sensor>(context); //Provedor
 
-    //funci¨®n que realiza una serie de acciones relacionadas con la caracter¨ªstica Bluetooth.
+    //funciï¿½ï¿½n que realiza una serie de acciones relacionadas con la caracterï¿½ï¿½stica Bluetooth.
     void performActions() async {
-      //se obtiene el contexto actual y se realizan acciones como establecer la notificaci¨®n, 
-      //leer el valor y escuchar los cambios en el valor de la caracter¨ªstica.
+      //se obtiene el contexto actual y se realizan acciones como establecer la notificaciï¿½ï¿½n,
+      //leer el valor y escuchar los cambios en el valor de la caracterï¿½ï¿½stica.
       final currentContext = context;
       await widget.characteristic
           .setNotifyValue(!widget.characteristic.isNotifying);
@@ -196,11 +189,10 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
         List<int> readValues = await widget.characteristic.value.first;
         allCharacteristicValues.add(readValues);
         String value = String.fromCharCodes(readValues);
-        sensorVal.setValue(value);
-        sensorVal.setId(
-          '${characteristicNames[widget.characteristic.uuid.toString().toLowerCase()] ?? widget.characteristic.uuid.toString().toUpperCase()}',
-        );
+        sensorVal.value = value;
+        sensorVal.id = characteristicNames[widget.characteristic.uuid.toString().toLowerCase()] ?? widget.characteristic.uuid.toString().toUpperCase();
       });
+      if (!mounted) return;
       //Regresa a la DataPage con los valores de allCharacteristicValues
       Navigator.push(
         currentContext,
@@ -213,14 +205,16 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
       });
     }
 
-// Llamar a la funci¨®n en el c¨®digo principal
+// Llamar a la funciï¿½ï¿½n en el cï¿½ï¿½digo principal
 
     return SingleChildScrollView(
       //Permitir el desplazamiento si es necesario
       child: Column(children: <Widget>[
         StreamBuilder<List<int>>(
-          stream: widget.characteristic.value, //Stream que escucha el flujo de datos
-          initialData: widget.characteristic.lastValue, //representa los datos iniciales del flujo
+          stream: widget
+              .characteristic.value, //Stream que escucha el flujo de datos
+          initialData: widget.characteristic
+              .lastValue, //representa los datos iniciales del flujo
           builder: (c, snapshot) {
             return const ListTile(
               //Lista con una columna vacia centrada
@@ -232,14 +226,13 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
           },
         ),
         ElevatedButton(
-          //Boton que ejecuta la fuci¨®n performActios
-          onPressed: ()
-          {
+          //Boton que ejecuta la fuciï¿½ï¿½n performActios
+          onPressed: () {
             performActions();
           },
 
-          child: Text('Inicio'),
-          )
+          child: const Text('Inicio'),
+        )
       ]),
     );
   }
