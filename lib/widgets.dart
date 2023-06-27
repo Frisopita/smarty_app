@@ -2,11 +2,12 @@
 // All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:smarty_app/Providers/sensor.dart';
-import 'main.dart';
 
 final Map<String, String> characteristicNames = {
   'beb5483e-36e1-4688-b7f5-ea07361b26a8': 'S1',
@@ -170,9 +171,6 @@ class CharacteristicTile extends StatefulWidget {
 }
 
 class _CharacteristicTileState extends State<CharacteristicTile> {
-  List<List<int>> allCharacteristicValues = [];
-  //es una lista que almacenar�� los valores de la caracter��stica.
-
   @override
   Widget build(BuildContext context) {
     final sensorVal = Provider.of<Sensor>(context); //Provedor
@@ -181,28 +179,14 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
     void performActions() async {
       //se obtiene el contexto actual y se realizan acciones como establecer la notificaci��n,
       //leer el valor y escuchar los cambios en el valor de la caracter��stica.
-      final currentContext = context;
-      await widget.characteristic
-          .setNotifyValue(!widget.characteristic.isNotifying);
+      await widget.characteristic.setNotifyValue(!widget.characteristic.isNotifying);
       await widget.characteristic.read();
-      widget.characteristic.value.listen((value) async {
-        List<int> readValues = await widget.characteristic.value.first;
-        allCharacteristicValues.add(readValues);
-        String value = String.fromCharCodes(readValues);
-        sensorVal.value = value;
-        sensorVal.id = characteristicNames[widget.characteristic.uuid.toString().toLowerCase()] ?? widget.characteristic.uuid.toString().toUpperCase();
-      });
+      Uint8List readValues = Uint8List.fromList(await widget.characteristic.value.first);
+      sensorVal.setValue(readValues);
+      sensorVal.id = widget.characteristic.uuid.toString();
       if (!mounted) return;
       //Regresa a la DataPage con los valores de allCharacteristicValues
-      Navigator.push(
-        currentContext,
-        MaterialPageRoute(
-          builder: (BuildContext context) =>
-              DataPage(data: allCharacteristicValues),
-        ),
-      ).then((values) {
-        Navigator.pop(currentContext);
-      });
+      Navigator.popUntil(context, (route) => false);
     }
 
 // Llamar a la funci��n en el c��digo principal
