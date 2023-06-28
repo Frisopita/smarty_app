@@ -30,28 +30,31 @@ class _MySmartAppState extends State<MySmartApp> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      //Se encarga de la notificaci車n de los cambios de provider
-      create: (BuildContext context) => Sensor(id: '', value: ''),
-      // Crea una instancia del Provider para el modelo 'Sensor'
-      //donde id es el uuid y value el valor que lee del uuid
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        // Quita el banner de debug en la parte superior derecha de la pantalla
-        home: StreamBuilder<FlutterBlue.BluetoothState>(
-          //El StreamBuilder escucha el estado de Bluetooth y devuelve la pantalla correspondiente en funci車n del estado.
-          stream: FlutterBlue.FlutterBluePlus.instance.state,
-          // El stream a seguir es el estado de Bluetooth proporcionado por el paquete 'flutter_blue_plus'
-          initialData: FlutterBlue.BluetoothState.unknown,
-          // Establece el estado inicial como desconocido
-          builder: (c, snapshot) {
-            final state = snapshot.data;
-            if (state == FlutterBlue.BluetoothState.on) {
-              return DataPage(
-                  data: allCharacteristicValues); // Pasa los datos aqu赤
-            }
-            return BluetoothOffScreen(state: state);
-            // Si el estado de Bluetooth no est芍 encendido, muestra la pantalla BluetoothOffScreen con el estado actual
-          },
+      create: (_) => ProviderSensor(),
+      child: ChangeNotifierProvider(
+        //Se encarga de la notificaci車n de los cambios de provider
+        create: (BuildContext context) => Sensor(id: '', value: ''),
+        // Crea una instancia del Provider para el modelo 'Sensor'
+        //donde id es el uuid y value el valor que lee del uuid
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          // Quita el banner de debug en la parte superior derecha de la pantalla
+          home: StreamBuilder<FlutterBlue.BluetoothState>(
+            //El StreamBuilder escucha el estado de Bluetooth y devuelve la pantalla correspondiente en funci車n del estado.
+            stream: FlutterBlue.FlutterBluePlus.instance.state,
+            // El stream a seguir es el estado de Bluetooth proporcionado por el paquete 'flutter_blue_plus'
+            initialData: FlutterBlue.BluetoothState.unknown,
+            // Establece el estado inicial como desconocido
+            builder: (c, snapshot) {
+              final state = snapshot.data;
+              if (state == FlutterBlue.BluetoothState.on) {
+                return DataPage(
+                    data: allCharacteristicValues); // Pasa los datos aqu赤
+              }
+              return BluetoothOffScreen(state: state);
+              // Si el estado de Bluetooth no est芍 encendido, muestra la pantalla BluetoothOffScreen con el estado actual
+            },
+          ),
         ),
       ),
     );

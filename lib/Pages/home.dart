@@ -87,6 +87,7 @@ class _LabelsTemState extends State<LabelsTem> {
 
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
+
   @override
   Widget build(BuildContext context) {
     void showNotification() async {
@@ -133,8 +134,9 @@ class _LabelsTemState extends State<LabelsTem> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: Consumer<Sensor>(builder: (context, sensor, _) {
+            child: Consumer<ProviderSensor>(builder: (context, sensor, _) {
               String id = sensor.value;
+
               //Color circleColor = Colors.pink.shade200;
               Color? circleColor1;
               Color? circleColor2;
@@ -148,6 +150,16 @@ class _LabelsTemState extends State<LabelsTem> {
               Color? circleColor10;
               Color? circleColor11;
               Color? circleColor12;
+              final func = (Color color, String id) {
+                double value1 = double.tryParse(id) ?? 0.0;
+                color = _getColor(value1);
+                if (value1 > 100.0 || value1 < 0.0) {
+                  showNotification();
+                }
+              };
+              final List = sensor.list.forEach((element) {
+                
+               });
               switch (sensor.id) {
                 case 'S1':
                   {
@@ -268,7 +280,6 @@ class _LabelsTemState extends State<LabelsTem> {
                     if (value12 > 100.0 || value12 < 0.0) {
                       showNotification();
                     }
-
                   }
                   break;
 

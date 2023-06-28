@@ -116,7 +116,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                 builder: (c, snapshot) => Column(
                   children: snapshot.data!.map((r) => ScanResultTile(
                     result: r,
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                    onTap: () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
                       r.device.connect();
                       return DeviceScreen(device: r.device);
                     })),

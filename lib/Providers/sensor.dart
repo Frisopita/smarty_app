@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class Sensor with ChangeNotifier {
   String id;//id es la caracteristica definida por un uuid
@@ -24,4 +25,16 @@ class Sensor with ChangeNotifier {
     notifyListeners();
   }
 }
+
+class ProviderSensor extends ChangeNotifier {
+  final List<Uint8List> list = List.filled(12, Uint8List(0));
+  void add(int index, Uint8List list){
+    this.list[index] = list;
+    notifyListeners();
+  }
+  Future <void> addService(BluetoothService s) async {
+    List<BluetoothCharacteristic> characteristics = s.characteristics.toList();
+  }
+}
+
 
