@@ -116,15 +116,14 @@ class ServiceTile extends StatelessWidget {
   //La clase ServiceTile Tiene dos propiedades: service (el objeto de servicio Bluetooth)
   //y characteristicTiles (una lista de caracter��sticas asociadas al servicio).
   final BluetoothService service;
-  final List<CharacteristicTile> characteristicTiles;
 
-  const ServiceTile(
-      {Key? key, required this.service, required this.characteristicTiles})
-      : super(key: key);
+  const ServiceTile({Key? key, required this.service}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (characteristicTiles.isNotEmpty) {
+    List<BluetoothCharacteristic> characteristics =
+        service.characteristics.toList();
+    if (characteristics.isNotEmpty) {
       // Verifica si hay alguna caracter��stica
       if (excludedServiceUUIDs.contains(service.uuid.toString())) {
         //Oculta las uuid que no quiero
@@ -136,7 +135,12 @@ class ServiceTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
             ),
-            ...characteristicTiles,
+            ElevatedButton(
+              onPressed: () {
+                context.read<Sensor>().initService(service);
+              },
+              child: const Text('Conectar'),
+            ),
           ],
         );
       }
@@ -179,9 +183,11 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
     void performActions() async {
       //se obtiene el contexto actual y se realizan acciones como establecer la notificaci��n,
       //leer el valor y escuchar los cambios en el valor de la caracter��stica.
-      await widget.characteristic.setNotifyValue(!widget.characteristic.isNotifying);
+      await widget.characteristic
+          .setNotifyValue(!widget.characteristic.isNotifying);
       await widget.characteristic.read();
-      Uint8List readValues = Uint8List.fromList(await widget.characteristic.value.first);
+      Uint8List readValues =
+          Uint8List.fromList(await widget.characteristic.value.first);
       sensorVal.setValue(readValues);
       sensorVal.id = widget.characteristic.uuid.toString();
       if (!mounted) return;

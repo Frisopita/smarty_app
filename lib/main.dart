@@ -30,46 +30,60 @@ class _MySmartAppState extends State<MySmartApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // Quita el banner de debug en la parte superior derecha de la pantalla
-      debugShowCheckedModeBanner: false,
-      /// MultiProvider permite incializar multiples providers en cascada en una lista.
-      /// El 2do provider puede llamar al primero y el 3ro a los primeros 2 y asi sucesivamente
-      /// 
-      /// Si el widget abajo de Multiprovider no requiere llamar a ninguno de los providers puede usarse child
-      /// en caso contrario se recomienda build
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<Sensor>(
-            /// lazy se usa para incializar un provider antes de tiempo:
-            /// true: se incializa desde que se inserta en el Widget Tree
-            /// false: se inicializa hasta que se utiliza por 1ra vez
-            /// null: mismo que false
-            lazy: null,
-            //Se encarga de la notificaci��n de los cambios de provider
-            create: (BuildContext context) => Sensor(),
-          ),
-          /// Puedes iniciar el stream dentro de un provider y usarlo en toda la app.
-          /// Lo ideal sería usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
-          /// escribieramos
-          StreamProvider<flutter_blue.BluetoothState>.value(
-            value: flutter_blue.FlutterBluePlus.instance.state,
-            initialData: flutter_blue.BluetoothState.unknown,
-          ),
-        ],
-        /// child es el que se incializaria en MultiProvider, 
-        /// en este caso es nulo pero puedes iniciar un widget que no necesite 
-        /// ningun provider y pasarlo aqui
-        builder: (context, child) {
-          final blState = context.watch<flutter_blue.BluetoothState>();
-          if (blState == flutter_blue.BluetoothState.on) {
-            // Pasa los datos aqu��
-            return const DataPage();
-          }
-          return BluetoothOffScreen(state: blState);
-          // Si el estado de Bluetooth no est�� encendido, muestra la pantalla BluetoothOffScreen con el estado actual
-        },
+    /// MultiProvider permite incializar multiples providers en cascada en una lista.
+    /// El 2do provider puede llamar al primero y el 3ro a los primeros 2 y asi sucesivamente
+    ///
+    /// Si el widget abajo de Multiprovider no requiere llamar a ninguno de los providers puede usarse child
+    /// en caso contrario se recomienda build
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<Sensor>(
+          /// lazy se usa para incializar un provider antes de tiempo:
+          /// true: se incializa desde que se inserta en el Widget Tree
+          /// false: se inicializa hasta que se utiliza por 1ra vez
+          /// null: mismo que false
+          lazy: null,
+          //Se encarga de la notificaci��n de los cambios de provider
+          create: (BuildContext context) => Sensor(),
+        ),
+
+        /// Puedes iniciar el stream dentro de un provider y usarlo en toda la app.
+        /// Lo ideal sería usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
+        /// escribieramos
+        StreamProvider<flutter_blue.BluetoothState>.value(
+          value: flutter_blue.FlutterBluePlus.instance.state,
+          initialData: flutter_blue.BluetoothState.unknown,
+        ),
+      ],
+      child: MaterialApp(
+        // Quita el banner de debug en la parte superior derecha de la pantalla
+        debugShowCheckedModeBanner: false,
+
+        home: Builder(
+          builder: (context) {
+            final blState = context.watch<flutter_blue.BluetoothState>();
+            if (blState == flutter_blue.BluetoothState.on) {
+              // Pasa los datos aqu��
+              return const DataPage();
+            }
+            return BluetoothOffScreen(state: blState);
+            // Si el estado de Bluetooth no est�� encendido, muestra la pantalla BluetoothOffScreen con el estado actual
+          },
+        ),
       ),
+      builder: (context, child) {
+        /// select es un caso especial que solo observa un estado dentro del objeto (Sensor)
+        /// y solo actualiza el widget cuando ese valor cambia, sin importar si notifylistener() cambio otros datos de nuestro objeto
+        /// ver [Selector]
+        final stream = context.select<Sensor, Stream<List<BLE>>>(
+          (s) => s.stream,
+        );
+        return StreamProvider<List<BLE>>.value(
+          value: stream,
+          initialData: const [],
+          child: child,
+        );
+      },
     );
   }
 }

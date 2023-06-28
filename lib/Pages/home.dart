@@ -87,6 +87,7 @@ class _LabelsTemState extends State<LabelsTem> {
 
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
+
   @override
   Widget build(BuildContext context) {
     void showNotification() async {
@@ -133,8 +134,7 @@ class _LabelsTemState extends State<LabelsTem> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: Consumer<Sensor>(builder: (context, sensor, _) {
-              String id = sensor.value;
+            child: Consumer<List<BLE>>(builder: (context, sensors, _) {
               //Color circleColor = Colors.pink.shade200;
               Color? circleColor1;
               Color? circleColor2;
@@ -148,136 +148,151 @@ class _LabelsTemState extends State<LabelsTem> {
               Color? circleColor10;
               Color? circleColor11;
               Color? circleColor12;
-              switch (sensor.id) {
-                case 'S1':
-                  {
-                    s1 = id;
-                    double value1 = double.tryParse(id) ?? 0.0;
-                    circleColor1 = _getColor(value1);
-                    if (value1 > 100.0 || value1 < 0.0) {
-                      showNotification();
+              /// Lo más probable es que se llame showNotification muchas veces 
+              /// (1 por sensor) lo cual puede no ser ideal
+              loopCallback(BLE sensor) {
+                String value = sensor.data;
+                switch (sensor.id) {
+                  case 'S1':
+                    {
+                      s1 = value;
+                      double value1 = double.tryParse(value) ?? 0.0;
+                      circleColor1 = _getColor(value1);
+                      if (value1 > 100.0 || value1 < 0.0) {
+                        showNotification();
+                      }
                     }
-                  }
-                  break;
+                    break;
 
-                case 'S2':
-                  {
-                    s2 = id;
-                    double value2 = double.tryParse(id) ?? 0.0;
-                    circleColor2 = _getColor(value2);
-                    if (value2 > 100.0 || value2 < 0.0) {
-                      showNotification();
+                  case 'S2':
+                    {
+                      s2 = value;
+                      double value2 = double.tryParse(value) ?? 0.0;
+                      circleColor2 = _getColor(value2);
+                      if (value2 > 100.0 || value2 < 0.0) {
+                        showNotification();
+                      }
                     }
-                  }
-                  break;
-                case 'S3':
-                  {
-                    s3 = id;
-                    double value3 = double.tryParse(id) ?? 0.0;
-                    circleColor3 = _getColor(value3);
-                    if (value3 > 100.0 || value3 < 0.0) {
-                      showNotification();
+                    break;
+                  case 'S3':
+                    {
+                      s3 = value;
+                      double value3 = double.tryParse(value) ?? 0.0;
+                      circleColor3 = _getColor(value3);
+                      if (value3 > 100.0 || value3 < 0.0) {
+                        showNotification();
+                      }
                     }
-                  }
-                  break;
-                case 'S4':
-                  {
-                    s4 = id;
-                    double value4 = double.tryParse(id) ?? 0.0;
-                    circleColor4 = _getColor(value4);
-                    if (value4 > 100.0 || value4 < 0.0) {
-                      showNotification();
+                    break;
+                  case 'S4':
+                    {
+                      s4 = value;
+                      double value4 = double.tryParse(value) ?? 0.0;
+                      circleColor4 = _getColor(value4);
+                      if (value4 > 100.0 || value4 < 0.0) {
+                        showNotification();
+                      }
                     }
-                  }
-                  break;
-                case 'S5':
-                  {
-                    s5 = id;
-                    double value5 = double.tryParse(id) ?? 0.0;
-                    circleColor5 = _getColor(value5);
-                    if (value5 > 100.0 || value5 < 0.0) {
-                      showNotification();
+                    break;
+                  case 'S5':
+                    {
+                      s5 = value;
+                      double value5 = double.tryParse(value) ?? 0.0;
+                      circleColor5 = _getColor(value5);
+                      if (value5 > 100.0 || value5 < 0.0) {
+                        showNotification();
+                      }
                     }
-                  }
-                  break;
-                case 'S6':
-                  {
-                    s6 = id;
-                    double value6 = double.tryParse(id) ?? 0.0;
-                    circleColor6 = _getColor(value6);
-                    if (value6 > 100.0 || value6 < 0.0) {
-                      showNotification();
+                    break;
+                  case 'S6':
+                    {
+                      s6 = value;
+                      double value6 = double.tryParse(value) ?? 0.0;
+                      circleColor6 = _getColor(value6);
+                      if (value6 > 100.0 || value6 < 0.0) {
+                        showNotification();
+                      }
                     }
-                  }
-                  break;
-                case 'S7':
-                  {
-                    s7 = id;
-                    double value7 = double.tryParse(id) ?? 0.0;
-                    circleColor7 = _getColor(value7);
-                    if (value7 > 100.0 || value7 < 0.0) {
-                      showNotification();
+                    break;
+                  case 'S7':
+                    {
+                      s7 = value;
+                      double value7 = double.tryParse(value) ?? 0.0;
+                      circleColor7 = _getColor(value7);
+                      if (value7 > 100.0 || value7 < 0.0) {
+                        showNotification();
+                      }
                     }
-                  }
-                  break;
-                case 'S8':
-                  {
-                    s8 = id;
-                    double value8 = double.tryParse(id) ?? 0.0;
-                    circleColor8 = _getColor(value8);
-                    if (value8 > 100.0 || value8 < 0.0) {
-                      showNotification();
+                    break;
+                  case 'S8':
+                    {
+                      s8 = value;
+                      double value8 = double.tryParse(value) ?? 0.0;
+                      circleColor8 = _getColor(value8);
+                      if (value8 > 100.0 || value8 < 0.0) {
+                        showNotification();
+                      }
                     }
-                  }
-                  break;
-                case 'S9':
-                  {
-                    s9 = id;
-                    double value9 = double.tryParse(id) ?? 0.0;
-                    circleColor9 = _getColor(value9);
-                    if (value9 > 100.0 || value9 < 0.0) {
-                      showNotification();
+                    break;
+                  case 'S9':
+                    {
+                      s9 = value;
+                      double value9 = double.tryParse(value) ?? 0.0;
+                      circleColor9 = _getColor(value9);
+                      if (value9 > 100.0 || value9 < 0.0) {
+                        showNotification();
+                      }
                     }
-                  }
-                  break;
-                case 'S10':
-                  {
-                    s10 = id;
-                    double value10 = double.tryParse(id) ?? 0.0;
-                    circleColor10 = _getColor(value10);
-                    if (value10 > 100.0 || value10 < 0.0) {
-                      showNotification();
+                    break;
+                  case 'S10':
+                    {
+                      s10 = value;
+                      double value10 = double.tryParse(value) ?? 0.0;
+                      circleColor10 = _getColor(value10);
+                      if (value10 > 100.0 || value10 < 0.0) {
+                        showNotification();
+                      }
                     }
-                  }
-                  break;
-                case 'S11':
-                  {
-                    s11 = id;
-                    double value11 = double.tryParse(id) ?? 0.0;
-                    circleColor11 = _getColor(value11);
-                    if (value11 > 100.0 || value11 < 0.0) {
-                      showNotification();
+                    break;
+                  case 'S11':
+                    {
+                      s11 = value;
+                      double value11 = double.tryParse(value) ?? 0.0;
+                      circleColor11 = _getColor(value11);
+                      if (value11 > 100.0 || value11 < 0.0) {
+                        showNotification();
+                      }
                     }
-                  }
-                  break;
-                case 'S12':
-                  {
-                    s12 = id;
-                    double value12 = double.tryParse(id) ?? 0.0;
-                    circleColor12 = _getColor(value12);
-                    if (value12 > 100.0 || value12 < 0.0) {
-                      showNotification();
+                    break;
+                  case 'S12':
+                    {
+                      s12 = value;
+                      double value12 = double.tryParse(value) ?? 0.0;
+                      circleColor12 = _getColor(value12);
+                      if (value12 > 100.0 || value12 < 0.0) {
+                        showNotification();
+                      }
                     }
+                    break;
 
-                  }
-                  break;
-
-                default:
-                  {
-                    //statements;
-                  }
-                  break;
+                  default:
+                    {
+                      //statements;
+                    }
+                    break;
+                }
               }
+
+              /// Entra una vez por valor en la lista:
+              /// BLE(S1, valor)
+              /// BLE(S2, valor)
+              /// BLE(S3, valor)
+              /// BLE(S4, valor)
+              /// BLE(S5, valor)
+              /// etc
+              /// Actualiza cada color circleColor(N) pero lo ideal sería reducir esto de otra manera
+              /// hay un valor por color, debería ser más fácil regresar una lista de colores
+              sensors.forEach(loopCallback);
 
               return Column(
                 children: [

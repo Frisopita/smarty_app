@@ -1,10 +1,21 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:async/async.dart';
 
-class Sensor with ChangeNotifier {
-  /// **CUIDADO** Si la variable es publica esta puede cambiarse desde afuera
-  /// sin darnos cuenta (Y posiblemente no es lo que queremos)
-  String _id; //id es la caracteristica definida por un uuid
-  String _value; // value es el valor de esa caracteristica
+/// Objeto que mantiene el valor y su id
+class BLE {
+  final String id;
+  final String data;
+
+  const BLE(this.id, this.data);
+}
+
+class Sensor extends ChangeNotifier {
+  BluetoothService? _service;
+
+  Stream<List<BLE>> _stream = const Stream.empty();
+
+  Stream<List<BLE>> get stream => _stream;
 
   /// Internal Services UUID allowed (whitelist)
   static const Map<String, String> _allowedUUIDs = {
@@ -22,38 +33,24 @@ class Sensor with ChangeNotifier {
     '1b0724f2-156b-41a6-8bb6-22be491731fc': 'S12',
     // Add more characteristic UUIDs here
   };
+  
+  /// No importan, pero da error en el widget que dejamos de usar y no lo borre
+  set id(String id) {}
+  void setValue(Uint8List readValues) {}
 
-  final List<Uint8List> _allCharacteristicValues = [];
-
-  Sensor({String id = '', String value = ''})
-      : _id = id,
-        _value = value;
-
-  /// Los getters y setters se usan más cuando los valores o estados internos
-  /// del objeto no son publicos (la variable inicia con _) en caso contrario es
-  /// innecesario y redundante
-  // Getter methods
-  String get id => _id;
-  String get value => _value;
-  List<Uint8List> get historyValues => _allCharacteristicValues;
-
-  /// Los setters empiezan con set y se usan cuando las variables son privadas o
-  /// requieren hacer más de un solo cambio sin que la llamada lo sepa
-
-  // Setter method
-  set id(String id) {
-    final String value = _allowedUUIDs[id.toLowerCase()] ?? id.toUpperCase();
-    if (value == _id) return;
-    _id = value;
-    notifyListeners();
-  }
-
-  void setValue(Uint8List readValues) {
-    String value = String.fromCharCodes(readValues);
-    if (value == _value) return;
-    _allCharacteristicValues..clear()..add(readValues);
-
-    _value = value;
+  void initService(BluetoothService service) async {
+    if (service.uuid == _service?.uuid) return;
+    _service = service;
+    Iterable<Stream<BLE>> streams = service.characteristics
+        .where((c) => _allowedUUIDs.containsKey(c.uuid.toString()))
+        .map(
+          (c) => c.value.map((event) {
+            String value = String.fromCharCodes(event);
+            String uuid = c.uuid.toString();
+            return BLE(_allowedUUIDs[uuid]!, value);
+          }),
+        );
+    _stream = StreamZip(streams);
     notifyListeners();
   }
 }

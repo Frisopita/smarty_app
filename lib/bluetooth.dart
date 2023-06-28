@@ -142,35 +142,14 @@ class DeviceScreen extends StatefulWidget {
 }
 
 class _DeviceScreenState extends State<DeviceScreen> {
-List<Widget> _buildServiceTiles(List<BluetoothService> services) {   
-  //recibe una lista de servicios Bluetooth y devuelve una lista de widgets de tipo ServiceTile
-  //que representan cada servicio y sus caracter��sticas asociadas.
-  List<List<BluetoothCharacteristic>> characteristicLists = [];
-  //Dentro del m��todo, se crea una lista characteristicLists para almacenar las listas de caracter��sticas de cada servicio
+List<Widget> _buildServiceTiles(List<BluetoothService> services) {
 
   return services.map( //Se utiliza el m��todo map para recorrer cada servicio en la lista de servicios y generar un ServiceTile correspondiente.
     (s) {
-      List<BluetoothCharacteristic> characteristics = s.characteristics.toList();
-
-      characteristicLists.add(characteristics);
-
       return ServiceTile(
       //Cada ServiceTile se construye con el servicio actual y una lista de characteristicTiles, 
       //que se construye mapeando las caracter��sticas del servicio y creando instancias de CharacteristicTile.
         service: s,
-        characteristicTiles: characteristics.map((c) {
-          return CharacteristicTile(
-            //Cada CharacteristicTile se configura con la caracter��stica correspondiente, la lista characteristicLists 
-            //y los m��todos onReadPressed y onNotificationPressed que se ejecutan al presionar los botones de lectura y notificaci��n respectivamente.
-            characteristic: c,
-            characteristicLists: characteristicLists,
-            onReadPressed: () => c.read(),
-            onNotificationPressed: () async {
-              await c.setNotifyValue(!c.isNotifying);
-              await c.read();
-            },
-          );
-        }).toList(),
       );
     },
   ).toList();
