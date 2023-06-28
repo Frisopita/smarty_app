@@ -3,7 +3,7 @@ Main del proyecto de SmartyApp
 */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart' as FlutterBlue;
+import 'package:flutter_blue_plus/flutter_blue_plus.dart' as flutter_blue;
 import 'package:smarty_app/bluetooth.dart';
 import 'Pages/history.dart';
 import 'Pages/home.dart';
@@ -13,60 +13,88 @@ import 'package:provider/provider.dart';
 import 'package:smarty_app/Providers/sensor.dart';
 
 void main() {
-  runApp(const MySmartApp()); // Inicializaci¨®n del widget raiz de la aplicaci¨®n
+  runApp(const MySmartApp());
+  // Inicializaciï¿½ï¿½n del widget raiz de la aplicaciï¿½ï¿½n
 }
 
 class MySmartApp extends StatefulWidget {
   const MySmartApp({Key? key}) : super(key: key);
 
   @override
-  _MySmartAppState createState() => _MySmartAppState();
+  State<MySmartApp> createState() => _MySmartAppState();
 }
 
 class _MySmartAppState extends State<MySmartApp> {
-  List<List<int>> allCharacteristicValues =
-      []; //lista que almacena los valores de caracter¨ªsticas (characteristics) de Bluetooth
+  List<List<int>> allCharacteristicValues = [];
+  //lista que almacena los valores de caracterï¿½ï¿½sticas (characteristics) de Bluetooth
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      //Se encarga de la notificaci¨®n de los cambios de provider
-      create: (BuildContext context) => Sensor(id: '', value: ''),
-      // Crea una instancia del Provider para el modelo 'Sensor'
-      //donde id es el uuid y value el valor que lee del uuid
+    /// MultiProvider permite incializar multiples providers en cascada en una lista.
+    /// El 2do provider puede llamar al primero y el 3ro a los primeros 2 y asi sucesivamente
+    ///
+    /// Si el widget abajo de Multiprovider no requiere llamar a ninguno de los providers puede usarse child
+    /// en caso contrario se recomienda build
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<Sensor>(
+          /// lazy se usa para incializar un provider antes de tiempo:
+          /// true: se incializa desde que se inserta en el Widget Tree
+          /// false: se inicializa hasta que se utiliza por 1ra vez
+          /// null: mismo que false
+          lazy: null,
+          //Se encarga de la notificaciï¿½ï¿½n de los cambios de provider
+          create: (BuildContext context) => Sensor(),
+        ),
+
+        /// Puedes iniciar el stream dentro de un provider y usarlo en toda la app.
+        /// Lo ideal serÃ­a usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
+        /// escribieramos
+        StreamProvider<flutter_blue.BluetoothState>.value(
+          value: flutter_blue.FlutterBluePlus.instance.state,
+          initialData: flutter_blue.BluetoothState.unknown,
+        ),
+      ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
         // Quita el banner de debug en la parte superior derecha de la pantalla
-        home: StreamBuilder<FlutterBlue.BluetoothState>(
-          //El StreamBuilder escucha el estado de Bluetooth y devuelve la pantalla correspondiente en funci¨®n del estado.
-          stream: FlutterBlue.FlutterBluePlus.instance.state,
-          // El stream a seguir es el estado de Bluetooth proporcionado por el paquete 'flutter_blue_plus'
-          initialData: FlutterBlue.BluetoothState.unknown,
-          // Establece el estado inicial como desconocido
-          builder: (c, snapshot) {
-            final state = snapshot.data;
-            if (state == FlutterBlue.BluetoothState.on) {
-              return DataPage(
-                  data: allCharacteristicValues); // Pasa los datos aqu¨ª
+        debugShowCheckedModeBanner: false,
+
+        home: Builder(
+          builder: (context) {
+            final blState = context.watch<flutter_blue.BluetoothState>();
+            if (blState == flutter_blue.BluetoothState.on) {
+              // Pasa los datos aquï¿½ï¿½
+              return const DataPage();
             }
-            return BluetoothOffScreen(state: state);
-            // Si el estado de Bluetooth no est¨¢ encendido, muestra la pantalla BluetoothOffScreen con el estado actual
+            return BluetoothOffScreen(state: blState);
+            // Si el estado de Bluetooth no estï¿½ï¿½ encendido, muestra la pantalla BluetoothOffScreen con el estado actual
           },
         ),
       ),
+      builder: (context, child) {
+        /// select es un caso especial que solo observa un estado dentro del objeto (Sensor)
+        /// y solo actualiza el widget cuando ese valor cambia, sin importar si notifylistener() cambio otros datos de nuestro objeto
+        /// ver [Selector]
+        final stream = context.select<Sensor, Stream<List<BLE>>>(
+          (s) => s.stream,
+        );
+        return StreamProvider<List<BLE>>.value(
+          value: stream,
+          initialData: const [],
+          child: child,
+        );
+      },
     );
   }
 }
 
 /*/
-DataPage es la mainscreen de la aplicaci¨®n, 
-muestra diferentes pantallas seg¨²n el indice seleccionado con ButtonsNavigationBar
+DataPage es la mainscreen de la aplicaciï¿½ï¿½n, 
+muestra diferentes pantallas segï¿½ï¿½n el indice seleccionado con ButtonsNavigationBar
 */
 
 class DataPage extends StatefulWidget {
-  final List<List<int>> data;
-
-  const DataPage({Key? key, required this.data}) : super(key: key);
+  const DataPage({Key? key}) : super(key: key);
 
   @override
   State<DataPage> createState() => _DataPageState();
@@ -79,14 +107,14 @@ class _DataPageState extends State<DataPage> {
     const Home(), //Screen donde se muestra las temperaturas del pie
     const History(), //Historial de cambios de temperatura
     const Perfil(), //Perfil de la persona
-    const Settings(), //Configuraci¨®n
+    const Settings(), //Configuraciï¿½ï¿½n
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _widgetOptions[currentIndex],
-      //Botones de Navegaci¨®n
+      //Botones de Navegaciï¿½ï¿½n
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           setState(() {
