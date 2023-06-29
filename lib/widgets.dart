@@ -131,15 +131,17 @@ class ServiceTile extends StatelessWidget {
       } else {
         return Column(
           children: <Widget>[
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-            ),
-            ElevatedButton(
+              children: [
+                ElevatedButton(
               onPressed: () {
                 context.read<Sensor>().initService(service);
               },
               child: const Text('Conectar'),
+            ),
+              ],
             ),
           ],
         );
@@ -215,14 +217,6 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
             );
           },
         ),
-        ElevatedButton(
-          //Boton que ejecuta la fuci��n performActios
-          onPressed: () {
-            performActions();
-          },
-
-          child: const Text('Inicio'),
-        )
       ]),
     );
   }
