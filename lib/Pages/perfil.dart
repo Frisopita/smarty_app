@@ -52,7 +52,7 @@ class PersonalInfo extends StatefulWidget {
 class _PersonalInfoState extends State<PersonalInfo> {
   @override
   Widget build(BuildContext context) {
-    return  const SingleChildScrollView(
+    return  SingleChildScrollView(
       child: Column(
         children: [
            Padding(
@@ -126,7 +126,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               padding: EdgeInsets.all(5),
               child: Text('Celular M\u00E9dico'),
             ),
-            /*
+            
           Padding(
               padding: EdgeInsets.all(5),
               child: ElevatedButton(
@@ -138,8 +138,43 @@ class _PersonalInfoState extends State<PersonalInfo> {
             child: const Text('Hola'),
           ),
             ),
-           */ 
+           
         ],
+      ),
+    );
+  }
+}
+
+class SecondScreen extends StatelessWidget {
+  final List<String?> texts;
+
+  const SecondScreen({Key? key, required this.texts}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Second Screen'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Text received from previous screen:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Text 1: ${texts[0] ?? ''}',
+              style: TextStyle(fontSize: 16),
+            ),
+            Text(
+              'Text 2: ${texts[1] ?? ''}',
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
       ),
     );
   }
