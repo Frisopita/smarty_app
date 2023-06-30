@@ -58,6 +58,10 @@ class _MySmartAppState extends State<MySmartApp> {
       child: MaterialApp(
         // Quita el banner de debug en la parte superior derecha de la pantalla
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Crimson_Text',
+          
+          ),
 
         home: Builder(
           builder: (context) {
