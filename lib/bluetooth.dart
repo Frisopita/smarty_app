@@ -83,7 +83,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () => FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 4)),
+        onRefresh: () => FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 3)),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[

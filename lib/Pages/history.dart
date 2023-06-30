@@ -18,19 +18,6 @@ class _HistoryState extends State<History> {
               width:
                   130), //const Text('Kabsim App', style: TextStyle(color: Colors.black),),
           backgroundColor: Colors.white,
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.settings,
-                color: Colors.black,
-              ),
-              tooltip: 'Settings',
-              onPressed: () {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(content: Text('Settings')));
-              },
-            ),
-          ],
         ),
     );
   }
