@@ -20,20 +20,20 @@ class _SettingsState extends State<Settings> {
         backgroundColor: Colors.white,
       ),
       body: const Center(
-        child: PersonalInfo(),
+        child: EditPersonalInfo(),
       ),
     );
   }
 }
 
-class PersonalInfo extends StatefulWidget {
-  const PersonalInfo({super.key});
+class EditPersonalInfo extends StatefulWidget {
+  const EditPersonalInfo({super.key});
 
   @override
-  State<PersonalInfo> createState() => _PersonalInfoState();
+  State<EditPersonalInfo> createState() => _EditPersonalInfoState();
 }
 
-class _PersonalInfoState extends State<PersonalInfo> {
+class _EditPersonalInfoState extends State<EditPersonalInfo> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
