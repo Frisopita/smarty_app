@@ -60,8 +60,7 @@ class _MySmartAppState extends State<MySmartApp> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: 'Crimson_Text',
-          
-          ),
+        ),
 
         home: Builder(
           builder: (context) {
@@ -120,6 +119,7 @@ class _DataPageState extends State<DataPage> {
       body: _widgetOptions[currentIndex],
       //Botones de Navegaci��n
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
         onTap: (index) {
           setState(() {
             currentIndex = index;
@@ -146,11 +146,13 @@ class _DataPageState extends State<DataPage> {
                 color: currentIndex == 2 ? Colors.blueGrey : Colors.black),
           ),
           // Settings Button
+          /*
           BottomNavigationBarItem(
             label: ("Configuraci\u00F3n"),
             icon: Icon(Icons.settings,
                 color: currentIndex == 3 ? Colors.blueGrey : Colors.black),
           ),
+          */
         ],
         selectedItemColor: Colors.blueGrey,
       ),

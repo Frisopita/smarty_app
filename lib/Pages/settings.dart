@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -12,6 +14,9 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const BackButton(
+          color: Colors.black,
+        ),
         title: Image.asset('Images/logopage.png',
             fit: BoxFit.cover,
             height: 100,
@@ -45,7 +50,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
             const Padding(
               padding: EdgeInsets.all(10),
               child: Text(
-                'Informaci\u00F3n del usuario',
+                'Editar informaci\u00F3n del personal',
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -138,7 +143,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       },
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'N\u00F9mero de Tel\u00E9fono personal',
+                        labelText: 'N\u00F9mero de Tel\u00E9fono',
                       ),
                     ),
                   ),

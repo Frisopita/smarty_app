@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'example.dart';
+import 'settings.dart';
 
 class Perfil extends StatefulWidget {
   const Perfil({super.key});
@@ -18,6 +21,19 @@ class _PerfilState extends State<Perfil> {
               width:
                   130), //const Text('Kabsim App', style: TextStyle(color: Colors.black),),
           backgroundColor: Colors.white,
+          actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.settings,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => const Settings(),
+              ));
+            },
+          ),
+        ],
         ),
         body: const Center(
           child: PersonalInfo(),
@@ -36,7 +52,7 @@ class PersonalInfo extends StatefulWidget {
 class _PersonalInfoState extends State<PersonalInfo> {
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    return  const SingleChildScrollView(
       child: Column(
         children: [
            Padding(
@@ -110,6 +126,19 @@ class _PersonalInfoState extends State<PersonalInfo> {
               padding: EdgeInsets.all(5),
               child: Text('Celular M\u00E9dico'),
             ),
+            /*
+          Padding(
+              padding: EdgeInsets.all(5),
+              child: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => const SharedPreferencesDemo(),
+              ));
+            },
+            child: const Text('Hola'),
+          ),
+            ),
+           */ 
         ],
       ),
     );
