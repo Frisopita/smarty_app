@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:smarty_app/Pages/perfil.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -32,7 +32,7 @@ class _SettingsState extends State<Settings> {
 }
 
 class EditPersonalInfo extends StatefulWidget {
-  const EditPersonalInfo({super.key});
+  const EditPersonalInfo({Key? key}) : super(key: key);
 
   @override
   State<EditPersonalInfo> createState() => _EditPersonalInfoState();
@@ -40,6 +40,21 @@ class EditPersonalInfo extends StatefulWidget {
 
 class _EditPersonalInfoState extends State<EditPersonalInfo> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _textEditingController1 = TextEditingController();
+  final TextEditingController _textEditingController2 = TextEditingController();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<List<String?>> _texts;
+
+  @override
+  void initState() {
+    super.initState();
+    _texts = _prefs.then((SharedPreferences prefs) {
+      final List<String?> storedTexts =
+          prefs.getStringList('texts') ?? ['', ''];
+      return storedTexts;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -75,6 +90,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      controller: _textEditingController1,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Ingrese informaci\u00F3n';
@@ -105,6 +121,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      controller: _textEditingController2,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Ingrese informaci\u00F3n';
@@ -370,7 +387,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
             ),
             Row(
               children: [
-               const Padding(
+                const Padding(
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.medical_information,
@@ -402,8 +419,28 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
               padding: const EdgeInsets.all(5),
               child: ElevatedButton(
                 onPressed: () {
+                  Future<void> _saveTexts() async {
+                    final SharedPreferences prefs = await _prefs;
+                    final String text1 = _textEditingController1.text;
+                    final String text2 = _textEditingController2.text;
+
+                    setState(() {
+                      _texts = prefs.setStringList(
+                          'texts', [text1, text2]).then((bool success) {
+                        return [text1, text2];
+                      });
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Perfil(texts: [text1, text2]),
+                      ),
+                    );
+                  }
+
                   // Validate returns true if the form is valid, or false otherwise.
                   if (_formKey.currentState!.validate()) {
+                    _saveTexts();
                     // If the form is valid, display a snackbar.
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -418,6 +455,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 },
                 child: const Text('Guardar'),
               ),
+              
             ),
           ],
         ),

@@ -12,6 +12,7 @@ import 'Pages/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:smarty_app/Providers/sensor.dart';
 
+
 void main() {
   runApp(const MySmartApp());
   // Inicializaci��n del widget raiz de la aplicaci��n
@@ -109,7 +110,7 @@ class _DataPageState extends State<DataPage> {
   final List<Widget> _widgetOptions = <Widget>[
     const Home(), //Screen donde se muestra las temperaturas del pie
     const History(), //Historial de cambios de temperatura
-    const Perfil(), //Perfil de la persona
+    Perfil(texts: []), //Perfil de la persona
     const Settings(), //Configuraci��n
   ];
 
