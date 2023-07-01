@@ -16,31 +16,30 @@ class _PerfilState extends State<Perfil> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Image.asset('Images/logopage.png',
-              fit: BoxFit.cover,
-              height: 100,
-              width:
-                  130), //const Text('Kabsim App', style: TextStyle(color: Colors.black),),
-          backgroundColor: Colors.white,
-          actions: <Widget>[
+        title: Image.asset('Images/logopage.png',
+            fit: BoxFit.cover,
+            height: 100,
+            width:
+                130), //const Text('Kabsim App', style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
+        actions: <Widget>[
           IconButton(
             icon: const Icon(
               Icons.settings,
               color: Colors.black,
             ),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const Settings(),
-                ));
-              },
-            ),
-          
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => const Settings(),
+              ));
+            },
+          ),
         ],
-        ),
-        body: SingleChildScrollView(
-      child: Center(
-        child: Column(
-          children: [
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
               const Padding(
                 padding: EdgeInsets.all(10),
                 child: Text(
@@ -50,31 +49,29 @@ class _PerfilState extends State<Perfil> {
                   ),
                 ),
               ),
-               Padding(
+              Padding(
                 padding: const EdgeInsets.all(5),
-                child: 
-                Text(
-              'Nombre del usuario 1: ${widget.texts[0] ?? ''}',
-            ),
-                
+                child: Text(
+                  'Nombre del usuario 1: ${widget.texts[0] ?? ''}',
+                ),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(5),
                 child: Text('Edad ${widget.texts[1] ?? ''} '),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(5),
                 child: Text('N\u00F9mero de Tel\u00E9fono'),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(5),
                 child: Text('Correo electr\u00F3nico'),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(5),
                 child: Text('Direcci\u00F3n'),
               ),
-             Padding(
+              Padding(
                 padding: EdgeInsets.all(10),
                 child: Text(
                   'Contactos de emergencia',
@@ -83,23 +80,23 @@ class _PerfilState extends State<Perfil> {
                   ),
                 ),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(5),
                 child: Text('Contacto 1'),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(5),
                 child: Text('Celular Contacto 1'),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(5),
                 child: Text('Contacto 2'),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(5),
                 child: Text('Celular Contacto 2'),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(10),
                 child: Text(
                   'Informaci\u00F3n M\u00E9dica',
@@ -108,21 +105,18 @@ class _PerfilState extends State<Perfil> {
                   ),
                 ),
               ),
-             Padding(
+              Padding(
                 padding: EdgeInsets.all(5),
                 child: Text('Nombre M\u00E9dico'),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsets.all(5),
                 child: Text('Celular M\u00E9dico'),
               ),
-              
-         
-             
-          ],
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }

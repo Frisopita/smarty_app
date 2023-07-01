@@ -455,7 +455,6 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 },
                 child: const Text('Guardar'),
               ),
-              
             ),
           ],
         ),
