@@ -7,6 +7,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:smarty_app/Pages/home.dart';
 import 'package:smarty_app/Providers/sensor.dart';
 
 final Map<String, String> characteristicNames = {
@@ -137,7 +138,11 @@ class ServiceTile extends StatelessWidget {
               children: [
                 ElevatedButton(
               onPressed: () {
+                 
+                    
                 context.read<Sensor>().initService(service);
+                Navigator.popUntil(context, (route) => route.isFirst);                
+
               },
               child: const Text('Conectar'),
             ),

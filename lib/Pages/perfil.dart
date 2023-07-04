@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'example.dart';
 import 'settings.dart';
 
 class Perfil extends StatefulWidget {
@@ -19,8 +17,7 @@ class _PerfilState extends State<Perfil> {
         title: Image.asset('Images/logopage.png',
             fit: BoxFit.cover,
             height: 100,
-            width:
-                130), //const Text('Kabsim App', style: TextStyle(color: Colors.black),),
+            width:130),
         backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
@@ -56,7 +53,7 @@ class _PerfilState extends State<Perfil> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 child: Text('Edad ${widget.texts[1] ?? ''} '),
               ),
               Padding(

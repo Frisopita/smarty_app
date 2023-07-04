@@ -38,19 +38,56 @@ class Sensor extends ChangeNotifier {
   set id(String id) {}
   void setValue(Uint8List readValues) {}
 
-  void initService(BluetoothService service) async {
-    if (service.uuid == _service?.uuid) return;
+  Future <void> initService(BluetoothService service) async {
+    //if (service.uuid == _service?.uuid) return;
+    
     _service = service;
-    Iterable<Stream<BLE>> streams = service.characteristics
-        .where((c) => _allowedUUIDs.containsKey(c.uuid.toString()))
+    List<BluetoothCharacteristic> listBle = service.characteristics
+        .where((c) => _allowedUUIDs.containsKey(c.uuid.toString())).toList();
+    //await Future.forEach(listBle, (element) => element.setNotifyValue(true).timeout(Duration(seconds: 5)));
+    await service.characteristics[0].setNotifyValue(true).timeout(Duration(seconds: 10));
+    await service.characteristics[1].setNotifyValue(true).timeout(Duration(seconds: 10));
+    await service.characteristics[2].setNotifyValue(true).timeout(Duration(seconds: 10));
+    await service.characteristics[3].setNotifyValue(true).timeout(Duration(seconds: 10));
+    await service.characteristics[4].setNotifyValue(true).timeout(Duration(seconds: 10));
+    await service.characteristics[5].setNotifyValue(true).timeout(Duration(seconds: 10));
+    await service.characteristics[6].setNotifyValue(true).timeout(Duration(seconds: 10));
+    await service.characteristics[7].setNotifyValue(true).timeout(Duration(seconds: 10));
+    await service.characteristics[8].setNotifyValue(true).timeout(Duration(seconds: 10));
+    await service.characteristics[9].setNotifyValue(true).timeout(Duration(seconds: 10));
+    await service.characteristics[10].setNotifyValue(true).timeout(Duration(seconds: 10));
+    await service.characteristics[11].setNotifyValue(true).timeout(Duration(seconds: 10));
+
+    listBle.removeLast();
+    Iterable<Stream<BLE>> streams = listBle
         .map(
           (c) => c.value.map((event) {
+            //print (event);
             String value = String.fromCharCodes(event);
             String uuid = c.uuid.toString();
             return BLE(_allowedUUIDs[uuid]!, value);
           }),
         );
     _stream = StreamZip(streams);
+    
+    /* 
+    await service.characteristics[0].setNotifyValue(true);
+    
+    _stream = service.characteristics[0].value.map((event) {
+      print (event);
+            String value = String.fromCharCodes(event);
+            String uuid = service.characteristics[0].uuid.toString();
+            return [BLE(_allowedUUIDs[uuid]!, value)];
+    }).asBroadcastStream(); */
+    
     notifyListeners();
+
   }
+
+  String get debug {
+    return '''
+
+    ''';
+  }
+  
 }

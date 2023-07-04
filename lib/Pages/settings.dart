@@ -43,13 +43,13 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
   final TextEditingController _textEditingController1 = TextEditingController();
   final TextEditingController _textEditingController2 = TextEditingController();
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  late Future<List<String?>> _texts;
+  late Future<List<String?>> texts;
 
   @override
   void initState() {
     super.initState();
-    _texts = _prefs.then((SharedPreferences prefs) {
-      final List<String?> storedTexts =
+    texts = _prefs.then((SharedPreferences prefs) {
+      final List<String?> storedTexts = 
           prefs.getStringList('texts') ?? ['', ''];
       return storedTexts;
     });
@@ -425,12 +425,12 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                     final String text2 = _textEditingController2.text;
 
                     setState(() {
-                      _texts = prefs.setStringList(
+                      texts = prefs.setStringList(
                           'texts', [text1, text2]).then((bool success) {
                         return [text1, text2];
                       });
                     });
-                    Navigator.push(
+                    Navigator.pop(
                       context,
                       MaterialPageRoute(
                         builder: (context) => Perfil(texts: [text1, text2]),

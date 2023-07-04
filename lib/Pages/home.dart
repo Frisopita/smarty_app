@@ -150,6 +150,7 @@ class _LabelsTemState extends State<LabelsTem> {
               Color? circleColor12;
               /// Lo más probable es que se llame showNotification muchas veces 
               /// (1 por sensor) lo cual puede no ser ideal
+              print ('print $sensors');
               loopCallback(BLE sensor) {
                 String value = sensor.data;
                 switch (sensor.id) {
@@ -158,7 +159,7 @@ class _LabelsTemState extends State<LabelsTem> {
                       s1 = value;
                       double value1 = double.tryParse(value) ?? 0.0;
                       circleColor1 = _getColor(value1);
-                      if (value1 > 100.0 || value1 < 0.0) {
+                      if (value1 > 150.0 || value1 < 0.0) {
                         showNotification();
                       }
                     }
@@ -169,7 +170,7 @@ class _LabelsTemState extends State<LabelsTem> {
                       s2 = value;
                       double value2 = double.tryParse(value) ?? 0.0;
                       circleColor2 = _getColor(value2);
-                      if (value2 > 100.0 || value2 < 0.0) {
+                      if (value2 > 150.0 || value2 < 0.0) {
                         showNotification();
                       }
                     }

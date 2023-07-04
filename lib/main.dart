@@ -68,7 +68,7 @@ class _MySmartAppState extends State<MySmartApp> {
             final blState = context.watch<flutter_blue.BluetoothState>();
             if (blState == flutter_blue.BluetoothState.on) {
               // Pasa los datos aqu��
-              return const DataPage();
+              return DataPage(texts: [],);
             }
             return BluetoothOffScreen(state: blState);
             // Si el estado de Bluetooth no est�� encendido, muestra la pantalla BluetoothOffScreen con el estado actual
@@ -84,6 +84,11 @@ class _MySmartAppState extends State<MySmartApp> {
         );
         return StreamProvider<List<BLE>>.value(
           value: stream,
+          catchError: (context, error) {
+            print('error');
+            print(error);
+            return [];
+          },
           initialData: const [],
           child: child,
         );
@@ -98,24 +103,26 @@ muestra diferentes pantallas seg��n el indice seleccionado con ButtonsNaviga
 */
 
 class DataPage extends StatefulWidget {
-  const DataPage({Key? key}) : super(key: key);
-
+  final List<String> texts; // Definir una variable para almacenar 'texts' 
+  DataPage({Key? key, required this.texts}) : super(key: key);
   @override
+  
   State<DataPage> createState() => _DataPageState();
 }
 
 class _DataPageState extends State<DataPage> {
   int currentIndex = 0;
+  // Constructor que recibe 'texts'
 
-  final List<Widget> _widgetOptions = <Widget>[
-    const Home(), //Screen donde se muestra las temperaturas del pie
-    const History(), //Historial de cambios de temperatura
-    Perfil(texts: []), //Perfil de la persona
-    const Settings(), //Configuraci��n
-  ];
+  
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _widgetOptions = <Widget>[
+    const Home(), //Screen donde se muestra las temperaturas del pie
+    const History(), //Historial de cambios de temperatura
+    Perfil(texts: []), //Perfil de la persona
+  ];
     return Scaffold(
       body: _widgetOptions[currentIndex],
       //Botones de Navegaci��n
@@ -146,14 +153,6 @@ class _DataPageState extends State<DataPage> {
             icon: Icon(Icons.person,
                 color: currentIndex == 2 ? Colors.blueGrey : Colors.black),
           ),
-          // Settings Button
-          /*
-          BottomNavigationBarItem(
-            label: ("Configuraci\u00F3n"),
-            icon: Icon(Icons.settings,
-                color: currentIndex == 3 ? Colors.blueGrey : Colors.black),
-          ),
-          */
         ],
         selectedItemColor: Colors.blueGrey,
       ),
