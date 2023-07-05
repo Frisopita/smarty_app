@@ -85,8 +85,7 @@ class _MySmartAppState extends State<MySmartApp> {
         return StreamProvider<List<BLE>>.value(
           value: stream,
           catchError: (context, error) {
-            print('error');
-            print(error);
+
             return [];
           },
           initialData: const [],
@@ -121,7 +120,7 @@ class _DataPageState extends State<DataPage> {
     final List<Widget> _widgetOptions = <Widget>[
     const Home(), //Screen donde se muestra las temperaturas del pie
     const History(), //Historial de cambios de temperatura
-    Perfil(texts: []), //Perfil de la persona
+    widget.texts.isNotEmpty ? Perfil(texts: widget.texts) : const SizedBox(), //Perfil de la persona
   ];
     return Scaffold(
       body: _widgetOptions[currentIndex],

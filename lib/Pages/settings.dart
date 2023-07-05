@@ -18,10 +18,7 @@ class _SettingsState extends State<Settings> {
           color: Colors.black,
         ),
         title: Image.asset('Images/logopage.png',
-            fit: BoxFit.cover,
-            height: 100,
-            width:
-                130), //const Text('Kabsim App', style: TextStyle(color: Colors.black),),
+            fit: BoxFit.cover, height: 100, width: 130),
         backgroundColor: Colors.white,
       ),
       body: const Center(
@@ -49,7 +46,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
   void initState() {
     super.initState();
     texts = _prefs.then((SharedPreferences prefs) {
-      final List<String?> storedTexts = 
+      final List<String?> storedTexts =
           prefs.getStringList('texts') ?? ['', ''];
       return storedTexts;
     });
@@ -425,8 +422,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                     final String text2 = _textEditingController2.text;
 
                     setState(() {
-                      texts = prefs.setStringList(
-                          'texts', [text1, text2]).then((bool success) {
+                      texts = prefs.setStringList('texts', [text1, text2]).then(
+                          (bool success) {
                         return [text1, text2];
                       });
                     });
