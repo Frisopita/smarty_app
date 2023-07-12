@@ -1,7 +1,6 @@
 /*
 Main del proyecto de SmartyApp
 */
-
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as flutter_blue;
 import 'package:smarty_app/bluetooth.dart';
@@ -70,7 +69,7 @@ class _MySmartAppState extends State<MySmartApp> {
               // Pasa los datos aqu��
               return DataPage(texts: [],);
             }
-            return BluetoothOffScreen(state: blState);
+            return const FindDevicesScreen();
             // Si el estado de Bluetooth no est�� encendido, muestra la pantalla BluetoothOffScreen con el estado actual
           },
         ),

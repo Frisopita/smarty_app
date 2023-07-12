@@ -22,77 +22,32 @@ class ScanResultTile extends StatelessWidget {
   final ScanResult result; //Resultado de Scanear bluetooth
   final VoidCallback? onTap; //Es una callback cuando se toca un elemento
 
-  Widget _buildTitle(BuildContext context) {
-    // _buildTitle devuelve un wisget que representa el t��tulo del elemento ScanResultTile
-    //en funci��n del resultado del escaneo. Si el nombre del dispositivo no est�� vac��o,
-    //se muestra el nombre y el ID del dispositivo en dos Text widgets en una columna.
-    //De lo contrario, solo se muestra el ID del dispositivo.
-    if (result.device.name.isNotEmpty) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            result.device.name,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      );
-    } else {
-      return Text(result.device.id.toString());
-    }
-  }
-
-  Widget _buildAdvRow(BuildContext context, String title, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        // Alinea los elementos de la fila en la parte superior
-        children: <Widget>[
-          Text(title, style: Theme.of(context).textTheme.bodySmall),
-          const SizedBox(
-            width: 12.0,
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.apply(color: Colors.black),
-              softWrap: true,
-              // Permite que el texto se envuelva en multiples lineas si es necesario
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     if (result.advertisementData.connectable) {
-      return ExpansionTile(
-        title: _buildTitle(context),
-        trailing: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.black,
+      if (result.device.name.isNotEmpty) {
+        return ListTile(
+          title: Text(
+            result.device.name,
+            overflow: TextOverflow.ellipsis,
           ),
-          onPressed: (result.advertisementData.connectable) ? onTap : null,
-          child: const Text('CONNECT'),
-          //El trailing es un ElevatedButton que muestra un boton "CONNECT".
-          //Su estado habilitado (onPressed) depende de si el dispositivo es conectable (result.advertisementData.connectable).
-          //Si es conectable, se asigna la funcion onTap al boton; de lo contrario, se asigna null
-        ),
-        children: <Widget>[
-          _buildAdvRow(context, 'Nombre completo del dispositivo',
-              result.advertisementData.localName),
-        ],
-      );
+          trailing: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.black,
+            ),
+            onPressed: (result.advertisementData.connectable) ? onTap : null,
+            child: const Text('CONNECT'),
+            //El trailing es un ElevatedButton que muestra un bot��n "CONNECT".
+            //Su estado habilitado (onPressed) depende de si el dispositivo es conectable (result.advertisementData.connectable).
+            //Si es conectable, se asigna la funci��n onTap al bot��n; de lo contrario, se asigna null
+          ),
+        );
+      } else {
+        return Container();
+      }
     } else {
-      return Container(); // Puedes devolver un widget vacio o cualquier otro widget que desees mostrar en lugar del ExpansionTile
+      return Container(); // Puedes devolver un widget vac��o o cualquier otro widget que desees mostrar en lugar del ExpansionTile
     }
   }
 }
