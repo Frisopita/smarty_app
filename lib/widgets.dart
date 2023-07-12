@@ -204,25 +204,6 @@ class _CharacteristicTileState extends State<CharacteristicTile> {
 
 // Llamar a la funci��n en el c��digo principal
 
-    return SingleChildScrollView(
-      //Permitir el desplazamiento si es necesario
-      child: Column(children: <Widget>[
-        StreamBuilder<List<int>>(
-          stream: widget
-              .characteristic.value, //Stream que escucha el flujo de datos
-          initialData: widget.characteristic
-              .lastValue, //representa los datos iniciales del flujo
-          builder: (c, snapshot) {
-            return const ListTile(
-              //Lista con una columna vacia centrada
-              title: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-              ),
-            );
-          },
-        ),
-      ]),
-    );
+    return Container();
   }
 }

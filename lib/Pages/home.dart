@@ -267,7 +267,7 @@ class _LabelsTemState extends State<LabelsTem> {
                     break;
                   case 'S12':
                     {
-                      s12 = value;
+                      s12 = value.replaceFirst(RegExp('0\$'), '');
                       double value12 = double.tryParse(value) ?? 0.0;
                       circleColor12 = _getColor(value12);
                       if (value12 > 100.0 || value12 < 0.0) {
