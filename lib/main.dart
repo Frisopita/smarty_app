@@ -11,6 +11,8 @@ import 'Pages/perfil.dart';
 import 'Pages/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:smarty_app/Providers/sensor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'Providers/profile.dart';
 
 //prueba para ver si rama funciona correctamente
 
@@ -28,6 +30,19 @@ class MySmartApp extends StatefulWidget {
 }
 
 class _MySmartAppState extends State<MySmartApp> {
+
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<List<String?>> texts;
+
+  @override
+  void initState() {
+    super.initState();
+    texts = _prefs.then((SharedPreferences prefs) {
+      final List<String?> storedTexts = prefs.getStringList('texts') ?? ['', ''];
+      return storedTexts;
+    });
+  }
+
   List<List<int>> allCharacteristicValues = [];
   //lista que almacena los valores de caracter��sticas (characteristics) de Bluetooth
 
@@ -49,7 +64,9 @@ class _MySmartAppState extends State<MySmartApp> {
           //Se encarga de la notificaci��n de los cambios de provider
           create: (BuildContext context) => Sensor(),
         ),
-
+        ChangeNotifierProvider(
+          create: (context) => ProfileData(),
+        ),
         /// Puedes iniciar el stream dentro de un provider y usarlo en toda la app.
         /// Lo ideal sería usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
         /// escribieramos
@@ -70,9 +87,9 @@ class _MySmartAppState extends State<MySmartApp> {
             final blState = context.watch<flutter_blue.BluetoothState>();
             if (blState == flutter_blue.BluetoothState.on) {
               // Pasa los datos aqu��
-              return DataPage(texts: [],);
+              return DataPage(texts: texts);
             }
-            return DataPage(texts: [],);
+            return DataPage(texts: texts);
             // Si el estado de Bluetooth no est�� encendido, muestra la pantalla BluetoothOffScreen con el estado actual
           },
         ),
@@ -104,7 +121,7 @@ muestra diferentes pantallas seg��n el indice seleccionado con ButtonsNaviga
 */
 
 class DataPage extends StatefulWidget {
-  final List<String> texts; // Definir una variable para almacenar 'texts' 
+  final Future<List<String?>> texts;
   DataPage({Key? key, required this.texts}) : super(key: key);
   @override
   
@@ -122,7 +139,19 @@ class _DataPageState extends State<DataPage> {
     final List<Widget> _widgetOptions = <Widget>[
     const Home(), //Screen donde se muestra las temperaturas del pie
     const History(), //Historial de cambios de temperatura
-    widget.texts.isNotEmpty ? Perfil(texts: widget.texts) : const SizedBox(), //Perfil de la persona
+    FutureBuilder<List<String?>>(
+        future: widget.texts,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            final dataList = snapshot.data ?? ['', ''];
+            return Perfil(texts: dataList);
+          }
+        },
+      ),
   ];
     return Scaffold(
       appBar: AppBar(

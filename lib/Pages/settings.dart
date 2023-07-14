@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarty_app/Pages/perfil.dart';
+import 'package:provider/provider.dart';
+import 'package:smarty_app/Providers/profile.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -46,10 +48,19 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
   void initState() {
     super.initState();
     texts = _prefs.then((SharedPreferences prefs) {
-      final List<String?> storedTexts =
-          prefs.getStringList('texts') ?? ['', ''];
+      final List<String?> storedTexts = prefs.getStringList('texts') ?? ['', ''];
       return storedTexts;
     });
+  }
+
+  Future<void> _saveData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataList = [_textEditingController1.text, _textEditingController2.text];
+    await prefs.setStringList('texts', dataList);
+     Navigator.pop(context, dataList); // Envia los datos actualizados a la pantalla de perfil  
+     final profileData = Provider.of<ProfileData>(context, listen: false);
+      profileData.updateTexts(dataList); // Actualiza los datos en el perfil
+  //  Navigator.pop(context); // Cierra la pantalla de configuraci¨®n  
   }
 
   @override
@@ -415,33 +426,15 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
             Padding(
               padding: const EdgeInsets.all(5),
               child: ElevatedButton(
-                onPressed: () {
-                  Future<void> _saveTexts() async {
-                    final SharedPreferences prefs = await _prefs;
-                    final String text1 = _textEditingController1.text;
-                    final String text2 = _textEditingController2.text;
-
-                    setState(() {
-                      texts = prefs.setStringList('texts', [text1, text2]).then(
-                          (bool success) {
-                        return [text1, text2];
-                      });
-                    });
-                    Navigator.pop(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Perfil(texts: [text1, text2]),
-                      ),
-                    );
-                  }
-
+                onPressed: () async {
                   // Validate returns true if the form is valid, or false otherwise.
                   if (_formKey.currentState!.validate()) {
-                    _saveTexts();
+                    await _saveData();
                     // If the form is valid, display a snackbar.
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                          content: Text('Enviando Informaci\u00F3n')),
+                          content: Text('Enviando Informaci\u00F3n'),
+                          ),
                     );
                   } else {
                     // Formulario inv¨¢lido, mostrar mensajes de error y realizar acciones adicionales
