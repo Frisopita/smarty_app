@@ -41,6 +41,15 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _textEditingController1 = TextEditingController();
   final TextEditingController _textEditingController2 = TextEditingController();
+  final TextEditingController _textEditingController3 = TextEditingController();
+  final TextEditingController _textEditingController4 = TextEditingController();
+  final TextEditingController _textEditingController5 = TextEditingController();
+  final TextEditingController _textEditingController6 = TextEditingController();
+  final TextEditingController _textEditingController7 = TextEditingController();
+  final TextEditingController _textEditingController8 = TextEditingController();
+  final TextEditingController _textEditingController9 = TextEditingController();
+  final TextEditingController _textEditingController10 = TextEditingController();
+  final TextEditingController _textEditingController11 = TextEditingController();
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<List<String?>> texts;
 
@@ -48,14 +57,38 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
   void initState() {
     super.initState();
     texts = _prefs.then((SharedPreferences prefs) {
-      final List<String?> storedTexts = prefs.getStringList('texts') ?? ['', ''];
+      final List<String?> storedTexts = prefs.getStringList('texts') ?? [
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        ];
       return storedTexts;
     });
   }
 
   Future<void> _saveData() async {
     final prefs = await SharedPreferences.getInstance();
-    final dataList = [_textEditingController1.text, _textEditingController2.text];
+    final dataList = [
+      _textEditingController1.text,
+      _textEditingController2.text,
+      _textEditingController3.text,
+      _textEditingController4.text,
+      _textEditingController5.text,
+      _textEditingController6.text,
+      _textEditingController7.text,
+      _textEditingController8.text,
+      _textEditingController9.text,
+      _textEditingController10.text,
+      _textEditingController11.text,
+      ];
     await prefs.setStringList('texts', dataList);
      Navigator.pop(context, dataList); // Envia los datos actualizados a la pantalla de perfil  
      final profileData = Provider.of<ProfileData>(context, listen: false);
@@ -160,6 +193,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      controller: _textEditingController3,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Ingrese informaci\u00F3n';
@@ -190,6 +224,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      controller: _textEditingController4,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Ingrese informaci\u00F3n';
@@ -220,6 +255,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      controller: _textEditingController5,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Ingrese informaci\u00F3n';
@@ -254,6 +290,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      controller: _textEditingController6,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Ingrese informaci\u00F3n';
@@ -284,6 +321,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      controller: _textEditingController7,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Ingrese informaci\u00F3n';
@@ -314,6 +352,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      controller: _textEditingController8,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Ingrese informaci\u00F3n';
@@ -344,6 +383,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      controller: _textEditingController9,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Ingrese informaci\u00F3n';
@@ -378,6 +418,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      controller: _textEditingController10,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Ingrese informaci\u00F3n';
@@ -408,6 +449,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   child: SizedBox(
                     width: 300,
                     child: TextFormField(
+                      controller: _textEditingController11,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Ingrese informaci\u00F3n';

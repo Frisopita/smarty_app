@@ -38,7 +38,19 @@ class _MySmartAppState extends State<MySmartApp> {
   void initState() {
     super.initState();
     texts = _prefs.then((SharedPreferences prefs) {
-      final List<String?> storedTexts = prefs.getStringList('texts') ?? ['', ''];
+      final List<String?> storedTexts = prefs.getStringList('texts') ?? [
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+      ];
       return storedTexts;
     });
   }

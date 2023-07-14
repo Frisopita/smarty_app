@@ -41,18 +41,18 @@ class _PerfilState extends State<Perfil> {
                     child: Text('Edad ${profileData.texts[1] ?? ''} '),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text('N\u00F9mero de Tel\u00E9fono'),
+                    padding: const EdgeInsets.all(5),
+                    child: Text('N\u00F9mero de Tel\u00E9fono: ${profileData.texts[2] ?? ''}'),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text('Correo electr\u00F3nico'),
+                    padding: const EdgeInsets.all(5),
+                    child: Text('Correo electr\u00F3nico: ${profileData.texts[3] ?? ''}'),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text('Direcci\u00F3n'),
+                    padding: const EdgeInsets.all(5),
+                    child: Text('Direcci\u00F3n: ${profileData.texts[4] ?? ''}'),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(10),
                     child: Text(
                       'Contactos de emergencia',
@@ -62,22 +62,22 @@ class _PerfilState extends State<Perfil> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text('Contacto 1'),
+                    padding: const EdgeInsets.all(5),
+                    child: Text('Contacto 1: ${profileData.texts[5] ?? ''}'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text('Celular Contacto 1: ${profileData.texts[6] ?? ''}'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text('Contacto 2: ${profileData.texts[7] ?? ''}'),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5),
-                    child: Text('Celular Contacto 1'),
+                    child: Text('Celular Contacto 2: ${profileData.texts[8] ?? ''}'),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text('Contacto 2'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text('Celular Contacto 2'),
-                  ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(10),
                     child: Text(
                       'Informaci\u00F3n M\u00E9dica',
@@ -87,12 +87,12 @@ class _PerfilState extends State<Perfil> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text('Nombre M\u00E9dico'),
+                    padding: const EdgeInsets.all(5),
+                    child: Text('Nombre M\u00E9dico: ${profileData.texts[9] ?? ''}'),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text('Celular M\u00E9dico'),
+                    padding: const EdgeInsets.all(5),
+                    child: Text('Celular M\u00E9dico: ${profileData.texts[10] ?? ''}'),
                   ),
                   IconButton(
                     icon: const Icon(
@@ -119,7 +119,7 @@ class _PerfilState extends State<Perfil> {
                         profileData.updateTexts(updatedData);
                       }
                     },
-                    child: const Text('Editar Configuraci¨®n'),
+                    child: const Text('Editar mis datos personales'),
                   ),
                 ],
               ),
