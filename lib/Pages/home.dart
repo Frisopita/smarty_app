@@ -16,29 +16,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Image.asset('Images/logopage.png',
-            fit: BoxFit.cover, height: 100, width: 130),
-        backgroundColor: Colors.white,
-        leading: null,
-        automaticallyImplyLeading: false,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.bluetooth,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => const FindDevicesScreen(),
-              ));
-            },
-          ),
-        ],
-      ),
-      body: const Center(
+      body: Center(
         child: LabelsTem(),
       ),
     );

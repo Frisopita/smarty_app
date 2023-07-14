@@ -13,26 +13,6 @@ class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset('Images/logopage.png',
-            fit: BoxFit.cover,
-            height: 100,
-            width:130),
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.settings,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => const Settings(),
-              ));
-            },
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -110,6 +90,17 @@ class _PerfilState extends State<Perfil> {
                 padding: EdgeInsets.all(5),
                 child: Text('Celular M\u00E9dico'),
               ),
+              IconButton(
+            icon: const Icon(
+              Icons.settings,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => const Settings(),
+              ));
+            },
+          ),
             ],
           ),
         ),

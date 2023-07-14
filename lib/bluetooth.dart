@@ -4,54 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'widgets.dart';
 
-class BluetoothOffScreen extends StatelessWidget { //pantalla que se muestra cuando el Bluetooth est�� desactivado.
-  const BluetoothOffScreen({Key? key, this.state}) : super(key: key);
-
-  final BluetoothState? state;
-  //El constructor BluetoothOffScreen acepta un par��metro opcional state de tipo BluetoothState, 
-  //que representa el estado actual del Bluetooth.
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.pink.shade100,
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Icon(
-              Icons.bluetooth_disabled,
-              size: 200.0,
-              color: Colors.white54,
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-              'Bluetooth is ${state != null ? state.toString().substring(15) : 'not available'}.',
-              style: Theme.of(context)
-                  .primaryTextTheme
-                  .headlineMedium
-                  ?.copyWith(color: Colors.white),
-            ),
-            ),
-             
-            ElevatedButton( //Permite encender el Bluetooth si la plataforma es Android.
-              style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: const Color.fromARGB(255, 241, 135, 241),
-            ),
-              onPressed: Platform.isAndroid //Si la plataforma no es Android, el bot��n est�� desactivado.
-                  ? () => FlutterBluePlus.instance.turnOn()
-                  : null,
-              child: const Text('TURN ON'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class FindDevicesScreen extends StatefulWidget {
   const FindDevicesScreen({Key? key}) : super(key: key);
 

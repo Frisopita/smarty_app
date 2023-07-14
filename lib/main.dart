@@ -12,7 +12,7 @@ import 'Pages/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:smarty_app/Providers/sensor.dart';
 
-//prueba para ver si rama funciona correctamente 
+//prueba para ver si rama funciona correctamente
 
 
 void main() {
@@ -72,7 +72,7 @@ class _MySmartAppState extends State<MySmartApp> {
               // Pasa los datos aqu��
               return DataPage(texts: [],);
             }
-            return BluetoothOffScreen(state: blState);
+            return DataPage(texts: [],);
             // Si el estado de Bluetooth no est�� encendido, muestra la pantalla BluetoothOffScreen con el estado actual
           },
         ),
@@ -125,6 +125,26 @@ class _DataPageState extends State<DataPage> {
     widget.texts.isNotEmpty ? Perfil(texts: widget.texts) : const SizedBox(), //Perfil de la persona
   ];
     return Scaffold(
+      appBar: AppBar(
+        title: Image.asset('Images/logopage.png',
+            fit: BoxFit.cover, height: 100, width: 130),
+        backgroundColor: Colors.white,
+        leading: null,
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.bluetooth,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => const FindDevicesScreen(),
+              ));
+            },
+          ),
+        ],
+      ),
       body: _widgetOptions[currentIndex],
       //Botones de Navegaci��n
       bottomNavigationBar: BottomNavigationBar(
