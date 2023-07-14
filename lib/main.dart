@@ -12,6 +12,8 @@ import 'Pages/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:smarty_app/Providers/sensor.dart';
 
+//prueba para ver si rama funciona correctamente 
+
 
 void main() {
   runApp(const MySmartApp());
