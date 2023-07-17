@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarty_app/Pages/perfil.dart';
 import 'package:provider/provider.dart';
+import 'package:smarty_app/variables.dart';
 import 'package:smarty_app/Providers/profile.dart';
 
 class Settings extends StatefulWidget {
@@ -106,15 +107,15 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
             const Padding(
               padding: EdgeInsets.all(10),
               child: Text(
-                'Editar informaci\u00F3n del personal',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
+                'Editar mi informaci\u00F3n personal',
+                style: subtitleText,
               ),
             ),
             const Padding(
               padding: EdgeInsets.all(5),
-              child: Text('Datos personales'),
+              child: Text('Datos personales',
+              style: subtitleText2,
+              ),
             ),
             Row(
               children: [
@@ -273,7 +274,9 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
             ),
             const Padding(
               padding: EdgeInsets.all(5),
-              child: Text('Contactos de Emergencia'),
+              child: Text('Contactos de Emergencia',
+              style: subtitleText2,
+              ),
             ),
             Row(
               children: [
@@ -401,7 +404,9 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
             ),
             const Padding(
               padding: EdgeInsets.all(5),
-              child: Text('Informaci\u00F3n M\u00E9dica'),
+              child: Text('Informaci\u00F3n M\u00E9dica',
+              style: subtitleText2,
+              ),
             ),
             Row(
               children: [

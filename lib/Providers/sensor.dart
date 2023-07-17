@@ -59,6 +59,30 @@ class Sensor extends ChangeNotifier {
     await service.characteristics[10].setNotifyValue(true);
     await service.characteristics[11].setNotifyValue(true);
     await service.characteristics[12].setNotifyValue(true);
+    await service.characteristics[0].onValueChangedStream.listen((value) async{
+    });
+    await service.characteristics[1].onValueChangedStream.listen((value) async{
+    });
+    await service.characteristics[3].onValueChangedStream.listen((value) async{
+    });
+    await service.characteristics[4].onValueChangedStream.listen((value) async{
+    });
+    await service.characteristics[5].onValueChangedStream.listen((value) async{
+    });
+    await service.characteristics[6].onValueChangedStream.listen((value) async{
+    });
+    await service.characteristics[7].onValueChangedStream.listen((value) async{
+    });
+    await service.characteristics[8].onValueChangedStream.listen((value) async{
+    });
+    await service.characteristics[9].onValueChangedStream.listen((value) async{
+    });
+    await service.characteristics[10].onValueChangedStream.listen((value) async{
+    });
+    await service.characteristics[11].onValueChangedStream.listen((value) async{
+    });
+    await service.characteristics[12].onValueChangedStream.listen((value) async{
+    });
 
     listBle.removeLast();
     Iterable<Stream<BLE>> streams = listBle
@@ -71,16 +95,6 @@ class Sensor extends ChangeNotifier {
           }),
         );
     _stream = StreamZip(streams);
-    
-    /* 
-    await service.characteristics[0].setNotifyValue(true);
-    
-    _stream = service.characteristics[0].value.map((event) {
-      print (event);
-            String value = String.fromCharCodes(event);
-            String uuid = service.characteristics[0].uuid.toString();
-            return [BLE(_allowedUUIDs[uuid]!, value)];
-    }).asBroadcastStream(); */
     
     notifyListeners();
 

@@ -56,7 +56,7 @@ class _MySmartAppState extends State<MySmartApp> {
   }
 
   List<List<int>> allCharacteristicValues = [];
-  //lista que almacena los valores de caracter��sticas (characteristics) de Bluetooth
+  //lista que almacena los valores de caracteristicas (characteristics) de Bluetooth
 
   @override
   Widget build(BuildContext context) {
@@ -73,14 +73,14 @@ class _MySmartAppState extends State<MySmartApp> {
           /// false: se inicializa hasta que se utiliza por 1ra vez
           /// null: mismo que false
           lazy: null,
-          //Se encarga de la notificaci��n de los cambios de provider
+          //Se encarga de la notificacion de los cambios de provider
           create: (BuildContext context) => Sensor(),
         ),
         ChangeNotifierProvider(
           create: (context) => ProfileData(),
         ),
         /// Puedes iniciar el stream dentro de un provider y usarlo en toda la app.
-        /// Lo ideal sería usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
+        /// Lo ideal seria usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
         /// escribieramos
         StreamProvider<flutter_blue.BluetoothState>.value(
           value: flutter_blue.FlutterBluePlus.instance.state,
@@ -98,11 +98,11 @@ class _MySmartAppState extends State<MySmartApp> {
           builder: (context) {
             final blState = context.watch<flutter_blue.BluetoothState>();
             if (blState == flutter_blue.BluetoothState.on) {
-              // Pasa los datos aqu��
+              // Pasa los datos aqui
               return DataPage(texts: texts);
             }
             return DataPage(texts: texts);
-            // Si el estado de Bluetooth no est�� encendido, muestra la pantalla BluetoothOffScreen con el estado actual
+            // Si el estado de Bluetooth no este encendido, muestra la pantalla BluetoothOffScreen con el estado actual
           },
         ),
       ),
@@ -128,8 +128,8 @@ class _MySmartAppState extends State<MySmartApp> {
 }
 
 /*/
-DataPage es la mainscreen de la aplicaci��n, 
-muestra diferentes pantallas seg��n el indice seleccionado con ButtonsNavigationBar
+DataPage es la mainscreen de la aplicacion, 
+muestra diferentes pantallas segun el indice seleccionado con ButtonsNavigationBar
 */
 
 class DataPage extends StatefulWidget {

@@ -19,4 +19,13 @@ const  TextStyle timeLabel =  TextStyle(
   const  TextStyle labelStyle = TextStyle(
     fontSize: 16.0,
   );
+
+  const TextStyle subtitleText = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold
+  );
+  const TextStyle subtitleText2 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold
+  );
 //
