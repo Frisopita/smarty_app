@@ -80,7 +80,7 @@ class ServiceTile extends StatelessWidget {
                 context.read<Sensor>().initService(service);
                 Navigator.popUntil(context, (route) => route.isFirst);
               },
-              child: const Text('Conectar'),
+              child: const Text('Volver al Inicio'),
             ),
               ],
             ),

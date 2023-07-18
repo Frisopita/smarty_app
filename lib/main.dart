@@ -16,10 +16,9 @@ import 'Providers/profile.dart';
 
 //prueba para ver si rama funciona correctamente
 
-
 void main() {
   runApp(const MySmartApp());
-  // Inicializaci��n del widget raiz de la aplicaci��n
+  // Inicializacion del widget raiz de la aplicacion
 }
 
 class MySmartApp extends StatefulWidget {
@@ -30,7 +29,6 @@ class MySmartApp extends StatefulWidget {
 }
 
 class _MySmartAppState extends State<MySmartApp> {
-
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<List<String?>> texts;
 
@@ -38,19 +36,20 @@ class _MySmartAppState extends State<MySmartApp> {
   void initState() {
     super.initState();
     texts = _prefs.then((SharedPreferences prefs) {
-      final List<String?> storedTexts = prefs.getStringList('texts') ?? [
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-      ];
+      final List<String?> storedTexts = prefs.getStringList('texts') ??
+          [
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+          ];
       return storedTexts;
     });
   }
@@ -79,6 +78,7 @@ class _MySmartAppState extends State<MySmartApp> {
         ChangeNotifierProvider(
           create: (context) => ProfileData(),
         ),
+
         /// Puedes iniciar el stream dentro de un provider y usarlo en toda la app.
         /// Lo ideal seria usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
         /// escribieramos
@@ -116,7 +116,6 @@ class _MySmartAppState extends State<MySmartApp> {
         return StreamProvider<List<BLE>>.value(
           value: stream,
           catchError: (context, error) {
-
             return [];
           },
           initialData: const [],
@@ -136,7 +135,6 @@ class DataPage extends StatefulWidget {
   final Future<List<String?>> texts;
   DataPage({Key? key, required this.texts}) : super(key: key);
   @override
-  
   State<DataPage> createState() => _DataPageState();
 }
 
@@ -144,14 +142,12 @@ class _DataPageState extends State<DataPage> {
   int currentIndex = 0;
   // Constructor que recibe 'texts'
 
-  
-
   @override
   Widget build(BuildContext context) {
     final List<Widget> _widgetOptions = <Widget>[
-    const Home(), //Screen donde se muestra las temperaturas del pie
-    const History(), //Historial de cambios de temperatura
-    FutureBuilder<List<String?>>(
+      const Home(), //Screen donde se muestra las temperaturas del pie
+      const History(), //Historial de cambios de temperatura
+      FutureBuilder<List<String?>>(
         future: widget.texts,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -164,7 +160,7 @@ class _DataPageState extends State<DataPage> {
           }
         },
       ),
-  ];
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('Images/logopage.png',

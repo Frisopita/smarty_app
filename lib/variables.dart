@@ -28,4 +28,8 @@ const  TextStyle timeLabel =  TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold
   );
+  const TextStyle exptitleText = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold
+  );
 //

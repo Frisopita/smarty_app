@@ -128,9 +128,10 @@ class _LabelsTemState extends State<LabelsTem> {
               Color? circleColor10;
               Color? circleColor11;
               Color? circleColor12;
-              /// Lo más probable es que se llame showNotification muchas veces 
+
+              /// Lo más probable es que se llame showNotification muchas veces
               /// (1 por sensor) lo cual puede no ser ideal
-              print ('print $sensors');
+              print('print $sensors');
               loopCallback(BLE sensor) {
                 String value = sensor.data;
                 switch (sensor.id) {
@@ -470,16 +471,18 @@ class _LabelsTemState extends State<LabelsTem> {
                     width: 250,
                   ),
                   //Container 7
-                  Expanded(
-                      child: Column(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.refresh, color: Colors.pink.shade200),
-                        onPressed: () {},
-                      ),
-                      const Text('Refresh'),
-                    ],
-                  )),
+                  /*Expanded(
+                    child: Column(
+                      children: [
+                        IconButton(
+                          icon:
+                              Icon(Icons.refresh, color: Colors.pink.shade200),
+                          onPressed: () {},
+                        ),
+                        const Text('Refresh'),
+                      ],
+                    ),
+                  ),*/
                 ],
               );
             }),
