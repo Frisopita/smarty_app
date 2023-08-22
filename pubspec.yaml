@@ -37,6 +37,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_blue_plus: ^1.5.2
   provider: ^6.0.5
+  async: any
+  flutter_local_notifications: ^14.1.1
+  shared_preferences: ^2.1.2
+  rxdart: ^0.27.7
+  go_router: ^9.0.0
 
 dev_dependencies:
   flutter_test:
@@ -76,17 +81,33 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Raleway
+      fonts:
+        - asset: fonts/Raleway/static/Raleway-Regular.ttf
+        - asset: fonts/Raleway/static/Raleway-Italic.ttf
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat/static/Montserrat-Regular.ttf
+        - asset: fonts/Montserrat/static/Montserrat-Italic.ttf
+    - family: Bacasime_Antique
+      fonts:
+        - asset: fonts/Bacasime_Antique/BacasimeAntique-Regular.ttf
+    - family: Belanosima
+      fonts:
+        - asset: fonts/Belanosima/Belanosima-Regular.ttf
+    - family: Cormorant_Garamond
+      fonts:
+        - asset: fonts/Cormorant_Garamond/CormorantGaramond-Regular.ttf
+    - family: CrimsonText
+      fonts:
+        - asset: fonts/Crimson_Text/CrimsonText-Regular.ttf
+        - asset: fonts/Crimson_Text/CrimsonText-Italic.ttf
+
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

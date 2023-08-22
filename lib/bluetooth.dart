@@ -1,71 +1,24 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/material.dart'; // Quitar
+import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'widgets.dart';
-import 'package:provider/provider.dart';
-import 'package:smarty_app/Providers/s1_provider.dart';
-
-class BluetoothOffScreen extends StatelessWidget {
-  const BluetoothOffScreen({Key? key, this.state}) : super(key: key);
-
-  final BluetoothState? state;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.pink.shade100,
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Icon(
-              Icons.bluetooth_disabled,
-              size: 200.0,
-              color: Colors.white54,
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-              'Bluetooth is ${state != null ? state.toString().substring(15) : 'not available'}.',
-              style: Theme.of(context)
-                  .primaryTextTheme
-                  .headlineMedium
-                  ?.copyWith(color: Colors.white),
-            ),
-            ),
-
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: Color.fromARGB(255, 241, 135, 241),
-            ),
-              onPressed: Platform.isAndroid
-                  ? () => FlutterBluePlus.instance.turnOn()
-                  : null,
-              child: const Text('TURN ON'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class FindDevicesScreen extends StatefulWidget {
   const FindDevicesScreen({Key? key}) : super(key: key);
 
   @override
-  _FindDevicesScreenState createState() => _FindDevicesScreenState();
+  State<FindDevicesScreen> createState() => _FindDevicesScreenState();
 }
 
 class _FindDevicesScreenState extends State<FindDevicesScreen> {
   @override
+  //Este initstate permite la b��squeda de dispositivos Bluetooth una vez construido el widget 
   void initState() {
     super.initState();
     startScan();
   }
-
+  //actualiza cada 4 s la busqueda
   Future<void> startScan() async {
     await FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 4));
   }
@@ -82,17 +35,17 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () => FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 4)),
+        onRefresh: () => FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 3)),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               StreamBuilder<List<BluetoothDevice>>(
+                //lista de dispositivos Bluetooth conectados y muestra informaci��n sobre cada dispositivo en forma de ListTile.
                 stream: Stream.periodic(const Duration(seconds: 2)).asyncMap((_) => FlutterBluePlus.instance.connectedDevices),
                 initialData: const [],
                 builder: (c, snapshot) => Column(
                   children: snapshot.data!.map((d) => ListTile(
                     title: Text(d.name),
-                    subtitle: Text(d.id.toString()),
                     trailing: StreamBuilder<BluetoothDeviceState>(
                       stream: d.state,
                       initialData: BluetoothDeviceState.disconnected,
@@ -131,6 +84,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
 }
 
 class DeviceScreen extends StatefulWidget {
+  // representa la pantalla de un dispositivo Bluetooth espec��fico
   const DeviceScreen({Key? key, required this.device}) : super(key: key);
 
   final BluetoothDevice device;
@@ -140,31 +94,19 @@ class DeviceScreen extends StatefulWidget {
 }
 
 class _DeviceScreenState extends State<DeviceScreen> {
-  List<Widget> _buildServiceTiles(List<BluetoothService> services) {
-    return services
-        .map(
-          (s) => ServiceTile(
-            service: s,
-            characteristicTiles: s.characteristics.map((c) {
-              double sliderValue = 0;
-              return CharacteristicTile(
-                characteristic: c,
-                onReadPressed: () => c.read(),
-                onWritePressed: (value) async {
-                  // <-- Change here
-                  sliderValue = value[0].toDouble();
-                  await c.write([sliderValue.toInt()], withoutResponse: true);
-                },
-                onNotificationPressed: () async {
-                  await c.setNotifyValue(!c.isNotifying);
-                  await c.read();
-                },
-              );
-            }).toList(),
-          ),
-        )
-        .toList();
-  }
+List<Widget> _buildServiceTiles(List<BluetoothService> services) {
+
+  return services.map( //Se utiliza el m��todo map para recorrer cada servicio en la lista de servicios y generar un ServiceTile correspondiente.
+    (s) {
+      return ServiceTile(
+      //Cada ServiceTile se construye con el servicio actual y una lista de characteristicTiles, 
+      //que se construye mapeando las caracter��sticas del servicio y creando instancias de CharacteristicTile.
+        service: s,
+      );
+    },
+  ).toList();
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +122,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       body: Column(
         children: <Widget>[
           StreamBuilder<BluetoothDeviceState>(
-            stream: widget.device.state,
+            stream: widget.device.state, //recibe el estado state del dispositovo Bluetooth
             initialData: BluetoothDeviceState.connecting,
             builder: (c, snapshot) {
               if (snapshot.data == BluetoothDeviceState.connected) {
@@ -197,7 +139,6 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   ),
                   title: Text(
                       'Device is ${snapshot.data.toString().split('.')[1]}.'),
-                  //subtitle: Text('${widget.device.id}'),
                   trailing: SizedBox(
                     width: 30,
                     child: StreamBuilder<bool>(
@@ -211,13 +152,15 @@ class _DeviceScreenState extends State<DeviceScreen> {
             },
           ),
           StreamBuilder<List<BluetoothService>>(
+            //recibe la lista de servicios (services) del dispositivo
             stream: widget.device.services,
             initialData: const [],
             builder: (c, snapshot) {
               return Column(
-                children: _buildServiceTiles(snapshot.data!),
+                children: _buildServiceTiles(snapshot.data!), //muestra los ServiceTile generados por el m��todo _buildServiceTiles.
               );
             },
+            //Los ServiceTile y CharacteristicTile se generan din��micamente en funci��n de los datos recibidos.
           ),
         ],
       ),

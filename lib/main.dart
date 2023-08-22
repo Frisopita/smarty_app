@@ -1,123 +1,196 @@
-//Test de kabanta UX
+/*
+Main del proyecto de SmartyApp
+*/
 
 import 'package:flutter/material.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart' as FlutterBlue;
+import 'package:flutter_blue_plus/flutter_blue_plus.dart' as flutter_blue;
+import 'package:smarty_app/Providers/device_provider.dart';
 import 'package:smarty_app/bluetooth.dart';
-import 'package:smarty_app/Providers/s1_provider.dart';
-import 'package:smarty_app/Providers/s2_provider.dart';
-import 'package:smarty_app/Providers/s3_provider.dart';
-import 'package:smarty_app/Providers/s4_provider.dart';
-import 'package:smarty_app/Providers/s5_provider.dart';
-import 'package:smarty_app/Providers/s6_provider.dart';
-import 'package:smarty_app/Providers/s7_provider.dart';
-import 'package:smarty_app/Providers/s8_provider.dart';
-import 'package:smarty_app/Providers/s9_provider.dart';
-import 'package:smarty_app/Providers/s10_provider.dart';
-import 'package:smarty_app/Providers/s11_provider.dart';
-import 'package:smarty_app/Providers/s12_provider.dart';
 import 'Pages/history.dart';
 import 'Pages/home.dart';
 import 'Pages/perfil.dart';
 import 'Pages/settings.dart';
 import 'package:provider/provider.dart';
+import 'package:smarty_app/Providers/sensor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'Providers/profile.dart';
+
+//prueba para ver si rama funciona correctamente
 
 void main() {
   runApp(const MySmartApp());
+  // Inicializacion del widget raiz de la aplicacion
 }
 
-// Inicializaci¨®n de la APP
 class MySmartApp extends StatefulWidget {
   const MySmartApp({Key? key}) : super(key: key);
 
   @override
-  _MySmartAppState createState() => _MySmartAppState();
+  State<MySmartApp> createState() => _MySmartAppState();
 }
 
 class _MySmartAppState extends State<MySmartApp> {
-  List<List<int>> allCharacteristicValues = []; // Define la lista aqu¨ª
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<List<String?>> texts;
+
+  @override
+  void initState() {
+    super.initState();
+    texts = _prefs.then((SharedPreferences prefs) {
+      final List<String?> storedTexts = prefs.getStringList('texts') ??
+          [
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+          ];
+      return storedTexts;
+    });
+  }
+
+  List<List<int>> allCharacteristicValues = [];
+  //lista que almacena los valores de caracteristicas (characteristics) de Bluetooth
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => S12Provider(),
-      child: ChangeNotifierProvider(
-        create: (BuildContext context) => S11Provider(),
-        child: ChangeNotifierProvider(
-          create: (BuildContext context) => S10Provider(),
-          child: ChangeNotifierProvider(
-            create: (BuildContext context) => S9Provider(),
-            child: ChangeNotifierProvider(
-              create: (BuildContext context) => S8Provider(),
-              child: ChangeNotifierProvider(
-                create: (BuildContext context) => S7Provider(),
-                child: ChangeNotifierProvider(
-                  create: (BuildContext context) => S6Provider(),
-                  child: ChangeNotifierProvider(
-                    create: (BuildContext context) => S5Provider(),
-                    child: ChangeNotifierProvider(
-                      create: (BuildContext context) => S4Provider(),
-                      child: ChangeNotifierProvider(
-                        create: (BuildContext context) => S3Provider(),
-                        child: ChangeNotifierProvider(
-                          create: (BuildContext context) => S2Provider(),
-                          child: ChangeNotifierProvider(
-                            create: (BuildContext context) => S1Provider(),
-                            child: MaterialApp(
-                              debugShowCheckedModeBanner: false,
-                              home: StreamBuilder<FlutterBlue.BluetoothState>(
-                                stream: FlutterBlue.FlutterBluePlus.instance.state,
-                                initialData: FlutterBlue.BluetoothState.unknown,
-                                builder: (c, snapshot) {
-                                  final state = snapshot.data;
-                                  if (state == FlutterBlue.BluetoothState.on) {
-                                    return DataPage(data: allCharacteristicValues); // Pasa los datos aqu¨ª
-                                  }
-                                  return BluetoothOffScreen(state: state);
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+    /// MultiProvider permite incializar multiples providers en cascada en una lista.
+    /// El 2do provider puede llamar al primero y el 3ro a los primeros 2 y asi sucesivamente
+    ///
+    /// Si el widget abajo de Multiprovider no requiere llamar a ninguno de los providers puede usarse child
+    /// en caso contrario se recomienda build
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<Sensor>(
+          /// lazy se usa para incializar un provider antes de tiempo:
+          /// true: se incializa desde que se inserta en el Widget Tree
+          /// false: se inicializa hasta que se utiliza por 1ra vez
+          /// null: mismo que false
+          lazy: null,
+          //Se encarga de la notificacion de los cambios de provider
+          create: (BuildContext context) => Sensor(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProfileData(),
+        ),
+        ChangeNotifierProvider<DeviceProvider>(
+          create: (BuildContext context) => DeviceProvider(),
+        ),
+        /// Puedes iniciar el stream dentro de un provider y usarlo en toda la app.
+        /// Lo ideal seria usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
+        /// escribieramos
+        StreamProvider<flutter_blue.BluetoothState>.value(
+          value: flutter_blue.FlutterBluePlus.instance.state,
+          initialData: flutter_blue.BluetoothState.unknown,
+        ),
+      ],
+      child: MaterialApp(
+        // Quita el banner de debug en la parte superior derecha de la pantalla
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Crimson_Text',
+        ),
+
+        home: Builder(
+          builder: (context) {
+            final blState = context.watch<flutter_blue.BluetoothState>();
+            if (blState == flutter_blue.BluetoothState.on) {
+              // Pasa los datos aqui
+              return DataPage(texts: texts);
+            }
+            return DataPage(texts: texts);
+            // Si el estado de Bluetooth no este encendido, muestra la pantalla BluetoothOffScreen con el estado actual
+          },
         ),
       ),
+      builder: (context, child) {
+        /// select es un caso especial que solo observa un estado dentro del objeto (Sensor)
+        /// y solo actualiza el widget cuando ese valor cambia, sin importar si notifylistener() cambio otros datos de nuestro objeto
+        /// ver [Selector]
+        final stream = context.select<Sensor, Stream<List<BLE>>>(
+          (s) => s.stream,
+        );
+        return StreamProvider<List<BLE>>.value(
+          value: stream,
+          catchError: (context, error) {
+            return [];
+          },
+          initialData: const [],
+          child: child,
+        );
+      },
     );
   }
 }
 
-//Data main screen
+/*/
+DataPage es la mainscreen de la aplicacion, 
+muestra diferentes pantallas segun el indice seleccionado con ButtonsNavigationBar
+*/
 
 class DataPage extends StatefulWidget {
-  final List<List<int>> data;
-
-  const DataPage({Key? key, required this.data}) : super(key: key);
-
+  final Future<List<String?>> texts;
+  const DataPage({Key? key, required this.texts}) : super(key: key);
   @override
   State<DataPage> createState() => _DataPageState();
 }
 
 class _DataPageState extends State<DataPage> {
   int currentIndex = 0;
-
-  final List<Widget> _widgetOptions = <Widget>[
-    const Home(),
-    const History(),
-    const Perfil(),
-    const Settings(),
-  ];
+  // Constructor que recibe 'texts'
 
   @override
   Widget build(BuildContext context) {
+
+    final List<Widget> _widgetOptions = <Widget>[
+      const Home(), //Screen donde se muestra las temperaturas del pie
+      const History(), //Historial de cambios de temperatura
+      FutureBuilder<List<String?>>(
+        future: widget.texts,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            final dataList = snapshot.data ?? ['', ''];
+            return Perfil(texts: dataList);
+          }
+        },
+      ),
+    ];
     return Scaffold(
+      appBar: AppBar(
+        title: Image.asset('Images/logopage.png',
+            fit: BoxFit.cover, height: 100, width: 130),
+        backgroundColor: Colors.white,
+        leading: null,
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+     
+          IconButton(
+            icon: const Icon(
+              Icons.bluetooth,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => const FindDevicesScreen(),
+              ));
+            },
+          ),
+        ],
+      ),
       body: _widgetOptions[currentIndex],
-      //Botones de Navegaci¨®n
+      //Botones de Navegaciï¿½ï¿½n
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
         onTap: (index) {
           setState(() {
             currentIndex = index;
@@ -143,16 +216,9 @@ class _DataPageState extends State<DataPage> {
             icon: Icon(Icons.person,
                 color: currentIndex == 2 ? Colors.blueGrey : Colors.black),
           ),
-          // Settings Button
-          BottomNavigationBarItem(
-            label: ("Configuraci\u00F3n"),
-            icon: Icon(Icons.settings,
-                color: currentIndex == 3 ? Colors.blueGrey : Colors.black),
-          ),
         ],
         selectedItemColor: Colors.blueGrey,
       ),
     );
   }
 }
-
