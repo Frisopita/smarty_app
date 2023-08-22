@@ -281,13 +281,13 @@ class _LabelsTemState extends State<LabelsTem> {
                 children: [
                   //Container 1
                   Container(
-                    height: 75,
+                    height: MediaQuery.of(context).size.height * .17,
                     color: null,
                   ),
                   //Container 2
                   SizedBox(
-                    width: 170,
-                    height: 45,
+                    width: MediaQuery.of(context).size.width * .57,
+                    height: MediaQuery.of(context).size.height * .065,
                     child: Row(
                       children: [
                         Expanded(
@@ -315,8 +315,8 @@ class _LabelsTemState extends State<LabelsTem> {
                   ),
                   //Container 3
                   SizedBox(
-                    height: 140,
-                    width: 350,
+                    height: MediaQuery.of(context).size.height * .2,
+                    width: MediaQuery.of(context).size.width,
                     //color: Colors.red.shade400,
                     child: Row(
                       children: [
@@ -399,8 +399,8 @@ class _LabelsTemState extends State<LabelsTem> {
                   ),
                   //Container 4
                   Container(
-                    height: 50,
-                    width: 350,
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    width: MediaQuery.of(context).size.width,
                     color: null,
                     child: Row(
                       children: [
@@ -430,14 +430,15 @@ class _LabelsTemState extends State<LabelsTem> {
                     ),
                   ),
                   //Container 5
-                  const SizedBox(
-                    height: 60,
-                    width: 250,
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    width: MediaQuery.of(context).size.height * 0.9,
+                    color: null,
                   ),
                   //Container 6
                   SizedBox(
-                    height: 50,
-                    width: 250,
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    width: MediaQuery.of(context).size.width * 0.7,
                     //color: Colors.red,
                     child: Row(
                       children: [
@@ -467,9 +468,10 @@ class _LabelsTemState extends State<LabelsTem> {
                     ),
                   ),
                   //Container 6
-                  const SizedBox(
-                    height: 35,
-                    width: 250,
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.12,
+                    width: MediaQuery.of(context).size.width,
+                    color:Colors.amber,
                   ),
                   //Container 7
                   /*Expanded(
