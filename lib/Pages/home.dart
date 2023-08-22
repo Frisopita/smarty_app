@@ -468,13 +468,13 @@ class _LabelsTemState extends State<LabelsTem> {
                     ),
                   ),
                   //Container 6
-                  Container(
+                  /*Container(
                     height: MediaQuery.of(context).size.height * 0.12,
                     width: MediaQuery.of(context).size.width,
                     color:Colors.amber,
                   ),
                   //Container 7
-                  /*Expanded(
+                  Expanded(
                     child: Column(
                       children: [
                         IconButton(

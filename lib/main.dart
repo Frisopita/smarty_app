@@ -4,6 +4,7 @@ Main del proyecto de SmartyApp
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as flutter_blue;
+import 'package:smarty_app/Providers/device_provider.dart';
 import 'package:smarty_app/bluetooth.dart';
 import 'Pages/history.dart';
 import 'Pages/home.dart';
@@ -78,7 +79,9 @@ class _MySmartAppState extends State<MySmartApp> {
         ChangeNotifierProvider(
           create: (context) => ProfileData(),
         ),
-
+        ChangeNotifierProvider<DeviceProvider>(
+          create: (BuildContext context) => DeviceProvider(),
+        ),
         /// Puedes iniciar el stream dentro de un provider y usarlo en toda la app.
         /// Lo ideal seria usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
         /// escribieramos
@@ -133,7 +136,7 @@ muestra diferentes pantallas segun el indice seleccionado con ButtonsNavigationB
 
 class DataPage extends StatefulWidget {
   final Future<List<String?>> texts;
-  DataPage({Key? key, required this.texts}) : super(key: key);
+  const DataPage({Key? key, required this.texts}) : super(key: key);
   @override
   State<DataPage> createState() => _DataPageState();
 }
@@ -144,6 +147,7 @@ class _DataPageState extends State<DataPage> {
 
   @override
   Widget build(BuildContext context) {
+
     final List<Widget> _widgetOptions = <Widget>[
       const Home(), //Screen donde se muestra las temperaturas del pie
       const History(), //Historial de cambios de temperatura
@@ -169,6 +173,7 @@ class _DataPageState extends State<DataPage> {
         leading: null,
         automaticallyImplyLeading: false,
         actions: <Widget>[
+     
           IconButton(
             icon: const Icon(
               Icons.bluetooth,
