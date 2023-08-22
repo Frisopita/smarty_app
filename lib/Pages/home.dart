@@ -112,6 +112,7 @@ class _LabelsTemState extends State<LabelsTem> {
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: Consumer<List<BLE>>(builder: (context, sensors, _) {
@@ -485,10 +486,12 @@ class _LabelsTemState extends State<LabelsTem> {
                   ),*/
                 ],
               );
-            }),
+            },
+          ),
           ),
         ],
       ),
-    ));
+    ),
+    );
   }
 }
