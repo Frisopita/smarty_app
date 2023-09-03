@@ -82,6 +82,7 @@ class _MySmartAppState extends State<MySmartApp> {
         ChangeNotifierProvider<DeviceProvider>(
           create: (BuildContext context) => DeviceProvider(),
         ),
+
         /// Puedes iniciar el stream dentro de un provider y usarlo en toda la app.
         /// Lo ideal seria usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
         /// escribieramos
@@ -143,12 +144,19 @@ class DataPage extends StatefulWidget {
 
 class _DataPageState extends State<DataPage> {
   int currentIndex = 0;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: currentIndex);
+  }
+
   // Constructor que recibe 'texts'
 
   @override
   Widget build(BuildContext context) {
-
-    final List<Widget> _widgetOptions = <Widget>[
+    final List<Widget> widgetOptions = <Widget>[
       const Home(), //Screen donde se muestra las temperaturas del pie
       const History(), //Historial de cambios de temperatura
       FutureBuilder<List<String?>>(
@@ -167,13 +175,20 @@ class _DataPageState extends State<DataPage> {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset('Images/logopage.png',
+        title: Image.asset('Images/logopage2.png',
             fit: BoxFit.cover, height: 100, width: 130),
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
+        flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: <Color>[Colors.white, Colors.purple.shade50, Colors.purple.shade100])),
+          ),
+        elevation: 1,
         leading: null,
         automaticallyImplyLeading: false,
         actions: <Widget>[
-     
           IconButton(
             icon: const Icon(
               Icons.bluetooth,
@@ -187,15 +202,34 @@ class _DataPageState extends State<DataPage> {
           ),
         ],
       ),
-      body: _widgetOptions[currentIndex],
-      //Botones de Navegaci��n
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        onTap: (index) {
+      body: Stack(
+        children: [
+          PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
           setState(() {
             currentIndex = index;
           });
         },
+        children: widgetOptions,
+      ),
+
+        ],
+      ) ,
+
+      //Botones de Navegaci��n
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+          _pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 5),
+            curve: Curves.easeInOut,
+          );
+        },
+        type: BottomNavigationBarType.shifting,
         currentIndex: currentIndex,
         items: <BottomNavigationBarItem>[
           //Home Button
