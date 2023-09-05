@@ -105,7 +105,7 @@ class _MySmartAppState extends State<MySmartApp> {
               // Pasa los datos aqui
               return DataPage(texts: texts);
             }
-            return DataPage(texts: texts);
+            return const BluetoothScreenOffOn();
             // Si el estado de Bluetooth no este encendido, muestra la pantalla BluetoothOffScreen con el estado actual
           },
         ),
@@ -163,7 +163,7 @@ class _DataPageState extends State<DataPage> {
         future: widget.texts,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {

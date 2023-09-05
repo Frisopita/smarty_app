@@ -32,4 +32,9 @@ const  TextStyle timeLabel =  TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold
   );
+
+  const TextStyle blueText = TextStyle(
+  fontSize: 25.0,
+  color: Colors.black,
+);
 //

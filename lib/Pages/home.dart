@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smarty_app/bluetooth.dart';
 import 'package:provider/provider.dart';
 import 'package:smarty_app/Providers/sensor.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';

@@ -59,29 +59,29 @@ class Sensor extends ChangeNotifier {
     await service.characteristics[10].setNotifyValue(true);
     await service.characteristics[11].setNotifyValue(true);
     await service.characteristics[12].setNotifyValue(true);
-    await service.characteristics[0].onValueChangedStream.listen((value) async{
+    service.characteristics[0].onValueChangedStream.listen((value) async{
     });
-    await service.characteristics[1].onValueChangedStream.listen((value) async{
+    service.characteristics[1].onValueChangedStream.listen((value) async{
     });
-    await service.characteristics[3].onValueChangedStream.listen((value) async{
+    service.characteristics[3].onValueChangedStream.listen((value) async{
     });
-    await service.characteristics[4].onValueChangedStream.listen((value) async{
+    service.characteristics[4].onValueChangedStream.listen((value) async{
     });
-    await service.characteristics[5].onValueChangedStream.listen((value) async{
+    service.characteristics[5].onValueChangedStream.listen((value) async{
     });
-    await service.characteristics[6].onValueChangedStream.listen((value) async{
+    service.characteristics[6].onValueChangedStream.listen((value) async{
     });
-    await service.characteristics[7].onValueChangedStream.listen((value) async{
+    service.characteristics[7].onValueChangedStream.listen((value) async{
     });
-    await service.characteristics[8].onValueChangedStream.listen((value) async{
+    service.characteristics[8].onValueChangedStream.listen((value) async{
     });
-    await service.characteristics[9].onValueChangedStream.listen((value) async{
+    service.characteristics[9].onValueChangedStream.listen((value) async{
     });
-    await service.characteristics[10].onValueChangedStream.listen((value) async{
+    service.characteristics[10].onValueChangedStream.listen((value) async{
     });
-    await service.characteristics[11].onValueChangedStream.listen((value) async{
+    service.characteristics[11].onValueChangedStream.listen((value) async{
     });
-    await service.characteristics[12].onValueChangedStream.listen((value) async{
+    service.characteristics[12].onValueChangedStream.listen((value) async{
     });
 
     listBle.removeLast();

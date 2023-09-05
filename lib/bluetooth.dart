@@ -1,8 +1,64 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:smarty_app/variables.dart';
 import 'widgets.dart';
+
+class BluetoothScreenOffOn extends StatelessWidget {
+  const BluetoothScreenOffOn({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Icon(
+                    Icons.bluetooth_disabled,
+                    size: 150.0,
+                    color: Colors.lightBlue.shade500,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'Bluetooth apagado,',
+                    style: blueText,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'es necesario prenderlo',
+                    style: blueText,
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightBlue.shade500,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Activar Bluetooth'),
+                  onPressed: () {
+                    FlutterBluePlus.instance.turnOn();
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class FindDevicesScreen extends StatefulWidget {
   const FindDevicesScreen({Key? key}) : super(key: key);
