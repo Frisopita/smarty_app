@@ -58,19 +58,20 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
   void initState() {
     super.initState();
     texts = _prefs.then((SharedPreferences prefs) {
-      final List<String?> storedTexts = prefs.getStringList('texts') ?? [
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        ];
+      final List<String?> storedTexts = prefs.getStringList('texts') ??
+          [
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+          ];
       return storedTexts;
     });
   }
@@ -89,12 +90,13 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
       _textEditingController9.text,
       _textEditingController10.text,
       _textEditingController11.text,
-      ];
+    ];
     await prefs.setStringList('texts', dataList);
-     Navigator.pop(context, dataList); // Envia los datos actualizados a la pantalla de perfil  
-     final profileData = Provider.of<ProfileData>(context, listen: false);
-      profileData.updateTexts(dataList); // Actualiza los datos en el perfil
-  //  Navigator.pop(context); // Cierra la pantalla de configuraci¨®n  
+    Navigator.pop(context,
+        dataList); // Envia los datos actualizados a la pantalla de perfil
+    final profileData = Provider.of<ProfileData>(context, listen: false);
+    profileData.updateTexts(dataList); // Actualiza los datos en el perfil
+    //  Navigator.pop(context); // Cierra la pantalla de configuraci¨®n
   }
 
   @override
@@ -103,6 +105,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
       child: Form(
         key: _formKey,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Padding(
               padding: EdgeInsets.all(10),
@@ -113,11 +117,14 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
             ),
             const Padding(
               padding: EdgeInsets.all(5),
-              child: Text('Datos personales',
-              style: subtitleText2,
+              child: Text(
+                'Datos personales',
+                style: subtitleText2,
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(5),
@@ -130,7 +137,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * .8,
                     child: TextFormField(
                       controller: _textEditingController1,
                       validator: (value) {
@@ -149,6 +156,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(5),
@@ -161,7 +170,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * .8,
                     child: TextFormField(
                       controller: _textEditingController2,
                       validator: (value) {
@@ -180,6 +189,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(5),
@@ -192,7 +203,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * .8,
                     child: TextFormField(
                       controller: _textEditingController3,
                       validator: (value) {
@@ -211,6 +222,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(5),
@@ -223,7 +236,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * .8,
                     child: TextFormField(
                       controller: _textEditingController4,
                       validator: (value) {
@@ -242,6 +255,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(5),
@@ -254,7 +269,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * .8,
                     child: TextFormField(
                       controller: _textEditingController5,
                       validator: (value) {
@@ -274,11 +289,14 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
             ),
             const Padding(
               padding: EdgeInsets.all(5),
-              child: Text('Contactos de Emergencia',
-              style: subtitleText2,
+              child: Text(
+                'Contactos de Emergencia',
+                style: subtitleText2,
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(5),
@@ -291,7 +309,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * .8,
                     child: TextFormField(
                       controller: _textEditingController6,
                       validator: (value) {
@@ -310,6 +328,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(5),
@@ -322,7 +342,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * .8,
                     child: TextFormField(
                       controller: _textEditingController7,
                       validator: (value) {
@@ -341,6 +361,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(5),
@@ -353,7 +375,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * .8,
                     child: TextFormField(
                       controller: _textEditingController8,
                       validator: (value) {
@@ -372,6 +394,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(5),
@@ -384,7 +408,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * .8,
                     child: TextFormField(
                       controller: _textEditingController9,
                       validator: (value) {
@@ -404,11 +428,14 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
             ),
             const Padding(
               padding: EdgeInsets.all(5),
-              child: Text('Informaci\u00F3n M\u00E9dica',
-              style: subtitleText2,
+              child: Text(
+                'Informaci\u00F3n M\u00E9dica',
+                style: subtitleText2,
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(5),
@@ -421,7 +448,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * .8,
                     child: TextFormField(
                       controller: _textEditingController10,
                       validator: (value) {
@@ -440,6 +467,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(5),
@@ -452,7 +481,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
-                    width: 300,
+                    width: MediaQuery.of(context).size.width * .8,
                     child: TextFormField(
                       controller: _textEditingController11,
                       validator: (value) {
@@ -480,8 +509,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                     // If the form is valid, display a snackbar.
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                          content: Text('Enviando Informaci\u00F3n'),
-                          ),
+                        content: Text('Enviando Informaci\u00F3n'),
+                      ),
                     );
                   } else {
                     // Formulario inv¨¢lido, mostrar mensajes de error y realizar acciones adicionales

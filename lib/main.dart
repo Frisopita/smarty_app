@@ -5,7 +5,7 @@ Main del proyecto de SmartyApp
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as flutter_blue;
 import 'package:smarty_app/Providers/device_provider.dart';
-import 'package:smarty_app/bluetooth.dart';
+import 'package:smarty_app/bluetooth/bluetooth.dart';
 import 'Pages/history.dart';
 import 'Pages/home.dart';
 import 'Pages/perfil.dart';

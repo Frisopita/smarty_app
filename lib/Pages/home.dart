@@ -273,7 +273,7 @@ class _LabelsTemState extends State<LabelsTem> {
               /// BLE(S5, valor)
               /// etc
               /// Actualiza cada color circleColor(N) pero lo ideal sería reducir esto de otra manera
-              /// hay un valor por color, debería ser más fácil regresar una lista de colores
+              /// hay un valor por color, debeiaa ser mas facil regresar una lista de colores
               sensors.forEach(loopCallback);
 
               return Column(
