@@ -5,6 +5,7 @@ Main del proyecto de SmartyApp
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as flutter_blue;
 import 'package:smarty_app/Providers/device_provider.dart';
+import 'package:smarty_app/bluetooth/bleconnect.dart';
 import 'package:smarty_app/bluetooth/bluetooth.dart';
 import 'Pages/history.dart';
 import 'Pages/home.dart';
@@ -103,7 +104,8 @@ class _MySmartAppState extends State<MySmartApp> {
             final blState = context.watch<flutter_blue.BluetoothState>();
             if (blState == flutter_blue.BluetoothState.on) {
               // Pasa los datos aqui
-              return DataPage(texts: texts);
+              //return DataPage(texts: texts);
+              return const QrboardPage();
             }
             return const BluetoothScreenOffOn();
             // Si el estado de Bluetooth no este encendido, muestra la pantalla BluetoothOffScreen con el estado actual
@@ -129,11 +131,6 @@ class _MySmartAppState extends State<MySmartApp> {
     );
   }
 }
-
-/*/
-DataPage es la mainscreen de la aplicacion, 
-muestra diferentes pantallas segun el indice seleccionado con ButtonsNavigationBar
-*/
 
 class DataPage extends StatefulWidget {
   final Future<List<String?>> texts;
@@ -189,17 +186,17 @@ class _DataPageState extends State<DataPage> {
         leading: null,
         automaticallyImplyLeading: false,
         actions: <Widget>[
-          IconButton(
+          /*IconButton(
             icon: const Icon(
               Icons.bluetooth,
               color: Colors.black,
             ),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => const FindDevicesScreen(),
+                builder: (BuildContext context) => const FindDevicesScreen(qrText: qrtext,),
               ));
             },
-          ),
+          ),*/
         ],
       ),
       body: Stack(

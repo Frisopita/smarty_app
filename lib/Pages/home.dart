@@ -42,7 +42,7 @@ class _LabelsTemState extends State<LabelsTem> {
       final red = (255 * colorval / 33).round();
       const green = 255;
       return Color.fromARGB(255, red, green, 0);
-    } else if (colorval <= 67) {
+    } else if (colorval <= 65) {
       // Rango del 34 al 66: Amarillo a Rojo
       const red = 255;
       final green = (255 * (100 - colorval) / 33).round();
@@ -52,7 +52,6 @@ class _LabelsTemState extends State<LabelsTem> {
       return Colors.red;
     }
   }
-
   @override
   void initState() {
     super.initState();
@@ -467,24 +466,30 @@ class _LabelsTemState extends State<LabelsTem> {
                     ),
                   ),
                   //Container 6
-                  /*Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.11,
                     width: MediaQuery.of(context).size.width,
-                    color:Colors.amber,
+                    color: null,
                   ),
                   //Container 7
-                  Expanded(
-                    child: Column(
-                      children: [
-                        IconButton(
-                          icon:
-                              Icon(Icons.refresh, color: Colors.pink.shade200),
-                          onPressed: () {},
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.green.shade400,
                         ),
-                        const Text('Refresh'),
-                      ],
-                    ),
-                  ),*/
+                        height: 15,
+                        width: 15,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Conectado'),
+                      ),
+                    ],
+                  ),
                 ],
               );
             },
