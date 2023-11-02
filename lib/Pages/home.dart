@@ -36,7 +36,7 @@ class _LabelsTemState extends State<LabelsTem> {
       FlutterLocalNotificationsPlugin();
 
   Color _getColor(double colorval) {
-    //Funci��n que setea un color dependiendo el valor de value
+    //Funci锟斤拷n que setea un color dependiendo el valor de value
     if (colorval <= 33) {
       // Rango del 1 al 33: Verde a Amarillo
       final red = (255 * colorval / 33).round();
@@ -128,7 +128,7 @@ class _LabelsTemState extends State<LabelsTem> {
               Color? circleColor11;
               Color? circleColor12;
 
-              /// Lo más probable es que se llame showNotification muchas veces
+              /// Lo m谩s probable es que se llame showNotification muchas veces
               /// (1 por sensor) lo cual puede no ser ideal
               print('print $sensors');
               loopCallback(BLE sensor) {
@@ -271,7 +271,7 @@ class _LabelsTemState extends State<LabelsTem> {
               /// BLE(S4, valor)
               /// BLE(S5, valor)
               /// etc
-              /// Actualiza cada color circleColor(N) pero lo ideal sería reducir esto de otra manera
+              /// Actualiza cada color circleColor(N) pero lo ideal ser铆a reducir esto de otra manera
               /// hay un valor por color, debeiaa ser mas facil regresar una lista de colores
               sensors.forEach(loopCallback);
 

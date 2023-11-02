@@ -96,7 +96,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
         dataList); // Envia los datos actualizados a la pantalla de perfil
     final profileData = Provider.of<ProfileData>(context, listen: false);
     profileData.updateTexts(dataList); // Actualiza los datos en el perfil
-    //  Navigator.pop(context); // Cierra la pantalla de configuraci¨®n
+    //  Navigator.pop(context); // Cierra la pantalla de configuraciè´¸n
   }
 
   @override
@@ -130,8 +130,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.person,
-                    size: 30, // Tama?o del ¨ªcono
-                    color: Colors.blueGrey, // Color del ¨ªcono
+                    size: 30, // Tama?o del é“†cono
+                    color: Colors.blueGrey, // Color del é“†cono
                   ),
                 ),
                 Padding(
@@ -163,8 +163,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.tag,
-                    size: 30, // Tama?o del ¨ªcono
-                    color: Colors.blueGrey, // Color del ¨ªcono
+                    size: 30, // Tama?o del é“†cono
+                    color: Colors.blueGrey, // Color del é“†cono
                   ),
                 ),
                 Padding(
@@ -196,8 +196,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.phone,
-                    size: 30, // Tama?o del ¨ªcono
-                    color: Colors.blueGrey, // Color del ¨ªcono
+                    size: 30, // Tama?o del é“†cono
+                    color: Colors.blueGrey, // Color del é“†cono
                   ),
                 ),
                 Padding(
@@ -229,8 +229,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.alternate_email,
-                    size: 30, // Tama?o del ¨ªcono
-                    color: Colors.blueGrey, // Color del ¨ªcono
+                    size: 30, // Tama?o del é“†cono
+                    color: Colors.blueGrey, // Color del é“†cono
                   ),
                 ),
                 Padding(
@@ -262,8 +262,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.home,
-                    size: 30, // Tama?o del ¨ªcono
-                    color: Colors.blueGrey, // Color del ¨ªcono
+                    size: 30, // Tama?o del é“†cono
+                    color: Colors.blueGrey, // Color del é“†cono
                   ),
                 ),
                 Padding(
@@ -302,8 +302,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.people,
-                    size: 30, // Tama?o del ¨ªcono
-                    color: Colors.blueGrey, // Color del ¨ªcono
+                    size: 30, // Tama?o del é“†cono
+                    color: Colors.blueGrey, // Color del é“†cono
                   ),
                 ),
                 Padding(
@@ -335,8 +335,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.phone,
-                    size: 30, // Tama?o del ¨ªcono
-                    color: Colors.blueGrey, // Color del ¨ªcono
+                    size: 30, // Tama?o del é“†cono
+                    color: Colors.blueGrey, // Color del é“†cono
                   ),
                 ),
                 Padding(
@@ -368,8 +368,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.people,
-                    size: 30, // Tama?o del ¨ªcono
-                    color: Colors.blueGrey, // Color del ¨ªcono
+                    size: 30, // Tama?o del é“†cono
+                    color: Colors.blueGrey, // Color del é“†cono
                   ),
                 ),
                 Padding(
@@ -401,8 +401,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.phone,
-                    size: 30, // Tama?o del ¨ªcono
-                    color: Colors.blueGrey, // Color del ¨ªcono
+                    size: 30, // Tama?o del é“†cono
+                    color: Colors.blueGrey, // Color del é“†cono
                   ),
                 ),
                 Padding(
@@ -441,8 +441,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.medical_information,
-                    size: 30, // Tama?o del ¨ªcono
-                    color: Colors.blueGrey, // Color del ¨ªcono
+                    size: 30, // Tama?o del é“†cono
+                    color: Colors.blueGrey, // Color del é“†cono
                   ),
                 ),
                 Padding(
@@ -474,8 +474,8 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                   padding: EdgeInsets.all(5),
                   child: Icon(
                     Icons.medical_information,
-                    size: 30, // Tama?o del ¨ªcono
-                    color: Colors.blueGrey, // Color del ¨ªcono
+                    size: 30, // Tama?o del é“†cono
+                    color: Colors.blueGrey, // Color del é“†cono
                   ),
                 ),
                 Padding(
@@ -513,7 +513,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                       ),
                     );
                   } else {
-                    // Formulario inv¨¢lido, mostrar mensajes de error y realizar acciones adicionales
+                    // Formulario invè°©lido, mostrar mensajes de error y realizar acciones adicionales
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Faltan campos por llenar')),
                     );
