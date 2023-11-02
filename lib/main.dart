@@ -185,7 +185,7 @@ class _DataPageState extends State<DataPage> {
         elevation: 1,
         leading: null,
         automaticallyImplyLeading: false,
-        actions: <Widget>[
+        actions: const <Widget>[
           /*IconButton(
             icon: const Icon(
               Icons.bluetooth,
@@ -214,7 +214,7 @@ class _DataPageState extends State<DataPage> {
         ],
       ) ,
 
-      //Botones de Navegaci��n
+      //Botones de Navegaci锟斤拷n
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           setState(() {
