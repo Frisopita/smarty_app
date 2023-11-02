@@ -8,6 +8,7 @@ import 'package:smarty_app/bluetooth/bleconnect.dart';
 import 'package:smarty_app/main.dart';
 import 'package:smarty_app/variables.dart';
 import 'widgets.dart';
+import 'package:collection/collection.dart';
 
 enum _ErrorType { connection, notFound }
 
@@ -199,8 +200,8 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
             children: [
               OutlinedButton.icon(
                 onPressed: _retry,
-                icon:  Icon(Icons.refresh_rounded, color: Colors.blue,),
-                label: Text('Reintentar conectarse', style: TextStyle(color: Colors.black),),
+                icon:  const Icon(Icons.refresh_rounded, color: Colors.blue,),
+                label: const Text('Reintentar conectarse', style: TextStyle(color: Colors.black),),
               ),
               const SizedBox(height: 8.0),
               ElevatedButton.icon(

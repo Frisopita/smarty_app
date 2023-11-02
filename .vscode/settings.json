@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "C:/Users/FridaAndrade/AndroidStudioProjects/smarty_app/linux"
+    "cmake.sourceDirectory": "C:/Users/FridaAndrade/AndroidStudioProjects/smarty_app/linux",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
