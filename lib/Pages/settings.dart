@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smarty_app/Pages/perfil.dart';
 import 'package:provider/provider.dart';
 import 'package:smarty_app/variables.dart';
 import 'package:smarty_app/Providers/profile.dart';

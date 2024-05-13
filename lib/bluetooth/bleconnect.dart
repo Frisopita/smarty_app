@@ -76,7 +76,7 @@ class _QrboardPageState extends State<QrboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset('Images/original.png',
+        title: Image.asset('Images/logopage.png',
           fit: BoxFit.cover,
           height: 100,
           width: 130,

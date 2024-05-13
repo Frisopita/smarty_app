@@ -2,25 +2,42 @@
 Main del proyecto de SmartyApp
 */
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as flutter_blue;
 import 'package:smarty_app/Providers/device_provider.dart';
+import 'package:smarty_app/Providers/qrtext_provider.dart';
 import 'package:smarty_app/bluetooth/bleconnect.dart';
 import 'package:smarty_app/bluetooth/bluetooth.dart';
 import 'Pages/history.dart';
 import 'Pages/home.dart';
 import 'Pages/perfil.dart';
-import 'Pages/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:smarty_app/Providers/sensor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Providers/profile.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 
 //prueba para ver si rama funciona correctamente
 
 void main() {
-  runApp(const MySmartApp());
-  // Inicializacion del widget raiz de la aplicacion
+  if (Platform.isAndroid) {
+    WidgetsFlutterBinding.ensureInitialized();
+    [
+      Permission.location,
+      Permission.storage,
+      Permission.bluetooth,
+      Permission.bluetoothConnect,
+      Permission.bluetoothScan,
+      Permission.camera,
+    ].request().then((status) {
+      runApp(const MySmartApp());
+    });
+  } else {
+    runApp(const MySmartApp());
+  }
 }
 
 class MySmartApp extends StatefulWidget {
@@ -83,13 +100,16 @@ class _MySmartAppState extends State<MySmartApp> {
         ChangeNotifierProvider<DeviceProvider>(
           create: (BuildContext context) => DeviceProvider(),
         ),
+        ChangeNotifierProvider<QrTextProvider>(
+          create: (BuildContext context) => QrTextProvider(),
+        ),
 
         /// Puedes iniciar el stream dentro de un provider y usarlo en toda la app.
         /// Lo ideal seria usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
         /// escribieramos
-        StreamProvider<flutter_blue.BluetoothState>.value(
-          value: flutter_blue.FlutterBluePlus.instance.state,
-          initialData: flutter_blue.BluetoothState.unknown,
+        StreamProvider<flutter_blue.BluetoothAdapterState>.value(
+          value: flutter_blue.FlutterBluePlus.adapterState,
+          initialData: flutter_blue.BluetoothAdapterState.unknown,
         ),
       ],
       child: MaterialApp(
@@ -101,11 +121,11 @@ class _MySmartAppState extends State<MySmartApp> {
 
         home: Builder(
           builder: (context) {
-            final blState = context.watch<flutter_blue.BluetoothState>();
-            if (blState == flutter_blue.BluetoothState.on) {
+            final blState = context.watch<flutter_blue.BluetoothAdapterState>();
+            if (blState == flutter_blue.BluetoothAdapterState.on) {
               // Pasa los datos aqui
               //return DataPage(texts: texts);
-              return const QrboardPage();
+              return const Home();
             }
             return const BluetoothScreenOffOn();
             // Si el estado de Bluetooth no este encendido, muestra la pantalla BluetoothOffScreen con el estado actual

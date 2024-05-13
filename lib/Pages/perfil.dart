@@ -104,7 +104,7 @@ class _PerfilState extends State<Perfil> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    '${profileData.texts[0] ?? ''}',
+                                    profileData.texts[0] ?? '',
                                   ),
                                 ],
                               ),
@@ -137,7 +137,7 @@ class _PerfilState extends State<Perfil> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text('${profileData.texts[2] ?? ''}'),
+                                  Text(profileData.texts[2] ?? ''),
                                 ],
                               ),
                             ),
@@ -153,7 +153,7 @@ class _PerfilState extends State<Perfil> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text('${profileData.texts[3] ?? ''}'),
+                                  Text(profileData.texts[3] ?? ''),
                                 ],
                               ),
                             ),
@@ -169,7 +169,7 @@ class _PerfilState extends State<Perfil> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text('${profileData.texts[4] ?? ''}'),
+                                  Text(profileData.texts[4] ?? ''),
                                 ],
                               ),
                             ),
@@ -221,7 +221,7 @@ class _PerfilState extends State<Perfil> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text('${profileData.texts[5] ?? ''}'),
+                                  Text(profileData.texts[5] ?? ''),
                                 ],
                               ),
                             ),
@@ -237,7 +237,7 @@ class _PerfilState extends State<Perfil> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text('${profileData.texts[6] ?? ''}'),
+                                  Text(profileData.texts[6] ?? ''),
                                 ],
                               ),
                             ),
@@ -253,7 +253,7 @@ class _PerfilState extends State<Perfil> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text('${profileData.texts[7] ?? ''}'),
+                                  Text(profileData.texts[7] ?? ''),
                                 ],
                               ),
                             ),
@@ -269,7 +269,7 @@ class _PerfilState extends State<Perfil> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text('${profileData.texts[8] ?? ''}'),
+                                  Text(profileData.texts[8] ?? ''),
                                 ],
                               ),
                             ),
@@ -321,7 +321,7 @@ class _PerfilState extends State<Perfil> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text('${profileData.texts[9] ?? ''}'),
+                                  Text(profileData.texts[9] ?? ''),
                                 ],
                               ),
                             ),
@@ -337,7 +337,7 @@ class _PerfilState extends State<Perfil> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text('${profileData.texts[10] ?? ''}'),
+                                  Text(profileData.texts[10] ?? ''),
                                 ],
                               ),
                             ),
@@ -372,7 +372,7 @@ class _PerfilState extends State<Perfil> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: Row(
                               children: [
                                 const Text(
@@ -421,7 +421,7 @@ class _PerfilState extends State<Perfil> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text('${profileData.texts[9] ?? ''}'),
+                                  Text(profileData.texts[9] ?? ''),
                                 ],
                               ),
                             ),
