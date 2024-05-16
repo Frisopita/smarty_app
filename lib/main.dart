@@ -9,7 +9,6 @@ import 'package:smarty_app/bluetooth/bluetooth.dart';
 import 'Pages/history.dart';
 import 'Pages/home.dart';
 import 'Pages/perfil.dart';
-import 'Pages/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:smarty_app/Providers/sensor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -86,9 +85,9 @@ class _MySmartAppState extends State<MySmartApp> {
         /// Puedes iniciar el stream dentro de un provider y usarlo en toda la app.
         /// Lo ideal seria usar un wrapper y meter el stream dentro de un objeto o servicio que nosotros
         /// escribieramos
-        StreamProvider<flutter_blue.BluetoothState>.value(
-          value: flutter_blue.FlutterBluePlus.instance.state,
-          initialData: flutter_blue.BluetoothState.unknown,
+        StreamProvider<flutter_blue.BluetoothAdapterState>.value(
+          value: flutter_blue.FlutterBluePlus.adapterState,
+          initialData: flutter_blue.BluetoothAdapterState.unknown,
         ),
       ],
       child: MaterialApp(
@@ -100,8 +99,8 @@ class _MySmartAppState extends State<MySmartApp> {
 
         home: Builder(
           builder: (context) {
-            final blState = context.watch<flutter_blue.BluetoothState>();
-            if (blState == flutter_blue.BluetoothState.on) {
+            final blState = context.watch<flutter_blue.BluetoothAdapterState>();
+            if (blState == flutter_blue.BluetoothAdapterState.on) {
               // Pasa los datos aqui
               return DataPage(texts: texts);
             }

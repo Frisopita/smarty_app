@@ -48,7 +48,7 @@ class BluetoothScreenOffOn extends StatelessWidget {
                   ),
                   child: const Text('Activar Bluetooth'),
                   onPressed: () {
-                    FlutterBluePlus.instance.turnOn();
+                    FlutterBluePlus.turnOn();
                   },
                 ),
               ],
@@ -76,7 +76,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
   }
   //actualiza cada 4 s la busqueda
   Future<void> startScan() async {
-    await FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 4));
+    await FlutterBluePlus.startScan(timeout: const Duration(seconds: 4));
   }
 
   @override
@@ -91,22 +91,22 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () => FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 3)),
+        onRefresh: () => FlutterBluePlus.startScan(timeout: const Duration(seconds: 3)),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               StreamBuilder<List<BluetoothDevice>>(
                 //lista de dispositivos Bluetooth conectados y muestra informaci��n sobre cada dispositivo en forma de ListTile.
-                stream: Stream.periodic(const Duration(seconds: 2)).asyncMap((_) => FlutterBluePlus.instance.connectedDevices),
+                stream: Stream.periodic(const Duration(seconds: 2)).asyncMap((_) => FlutterBluePlus.connectedDevices),
                 initialData: const [],
                 builder: (c, snapshot) => Column(
                   children: snapshot.data!.map((d) => ListTile(
                     title: Text(d.name),
-                    trailing: StreamBuilder<BluetoothDeviceState>(
+                    trailing: StreamBuilder<BluetoothConnectionState>(
                       stream: d.state,
-                      initialData: BluetoothDeviceState.disconnected,
+                      initialData: BluetoothConnectionState.disconnected,
                       builder: (c, snapshot) {
-                        if (snapshot.data == BluetoothDeviceState.connected) {
+                        if (snapshot.data == BluetoothConnectionState.connected) {
                           return ElevatedButton(
                             child: const Text('OPEN'),
                             onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => DeviceScreen(device: d))),
@@ -119,7 +119,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                 ),
               ),
               StreamBuilder<List<ScanResult>>(
-                stream: FlutterBluePlus.instance.scanResults,
+                stream: FlutterBluePlus.scanResults,
                 initialData: const [],
                 builder: (c, snapshot) => Column(
                   children: snapshot.data!.map((r) => ScanResultTile(
@@ -177,18 +177,18 @@ List<Widget> _buildServiceTiles(List<BluetoothService> services) {
       ),
       body: Column(
         children: <Widget>[
-          StreamBuilder<BluetoothDeviceState>(
+          StreamBuilder<BluetoothConnectionState>(
             stream: widget.device.state, //recibe el estado state del dispositovo Bluetooth
-            initialData: BluetoothDeviceState.connecting,
+            initialData: BluetoothConnectionState.connecting,
             builder: (c, snapshot) {
-              if (snapshot.data == BluetoothDeviceState.connected) {
+              if (snapshot.data == BluetoothConnectionState.connected) {
                 widget.device.discoverServices();
               }
               return ListTile(
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      snapshot.data == BluetoothDeviceState.connected
+                      snapshot.data == BluetoothConnectionState.connected
                           ? const Icon(Icons.bluetooth_connected)
                           : const Icon(Icons.bluetooth_disabled),
                     ],
