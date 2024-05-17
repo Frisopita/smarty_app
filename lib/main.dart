@@ -136,7 +136,7 @@ muestra diferentes pantallas segun el indice seleccionado con ButtonsNavigationB
 
 class DataPage extends StatefulWidget {
   final Future<List<String?>> texts;
-  const DataPage({Key? key, required this.texts}) : super(key: key);
+  const DataPage({super.key, required this.texts});
   @override
   State<DataPage> createState() => _DataPageState();
 }
@@ -195,7 +195,7 @@ class _DataPageState extends State<DataPage> {
             ),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => const FindDevicesScreen(),
+                builder: (BuildContext context) => const BluetoothScreen(),
               ));
             },
           ),

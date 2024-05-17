@@ -140,6 +140,8 @@ class _LabelsTemState extends State<LabelsTem> {
                       s1 = value;
                       double value1 = double.tryParse(value) ?? 0.0;
                       circleColor1 = _getColor(value1);
+                      
+                      print(value1);
                       if (value1 > 150.0 || value1 < 0.0) {
                         showNotification();
                       }

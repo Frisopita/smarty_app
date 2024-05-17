@@ -40,7 +40,7 @@ class _PerfilState extends State<Perfil> {
                             MediaQuery.of(context).size.width * .2, 0, 0, 0),
                         child: IconButton(
                           icon: const Icon(Icons.settings),
-                          //size: 25, // Tama?o del ¨ªcono
+                          //size: 25, // Tama?o del ï¿½ï¿½cono
                           color: Colors.grey.shade700,
                           onPressed: () async {
                             final updatedData =
@@ -56,7 +56,7 @@ class _PerfilState extends State<Perfil> {
                                   listen: false);
                               profileData.updateTexts(updatedData);
                             }
-                          }, // Color del ¨ªcono
+                          }, // Color del ï¿½ï¿½cono
                         ),
                       ),
                     ],
@@ -387,7 +387,7 @@ class _PerfilState extends State<Perfil> {
                                       0),
                                   child: IconButton(
                                     icon: const Icon(Icons.qr_code),
-                                    //size: 25, // Tama?o del ¨ªcono
+                                    //size: 25, // Tamano
                                     color: Colors.grey.shade700,
                                     onPressed: () async {
                                       final updatedData =
@@ -404,7 +404,7 @@ class _PerfilState extends State<Perfil> {
                                                 listen: false);
                                         profileData.updateTexts(updatedData);
                                       }
-                                    }, // Color del ¨ªcono
+                                    }, // Color del ï¿½ï¿½cono
                                   ),
                                 ),
                               ],

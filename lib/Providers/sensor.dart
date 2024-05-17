@@ -34,17 +34,18 @@ class Sensor extends ChangeNotifier {
     '6743b155-5778-4756-b31f-34e9e8e53a9d': 'S13'
     // Add more characteristic UUIDs here
   };
-  
+
   /// No importan, pero da error en el widget que dejamos de usar y no lo borre
   set id(String id) {}
   void setValue(Uint8List readValues) {}
 
-  Future <void> initService(BluetoothService service) async {
+  Future<void> initService(BluetoothService service) async {
     //if (service.uuid == _service?.uuid) return;
-    
+
     _service = service;
     List<BluetoothCharacteristic> listBle = service.characteristics
-        .where((c) => _allowedUUIDs.containsKey(c.uuid.toString())).toList();
+        .where((c) => _allowedUUIDs.containsKey(c.uuid.toString()))
+        .toList();
     //await Future.forEach(listBle, (element) => element.setNotifyValue(true).timeout(Duration(seconds: 5)));
     await service.characteristics[0].setNotifyValue(true);
     await service.characteristics[1].setNotifyValue(true);
@@ -59,45 +60,31 @@ class Sensor extends ChangeNotifier {
     await service.characteristics[10].setNotifyValue(true);
     await service.characteristics[11].setNotifyValue(true);
     await service.characteristics[12].setNotifyValue(true);
-    service.characteristics[0].onValueChangedStream.listen((value) async{
-    });
-    service.characteristics[1].onValueChangedStream.listen((value) async{
-    });
-    service.characteristics[3].onValueChangedStream.listen((value) async{
-    });
-    service.characteristics[4].onValueChangedStream.listen((value) async{
-    });
-    service.characteristics[5].onValueChangedStream.listen((value) async{
-    });
-    service.characteristics[6].onValueChangedStream.listen((value) async{
-    });
-    service.characteristics[7].onValueChangedStream.listen((value) async{
-    });
-    service.characteristics[8].onValueChangedStream.listen((value) async{
-    });
-    service.characteristics[9].onValueChangedStream.listen((value) async{
-    });
-    service.characteristics[10].onValueChangedStream.listen((value) async{
-    });
-    service.characteristics[11].onValueChangedStream.listen((value) async{
-    });
-    service.characteristics[12].onValueChangedStream.listen((value) async{
-    });
+    service.characteristics[0].onValueReceived.listen((value) async {});
+    service.characteristics[1].onValueReceived.listen((value) async {});
+    service.characteristics[3].onValueReceived.listen((value) async {});
+    service.characteristics[4].onValueReceived.listen((value) async {});
+    service.characteristics[5].onValueReceived.listen((value) async {});
+    service.characteristics[6].onValueReceived.listen((value) async {});
+    service.characteristics[7].onValueReceived.listen((value) async {});
+    service.characteristics[8].onValueReceived.listen((value) async {});
+    service.characteristics[9].onValueReceived.listen((value) async {});
+    service.characteristics[10].onValueReceived.listen((value) async {});
+    service.characteristics[11].onValueReceived.listen((value) async {});
+    service.characteristics[12].onValueReceived.listen((value) async {});
 
     listBle.removeLast();
-    Iterable<Stream<BLE>> streams = listBle
-        .map(
-          (c) => c.value.map((event) {
-            //print (event);
-            String value = String.fromCharCodes(event);
-            String uuid = c.uuid.toString();
-            return BLE(_allowedUUIDs[uuid]!, value);
-          }),
-        );
+    Iterable<Stream<BLE>> streams = listBle.map(
+      (c) => c.lastValueStream.map((event) {
+        //print (event);
+        String value = String.fromCharCodes(event);
+        String uuid = c.uuid.toString();
+        return BLE(_allowedUUIDs[uuid]!, value);
+      }),
+    );
     _stream = StreamZip(streams);
-    
-    notifyListeners();
 
+    notifyListeners();
   }
 
   String get debug {
@@ -105,5 +92,4 @@ class Sensor extends ChangeNotifier {
 
     ''';
   }
-  
 }
