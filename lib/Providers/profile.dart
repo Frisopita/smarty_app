@@ -13,6 +13,7 @@ class ProfileData extends ChangeNotifier {
     '',
     '',
     '',
+    '',
   ];
 
   void updateTexts(List<String?> newValues) {

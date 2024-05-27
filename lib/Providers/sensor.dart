@@ -31,7 +31,6 @@ class Sensor extends ChangeNotifier {
     'a8f2dbc3-c562-42d9-a094-33e4cca73118': 'S10',
     '3c21b038-85a3-4c47-aa78-446f301dd61c': 'S11',
     '1b0724f2-156b-41a6-8bb6-22be491731fc': 'S12',
-    '6743b155-5778-4756-b31f-34e9e8e53a9d': 'S13'
     // Add more characteristic UUIDs here
   };
 
@@ -59,9 +58,9 @@ class Sensor extends ChangeNotifier {
     await service.characteristics[9].setNotifyValue(true);
     await service.characteristics[10].setNotifyValue(true);
     await service.characteristics[11].setNotifyValue(true);
-    await service.characteristics[12].setNotifyValue(true);
     service.characteristics[0].onValueReceived.listen((value) async {});
     service.characteristics[1].onValueReceived.listen((value) async {});
+    service.characteristics[2].onValueReceived.listen((value) async {});
     service.characteristics[3].onValueReceived.listen((value) async {});
     service.characteristics[4].onValueReceived.listen((value) async {});
     service.characteristics[5].onValueReceived.listen((value) async {});
@@ -71,9 +70,8 @@ class Sensor extends ChangeNotifier {
     service.characteristics[9].onValueReceived.listen((value) async {});
     service.characteristics[10].onValueReceived.listen((value) async {});
     service.characteristics[11].onValueReceived.listen((value) async {});
-    service.characteristics[12].onValueReceived.listen((value) async {});
 
-    listBle.removeLast();
+    //listBle.removeLast();
     Iterable<Stream<BLE>> streams = listBle.map(
       (c) => c.lastValueStream.map((event) {
         //print (event);

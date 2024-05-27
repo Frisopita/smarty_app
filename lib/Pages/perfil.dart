@@ -67,20 +67,30 @@ class _PerfilState extends State<Perfil> {
                       width: MediaQuery.of(context).size.width * .9,
                       height: MediaQuery.of(context).size.height * .25,
                       decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.pink.shade50,
-                                Colors.purple.shade100,
-                                // Colors.purple.shade100
-                              ],
-                              stops: const [
-                                0,
-                                1,
-                              ])),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0, 1),
+                            blurRadius: 1,
+                          ),
+                        ],
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Colors.pink.shade50,
+                            Colors.purple.shade100,
+                            // Colors.purple.shade100
+                          ],
+                          stops: const [
+                            0,
+                            1,
+                          ],
+                        ),
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,8 +110,8 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'Nombre del usuario: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     '${profileData.texts[0] ?? ''}',
@@ -118,8 +128,8 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'Edad: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text('${profileData.texts[1] ?? ''} '),
                                 ],
@@ -134,8 +144,8 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'N\u00F9mero de Tel\u00E9fono: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text('${profileData.texts[2] ?? ''}'),
                                 ],
@@ -150,8 +160,8 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'Correo electr\u00F3nico: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text('${profileData.texts[3] ?? ''}'),
                                 ],
@@ -166,8 +176,8 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'Direcci\u00F3n: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text('${profileData.texts[4] ?? ''}'),
                                 ],
@@ -184,26 +194,36 @@ class _PerfilState extends State<Perfil> {
                       width: MediaQuery.of(context).size.width * .9,
                       height: MediaQuery.of(context).size.height * .22,
                       decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.pink.shade50,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0, 1),
+                            blurRadius: 1,
+                          ),
+                        ],
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Colors.pink.shade50,
 
-                                Colors.purple.shade100,
-                                // Colors.purple.shade100
-                              ],
-                              stops: const [
-                                0,
-                                1,
-                              ])),
+                            Colors.purple.shade100,
+                            // Colors.purple.shade100
+                          ],
+                          stops: const [
+                            0,
+                            1,
+                          ],
+                        ),
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                         const Padding(
+                          const Padding(
                             padding: EdgeInsets.all(10),
                             child: Text(
                               'Contactos de emergencia',
@@ -218,8 +238,8 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'Contacto 1: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text('${profileData.texts[5] ?? ''}'),
                                 ],
@@ -234,8 +254,8 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'Celular Contacto 1: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text('${profileData.texts[6] ?? ''}'),
                                 ],
@@ -250,8 +270,8 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'Contacto 2: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text('${profileData.texts[7] ?? ''}'),
                                 ],
@@ -266,8 +286,8 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'Celular Contacto 2: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text('${profileData.texts[8] ?? ''}'),
                                 ],
@@ -284,21 +304,31 @@ class _PerfilState extends State<Perfil> {
                       width: MediaQuery.of(context).size.width * .9,
                       height: MediaQuery.of(context).size.height * .16,
                       decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.pink.shade50,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0, 1),
+                            blurRadius: 1,
+                          ),
+                        ],
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Colors.pink.shade50,
 
-                                Colors.purple.shade100,
-                                // Colors.purple.shade100
-                              ],
-                              stops: const [
-                                0,
-                                1,
-                              ])),
+                            Colors.purple.shade100,
+                            // Colors.purple.shade100
+                          ],
+                          stops: const [
+                            0,
+                            1,
+                          ],
+                        ),
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -318,8 +348,8 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'Nombre M\u00E9dico: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text('${profileData.texts[9] ?? ''}'),
                                 ],
@@ -334,8 +364,8 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'Celular M\u00E9dico: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text('${profileData.texts[10] ?? ''}'),
                                 ],
@@ -352,21 +382,31 @@ class _PerfilState extends State<Perfil> {
                       width: MediaQuery.of(context).size.width * .9,
                       height: MediaQuery.of(context).size.height * .13,
                       decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.pink.shade50,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0, 1),
+                            blurRadius: 1,
+                          ),
+                        ],
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Colors.pink.shade50,
 
-                                Colors.purple.shade100,
-                                // Colors.purple.shade100
-                              ],
-                              stops: const [
-                                0,
-                                1,
-                              ])),
+                            Colors.purple.shade100,
+                            // Colors.purple.shade100
+                          ],
+                          stops: const [
+                            0,
+                            1,
+                          ],
+                        ),
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -385,26 +425,11 @@ class _PerfilState extends State<Perfil> {
                                       0,
                                       0,
                                       0),
-                                  child: IconButton(
-                                    icon: const Icon(Icons.qr_code),
+                                  child: Icon(
+                                     Icons.devices_other_outlined,
                                     //size: 25, // Tamano
                                     color: Colors.grey.shade700,
-                                    onPressed: () async {
-                                      final updatedData =
-                                          await Navigator.push<List<String?>>(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const Settings(),
-                                        ),
-                                      );
-                                      if (updatedData != null) {
-                                        final profileData =
-                                            Provider.of<ProfileData>(context,
-                                                listen: false);
-                                        profileData.updateTexts(updatedData);
-                                      }
-                                    }, // Color del ��cono
+                                   // Color del ��cono
                                   ),
                                 ),
                               ],
@@ -418,10 +443,10 @@ class _PerfilState extends State<Perfil> {
                                 children: [
                                   const Text(
                                     'ID: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
-                                  Text('${profileData.texts[9] ?? ''}'),
+                                  Text('${profileData.texts[11] ?? ''}'),
                                 ],
                               ),
                             ),

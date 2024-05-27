@@ -49,6 +49,7 @@ class _MySmartAppState extends State<MySmartApp> {
             '',
             '',
             '',
+            '',
           ];
       return storedTexts;
     });
