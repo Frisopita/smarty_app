@@ -9,7 +9,6 @@ import 'package:smarty_app/utils/snackbar.dart';
 import 'package:smarty_app/variables.dart';
 import 'package:collection/collection.dart';
 
-
 class BluetoothScreenOffOn extends StatelessWidget {
   const BluetoothScreenOffOn({super.key});
 
@@ -67,7 +66,8 @@ class BluetoothScreenOffOn extends StatelessWidget {
 }
 
 class ScanResultTile extends StatefulWidget {
-  const ScanResultTile({Key? key, required this.result, this.onTap}) : super(key: key);
+  const ScanResultTile({Key? key, required this.result, this.onTap})
+      : super(key: key);
 
   final ScanResult result;
   final VoidCallback? onTap;
@@ -77,15 +77,18 @@ class ScanResultTile extends StatefulWidget {
 }
 
 class _ScanResultTileState extends State<ScanResultTile> {
-  BluetoothConnectionState _connectionState = BluetoothConnectionState.disconnected;
+  BluetoothConnectionState _connectionState =
+      BluetoothConnectionState.disconnected;
 
-  late StreamSubscription<BluetoothConnectionState> _connectionStateSubscription;
+  late StreamSubscription<BluetoothConnectionState>
+      _connectionStateSubscription;
 
   @override
   void initState() {
     super.initState();
 
-    _connectionStateSubscription = widget.result.device.connectionState.listen((state) {
+    _connectionStateSubscription =
+        widget.result.device.connectionState.listen((state) {
       _connectionState = state;
       if (mounted) {
         setState(() {});
@@ -99,17 +102,22 @@ class _ScanResultTileState extends State<ScanResultTile> {
     super.dispose();
   }
 
-
   String getNiceHexArray(List<int> bytes) {
     return '[${bytes.map((i) => i.toRadixString(16).padLeft(2, '0')).join(', ')}]';
   }
 
   String getNiceManufacturerData(List<List<int>> data) {
-    return data.map((val) => '${getNiceHexArray(val)}').join(', ').toUpperCase();
+    return data
+        .map((val) => '${getNiceHexArray(val)}')
+        .join(', ')
+        .toUpperCase();
   }
 
   String getNiceServiceData(Map<Guid, List<int>> data) {
-    return data.entries.map((v) => '${v.key}: ${getNiceHexArray(v.value)}').join(', ').toUpperCase();
+    return data.entries
+        .map((v) => '${v.key}: ${getNiceHexArray(v.value)}')
+        .join(', ')
+        .toUpperCase();
   }
 
   String getNiceServiceUuids(List<Guid> serviceUuids) {
@@ -148,7 +156,8 @@ class _ScanResultTileState extends State<ScanResultTile> {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
-      onPressed: (widget.result.advertisementData.connectable) ? widget.onTap : null,
+      onPressed:
+          (widget.result.advertisementData.connectable) ? widget.onTap : null,
     );
   }
 
@@ -165,7 +174,10 @@ class _ScanResultTileState extends State<ScanResultTile> {
           Expanded(
             child: Text(
               value,
-              style: Theme.of(context).textTheme.bodySmall?.apply(color: Colors.black),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.apply(color: Colors.black),
               softWrap: true,
             ),
           ),
@@ -183,18 +195,26 @@ class _ScanResultTileState extends State<ScanResultTile> {
       trailing: _buildConnectButton(context),
       children: <Widget>[
         if (adv.advName.isNotEmpty) _buildAdvRow(context, 'Name', adv.advName),
-        if (adv.txPowerLevel != null) _buildAdvRow(context, 'Tx Power Level', '${adv.txPowerLevel}'),
-        if ((adv.appearance ?? 0) > 0) _buildAdvRow(context, 'Appearance', '0x${adv.appearance!.toRadixString(16)}'),
-        if (adv.msd.isNotEmpty) _buildAdvRow(context, 'Manufacturer Data', getNiceManufacturerData(adv.msd)),
-        if (adv.serviceUuids.isNotEmpty) _buildAdvRow(context, 'Service UUIDs', getNiceServiceUuids(adv.serviceUuids)),
-        if (adv.serviceData.isNotEmpty) _buildAdvRow(context, 'Service Data', getNiceServiceData(adv.serviceData)),
+        if (adv.txPowerLevel != null)
+          _buildAdvRow(context, 'Tx Power Level', '${adv.txPowerLevel}'),
+        if ((adv.appearance ?? 0) > 0)
+          _buildAdvRow(
+              context, 'Appearance', '0x${adv.appearance!.toRadixString(16)}'),
+        if (adv.msd.isNotEmpty)
+          _buildAdvRow(
+              context, 'Manufacturer Data', getNiceManufacturerData(adv.msd)),
+        if (adv.serviceUuids.isNotEmpty)
+          _buildAdvRow(
+              context, 'Service UUIDs', getNiceServiceUuids(adv.serviceUuids)),
+        if (adv.serviceData.isNotEmpty)
+          _buildAdvRow(
+              context, 'Service Data', getNiceServiceData(adv.serviceData)),
       ],
     );
   }
 }
 
-
-class BluetoothScreen extends StatefulWidget{
+class BluetoothScreen extends StatefulWidget {
   const BluetoothScreen({super.key});
 
   @override
@@ -202,9 +222,9 @@ class BluetoothScreen extends StatefulWidget{
 }
 
 class _BluetoothScreenState extends State<BluetoothScreen> {
-List<BluetoothDevice> _systemDevices = [];
-final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
- late Future<List<String?>> texts;
+  List<BluetoothDevice> _systemDevices = [];
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<List<String?>> texts;
   List<ScanResult> _scanResults = [];
   bool _isScanning = false;
   late StreamSubscription<List<ScanResult>> _scanResultsSubscription;
@@ -227,7 +247,7 @@ final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
         setState(() {});
       }
     });
-     texts = _prefs.then((SharedPreferences prefs) {
+    texts = _prefs.then((SharedPreferences prefs) {
       final List<String?> storedTexts = prefs.getStringList('texts') ??
           [
             '',
@@ -245,67 +265,66 @@ final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       return storedTexts;
     });
   }
-  
-   @override
+
+  @override
   void dispose() {
     _scanResultsSubscription.cancel();
     _isScanningSubscription.cancel();
     super.dispose();
   }
 
-void onConnectPressed(BluetoothDevice device) async {
-  await device.connect().then(
-    (_) async {
-      final list = await device.discoverServices();
-      
-      // Definimos los UUIDs a excluir
-      final List<String> excludedServiceUUIDs = ['1800', '1801'];
-      
-      // Filtramos la lista de servicios para excluir los especificados
-      final filteredServices = list.where((service) => !excludedServiceUUIDs.contains(service.uuid.toString())).toList();
-      
-      // Aseguramos que hay al menos un servicio después de la filtración
-      if (filteredServices.isNotEmpty) {
-        BluetoothService service = filteredServices.first;
-        Provider.of<Sensor>(context, listen: false).initService(service);
-      }
-      
-      if (!mounted) return;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DataPage(texts: texts),
-        ),
-      );
-    },
-  );
-}
+  void onConnectPressed(BluetoothDevice device) async {
+    await device.connect().then(
+      (_) async {
+        final list = await device.discoverServices();
 
+        // Definimos los UUIDs a excluir
+        final List<String> excludedServiceUUIDs = ['1800', '1801'];
 
-   Future onScanPressed() async {
-    try {
-      _systemDevices = await FlutterBluePlus.systemDevices;
-    } catch (e) {
-      Snackbar.show(ABC.b, prettyException("System Devices Error:", e), success: false);
-    }
-    try {
-      await FlutterBluePlus.startScan(timeout: const Duration(seconds: 15));
-    } catch (e) {
-      Snackbar.show(ABC.b, prettyException("Start Scan Error:", e), success: false);
-    }
-    if (mounted) {
-      setState(() {});
-    }
+        // Filtramos la lista de servicios para excluir los especificados
+        final filteredServices = list
+            .where((service) =>
+                !excludedServiceUUIDs.contains(service.uuid.toString()))
+            .toList();
+
+        // Aseguramos que hay al menos un servicio después de la filtración
+        if (filteredServices.isNotEmpty) {
+          BluetoothService service = filteredServices.first;
+          Provider.of<Sensor>(context, listen: false).initService(service);
+        }
+
+        if (!mounted) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DataPage(texts: texts),
+          ),
+        );
+      },
+    );
+  }
+
+  Future onScanPressed() async {
+    var subscription = FlutterBluePlus.onScanResults.listen(
+      (results) {
+        if (results.isNotEmpty) {
+          ScanResult r = results.last; // the most recently found device
+          print(
+              '${r.device.remoteId}: "${r.advertisementData.advName}" found!');
+        }
+      },
+      onError: (e) => print(e),
+    );
   }
 
   Future onStopPressed() async {
     try {
       FlutterBluePlus.stopScan();
     } catch (e) {
-      Snackbar.show(ABC.b, prettyException("Stop Scan Error:", e), success: false);
+      Snackbar.show(ABC.b, prettyException("Stop Scan Error:", e),
+          success: false);
     }
   }
-
 
   Future onRefresh() {
     if (_isScanning == false) {
@@ -325,11 +344,12 @@ void onConnectPressed(BluetoothDevice device) async {
         backgroundColor: Colors.red,
       );
     } else {
-      return FloatingActionButton(child: const Text("SCAN"), onPressed: onScanPressed);
+      return FloatingActionButton(
+          child: const Text("SCAN"), onPressed: onScanPressed);
     }
   }
 
-   List<Widget> _buildScanResultTiles(BuildContext context) {
+  List<Widget> _buildScanResultTiles(BuildContext context) {
     return _scanResults
         .where((r) =>
             r.advertisementData.connectable && r.device.platformName.isNotEmpty)
@@ -342,9 +362,8 @@ void onConnectPressed(BluetoothDevice device) async {
         .toList();
   }
 
-   @override
-   Widget build(BuildContext context)
-   {
+  @override
+  Widget build(BuildContext context) {
     return ScaffoldMessenger(
       key: Snackbar.snackBarKeyB,
       child: Scaffold(
@@ -362,5 +381,5 @@ void onConnectPressed(BluetoothDevice device) async {
         floatingActionButton: buildScanButton(context),
       ),
     );
-   }
+  }
 }
